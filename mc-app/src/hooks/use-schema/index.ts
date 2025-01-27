@@ -41,7 +41,7 @@ export const useSchema = () => {
 
   const deleteSchema = async (schemaKey: string): Promise<SchemaResponse> => {
     if (!schemaKey) {
-      return {} as schemaKey;
+      return {} as SchemaResponse;
     }
     const result = await dispatchAppsAction(
       actions.del({
