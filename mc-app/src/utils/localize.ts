@@ -66,4 +66,3 @@ export default function localize({
     ? addFallbackHint(localizedString[fallbackLanguage], fallbackLanguage)
     : fallback;
 }
-
