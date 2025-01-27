@@ -34,7 +34,7 @@ const SelectProductStep = ({ handleChange, values, errors }: Props) => {
   return (
     <Spacings.Stack scale="m">
       <Text.Headline as="h2">Select a product or Create one</Text.Headline>
-      
+
       <CollapsibleMotion
         isClosed={values.createProduct}
         onToggle={handleToggleSelctProduct}

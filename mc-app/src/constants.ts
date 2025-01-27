@@ -4,3 +4,5 @@ import { entryPointUriPathToPermissionKeys } from '@commercetools-frontend/appli
 export const entryPointUriPath = 'starter-typescript-735750';
 
 export const PERMISSIONS = entryPointUriPathToPermissionKeys(entryPointUriPath);
+
+export const APP_NAME = 'configurable-bundles';

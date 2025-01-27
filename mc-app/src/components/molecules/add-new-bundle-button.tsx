@@ -18,7 +18,7 @@ export type FormikValues = {
     key?: string;
     masterVariant?: {
       sku: string;
-    }
+    };
   };
   mainProductReference?: {
     id?: string;

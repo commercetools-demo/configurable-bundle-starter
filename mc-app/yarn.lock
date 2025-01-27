@@ -1709,6 +1709,26 @@
     "@emotion/react" "^11.10.5"
     prop-types "15.8.1"
 
+"@commercetools-uikit/async-select-field@^19.22.1":
+  version "19.22.1"
+  resolved "https://registry.yarnpkg.com/@commercetools-uikit/async-select-field/-/async-select-field-19.22.1.tgz#7e51c396d400a30103dc79e9ab3e9fc17f0379dd"
+  integrity sha512-j5qQqRUwkigQ30175qnrCTuIsmwZuXFkzGf+Eas8dG7rpsd9iIXenZaSKEy151UojdBPus1JPGDVQPbgjWLkYA==
+  dependencies:
+    "@babel/runtime" "^7.20.13"
+    "@babel/runtime-corejs3" "^7.20.13"
+    "@commercetools-uikit/async-select-input" "19.22.1"
+    "@commercetools-uikit/constraints" "19.22.1"
+    "@commercetools-uikit/design-system" "19.22.1"
+    "@commercetools-uikit/field-errors" "19.22.1"
+    "@commercetools-uikit/field-label" "19.22.1"
+    "@commercetools-uikit/field-warnings" "19.22.1"
+    "@commercetools-uikit/spacings" "19.22.1"
+    "@commercetools-uikit/utils" "19.22.1"
+    "@emotion/react" "^11.10.5"
+    "@emotion/styled" "^11.10.5"
+    prop-types "15.8.1"
+    react-intl "^6.3.2"
+
 "@commercetools-uikit/async-select-input@19.22.1":
   version "19.22.1"
   resolved "https://registry.yarnpkg.com/@commercetools-uikit/async-select-input/-/async-select-input-19.22.1.tgz#04b9853119f68516e31bdb075db86d7380f9dd2b"

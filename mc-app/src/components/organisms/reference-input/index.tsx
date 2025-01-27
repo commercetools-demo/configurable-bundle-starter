@@ -63,7 +63,6 @@ const restrictedReferenceTypesToReferenceBy = [
   },
 ];
 
-
 const LoadingFallback: React.FC = () => <div className="p-4">Loading...</div>;
 
 class ErrorBoundary extends React.Component<
@@ -105,8 +104,8 @@ const ReferenceInput: React.FC<
   const externalUrl =
     referenceBy === 'id' && referenceTypeToMCPageMap[referenceType as string]
       ? `/${project?.key}/${
-        referenceTypeToMCPageMap[referenceType as string]
-      }/${refValue}`
+          referenceTypeToMCPageMap[referenceType as string]
+        }/${refValue}`
       : '';
 
   if (referenceType && referenceTypeToComponentMap[referenceType]) {

@@ -53,7 +53,7 @@ const AsyncSearchInput = <T extends TEntity, R extends Result<T>>({
     context: {
       target: GRAPHQL_TARGETS.COMMERCETOOLS_PLATFORM,
     },
-    fetchPolicy: 'cache-first'
+    fetchPolicy: 'cache-first',
   });
 
   const loadOptions = (text: string) => {
