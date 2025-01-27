@@ -8,7 +8,7 @@ module.exports = {
   plugins: ['graphql'],
   overrides: [
     {
-      files: ['**/*.ctp.graphql'],
+      files: ['**/*.ctp.graphql', '**/*.rest.graphql'],
       rules: {
         'graphql/template-strings': [
           'error',
