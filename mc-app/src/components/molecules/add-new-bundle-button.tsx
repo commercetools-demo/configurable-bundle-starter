@@ -1,6 +1,6 @@
 import PrimaryButton from '@commercetools-uikit/primary-button';
 import {
-  Drawer,
+  FormModalPage,
   useModalState,
 } from '@commercetools-frontend/application-components';
 import DrawerContent from '../organisms/new-bundle/drawer-content';
@@ -64,11 +64,9 @@ const AddNewBundleButton = () => {
             iconLeft={<FilePlus2 stroke="white" height={16} width={16} />}
           />
           <Form>
-            <Drawer
+            <FormModalPage
               isOpen={isModalOpen}
-              onClose={() => showConfirmationModal(dirty, closeModal)}
               title="Add new bundle"
-              size={30}
               isPrimaryButtonDisabled={isSubmitting || !dirty || !isValid}
               isSecondaryButtonDisabled={isSubmitting}
               onPrimaryButtonClick={submitForm}
@@ -83,7 +81,7 @@ const AddNewBundleButton = () => {
                 values={values}
                 errors={errors}
               />
-            </Drawer>
+            </FormModalPage>
           </Form>
           <ConfirmationModal
             onCloseConfirmation={() => {
