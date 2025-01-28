@@ -74,6 +74,7 @@ export const useConfigurableBundles = () => {
           // TODO: read from payload's sku > it should be different based on schema
           sku: product.masterData.current.masterVariant?.sku,
           name: productRefInSchema?.attribute || '',
+          staged: false,
           value: {
             typeId: 'key-value-document',
             id,
