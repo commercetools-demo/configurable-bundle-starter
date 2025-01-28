@@ -216,3 +216,46 @@ export const getAttributeValidation = (
     };
   }, {});
 };
+
+export const getDisplayAttributes = (
+  attributes: Array<AttributeValue>
+): Array<string> => {
+  return attributes.reduce<Array<string>>((display, attribute) => {
+    if (attribute.display) {
+      return [...display, attribute.name];
+    }
+    if (attribute.attributes) {
+      const nested = getDisplayAttributes(attribute.attributes);
+      return [...display, ...nested];
+    }
+    return [...display];
+  }, []);
+};
+
+export const isPlainObject = (value: any) => {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  let prototype = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+};
+
+export const getDisplayValues = (value: any, attributes: Array<string>) => {
+  return Object.entries(value).reduce((display, [itemKey, itemValue]) => {
+    if (attributes.includes(itemKey)) {
+      return { ...display, [itemKey]: itemValue };
+    }
+
+    if (isPlainObject(itemValue)) {
+      const nested: any = getDisplayValues(
+        { [itemKey]: itemValue },
+        attributes
+      );
+      if (nested.length > 0) {
+        return { ...display, [itemKey]: nested };
+      }
+    }
+
+    return display;
+  }, {});
+};

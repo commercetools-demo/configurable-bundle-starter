@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useSchema } from '../../../../hooks/use-schema';
+import React from 'react';
 import { SchemaResponse } from '../../../../hooks/use-schema/types';
 import { BundleFormikValues } from '../../../molecules/add-new-bundle-button';
 import CustomObjectDetails from '../../bundle-configuratiom-details';
@@ -11,25 +10,18 @@ interface Props {
   values: BundleFormikValues;
   touched: Formik['touched'];
   errors: Formik['errors'];
+  schema?: SchemaResponse;
   handleChange: Formik['handleChange'];
   handleBlur: Formik['handleBlur'];
 }
 const BundleConfigurationStep = ({
   handleChange,
   handleBlur,
+  schema,
   touched,
   values,
   errors,
 }: Props) => {
-  const [schema, setSchema] = useState<SchemaResponse>();
-  const { getSchema } = useSchema();
-
-  useEffect(() => {
-    values.bundleType?.value &&
-      getSchema(values.bundleType?.value).then((schema) => {
-        setSchema(schema);
-      });
-  }, [values.bundleType]);
   if (!schema) {
     return null;
   }

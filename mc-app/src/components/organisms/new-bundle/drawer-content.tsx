@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Stepper } from './stepper';
 import PrimaryButton from '@commercetools-uikit/primary-button';
 import SecondaryButton from '@commercetools-uikit/secondary-button';
@@ -9,6 +9,8 @@ import styled from 'styled-components';
 import { BundleFormikValues } from '../../molecules/add-new-bundle-button';
 import BundleConfigurationStep from './steps/bundle-configuration-step';
 import { useFormik } from 'formik';
+import { SchemaResponse } from '../../../hooks/use-schema/types';
+import { useSchema } from '../../../hooks/use-schema';
 
 type Formik = ReturnType<typeof useFormik>;
 
@@ -48,15 +50,24 @@ const DrawerContent = ({
   values,
   errors,
 }: Props) => {
+  const [schema, setSchema] = useState<SchemaResponse>();
   const [currentStep, setCurrentStep] = useState(1);
+  const { getSchema } = useSchema();
 
   const nextStep = () => {
-    setCurrentStep((prev) => Math.min(prev + 1, 3));
+    setCurrentStep((prev) => Math.min(prev + 1, 4));
   };
 
   const prevStep = () => {
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
+
+  useEffect(() => {
+    values.bundleType?.value &&
+      getSchema(values.bundleType?.value).then((schema) => {
+        setSchema(schema);
+      });
+  }, [values.bundleType, getSchema]);
 
   const renderCurrentStep = () => {
     switch (currentStep) {
@@ -84,10 +95,11 @@ const DrawerContent = ({
             handleBlur={handleBlur}
             touched={touched}
             errors={errors}
+            schema={schema}
           />
         );
       case 4:
-        return <ReviewStep values={values} />;
+        return <ReviewStep values={values} schema={schema} />;
       default:
         return null;
     }

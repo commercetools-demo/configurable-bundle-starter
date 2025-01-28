@@ -1,14 +1,21 @@
 import React from 'react';
+import { BundleFormikValues } from '../../../molecules/add-new-bundle-button';
+import Spacings from '@commercetools-uikit/spacings';
+import Text from '@commercetools-uikit/text';
+import { SchemaResponse } from '../../../../hooks/use-schema/types';
+
+import BundleConfigurationInfo from '../../../molecules/bundle-configuration-info';
 
 interface Props {
-  values: any;
+  values: BundleFormikValues;
+  schema?: SchemaResponse;
 }
-const ReviewStep = ({ values }: Props) => {
+const ReviewStep = ({ values, schema }: Props) => {
   return (
-    <div>
-      <h2>Review Step</h2>
-      <p>This is the review step of the new bundle process.</p>
-    </div>
+    <Spacings.Stack scale="m">
+      <Text.Headline as="h2">Review Step</Text.Headline>
+      <BundleConfigurationInfo schema={schema} values={values} />
+    </Spacings.Stack>
   );
 };
 

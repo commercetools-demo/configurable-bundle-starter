@@ -8,6 +8,7 @@ import { useApplicationContext } from '@commercetools-frontend/application-shell
 import { APP_NAME } from '../../constants';
 import { buildUrlWithParams, uniqueId } from '../../utils/utils';
 import { PagedQueryResponse, Schema, SchemaResponse } from './types';
+import { useCallback } from 'react';
 
 export const CONTAINER = `${APP_NAME}_schemas`;
 const SCHEMA_KEY_PREFIX = 'schema-';
@@ -39,31 +40,37 @@ export const useSchema = () => {
     return result;
   };
 
-  const deleteSchema = async (schemaKey: string): Promise<SchemaResponse> => {
-    if (!schemaKey) {
-      return {} as SchemaResponse;
-    }
-    const result = await dispatchAppsAction(
-      actions.del({
-        mcApiProxyTarget: MC_API_PROXY_TARGETS.COMMERCETOOLS_PLATFORM,
-        uri: `/${context?.project?.key}/custom-objects/${CONTAINER}/${schemaKey}`,
-      })
-    );
-    return result;
-  };
+  const deleteSchema = useCallback(
+    async (schemaKey: string): Promise<SchemaResponse> => {
+      if (!schemaKey) {
+        return {} as SchemaResponse;
+      }
+      const result = await dispatchAppsAction(
+        actions.del({
+          mcApiProxyTarget: MC_API_PROXY_TARGETS.COMMERCETOOLS_PLATFORM,
+          uri: `/${context?.project?.key}/custom-objects/${CONTAINER}/${schemaKey}`,
+        })
+      );
+      return result;
+    },
+    [context, dispatchAppsAction]
+  );
 
-  const getSchema = async (schemaKey: string): Promise<SchemaResponse> => {
-    if (!schemaKey) {
-      return {} as SchemaResponse;
-    }
-    const result = await dispatchAppsAction(
-      actions.get({
-        mcApiProxyTarget: MC_API_PROXY_TARGETS.COMMERCETOOLS_PLATFORM,
-        uri: `/${context?.project?.key}/custom-objects/${CONTAINER}/${schemaKey}`,
-      })
-    );
-    return result;
-  };
+  const getSchema = useCallback(
+    async (schemaKey: string): Promise<SchemaResponse> => {
+      if (!schemaKey) {
+        return {} as SchemaResponse;
+      }
+      const result = await dispatchAppsAction(
+        actions.get({
+          mcApiProxyTarget: MC_API_PROXY_TARGETS.COMMERCETOOLS_PLATFORM,
+          uri: `/${context?.project?.key}/custom-objects/${CONTAINER}/${schemaKey}`,
+        })
+      );
+      return result;
+    },
+    [context, dispatchAppsAction]
+  );
 
   const getSchemas = async (): Promise<SchemaResponse[]> => {
     const result = await dispatchAppsRead(
