@@ -47,9 +47,7 @@ const AsyncSearchInput = <T extends TEntity, R extends Result<T>>({
   });
 
   const [getAll] = useLazyQuery<R, any>(allQuery ?? searchQuery, {
-    variables: {
-      locale: dataLocale,
-    },
+    variables: variableBuilder(''),
     context: {
       target: GRAPHQL_TARGETS.COMMERCETOOLS_PLATFORM,
     },

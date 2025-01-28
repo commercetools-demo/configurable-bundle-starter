@@ -85,6 +85,7 @@ const DrawerContent = ({
             values={values}
             handleChange={handleChange}
             errors={errors}
+            schema={schema}
           />
         );
       case 3:

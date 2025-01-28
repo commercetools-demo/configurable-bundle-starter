@@ -1,5 +1,5 @@
-query SearchProducts($text: String!, $limit: Int!, $offset: Int!, $locale: Locale!) {
-  productProjectionSearch(text: $text, limit: $limit, offset: $offset, locale:$locale) {
+query SearchProducts($text: String!, $filters: [SearchFilterInput!], $limit: Int!, $offset: Int!, $locale: Locale!) {
+  productProjectionSearch(text: $text, filters: $filters, limit: $limit, offset: $offset, locale:$locale) {
     total
     results {
       id

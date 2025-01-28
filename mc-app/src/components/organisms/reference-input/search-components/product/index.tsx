@@ -29,8 +29,9 @@ const ProductSearchInput: FC<
       };
     });
 
-  const variableBuilder = (text: string) => ({
-    text,
+  const variableBuilder = (text?: string) => ({
+    ...(text && { text }),
+    filters: props.where,
     locale: dataLocale,
   });
   return (

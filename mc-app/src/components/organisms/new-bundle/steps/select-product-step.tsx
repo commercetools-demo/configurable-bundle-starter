@@ -6,14 +6,16 @@ import CreateProductForm from '../../../molecules/create-product-form';
 import SelectProductForm from '../../../molecules/select-product-form';
 import PrimaryButton from '@commercetools-uikit/primary-button';
 import { BundleFormikValues } from '../../../molecules/add-new-bundle-button';
+import { SchemaResponse } from '../../../../hooks/use-schema/types';
 
 interface Props {
   handleChange: (e: any) => void;
   values: BundleFormikValues;
   errors: any;
+  schema: SchemaResponse;
 }
 
-const SelectProductStep = ({ handleChange, values, errors }: Props) => {
+const SelectProductStep = ({ handleChange, values, errors, schema }: Props) => {
   const handleToggleCreateProduct = () => {
     handleChange({
       target: { name: 'createProduct', value: !values.createProduct },
@@ -30,6 +32,10 @@ const SelectProductStep = ({ handleChange, values, errors }: Props) => {
       target: { name: 'createProduct', value: values.selectProduct },
     });
   };
+
+  if (!schema) {
+    return null;
+  }
 
   return (
     <Spacings.Stack scale="m">
@@ -59,6 +65,7 @@ const SelectProductStep = ({ handleChange, values, errors }: Props) => {
                   handleChange={handleChange}
                   values={values}
                   errors={errors}
+                  schema={schema}
                 />
               </div>
             </div>

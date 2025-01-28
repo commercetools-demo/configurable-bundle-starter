@@ -26,6 +26,10 @@ export type Enum = {
 
 export interface Schema {
   name: string;
+  targetProductTypeIds: {
+    typeId: 'product-type';
+    id: string;
+  }[];
   attributes?: AttributeValue[];
 }
 

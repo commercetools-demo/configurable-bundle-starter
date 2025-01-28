@@ -1,5 +1,5 @@
-query SearchProducts($locale: Locale!) {
-  productProjectionSearch(limit: 50) {
+query SearchProducts($locale: Locale!, $filters: [SearchFilterInput!]) {
+  productProjectionSearch(filters: $filters, limit: 50) {
     total
     results {
       id

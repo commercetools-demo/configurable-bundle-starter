@@ -34,6 +34,7 @@ export interface ReferenceInputProps {
   value?: any;
   placeholder?: string;
   hasError?: boolean;
+  where?: any;
   onChange(...args: unknown[]): unknown;
   onBlur(...args: unknown[]): unknown;
   reference?: {
