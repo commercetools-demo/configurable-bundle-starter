@@ -16,8 +16,8 @@ const SelectProductForm = ({ handleChange, values, errors, schema }: Props) => {
       return undefined;
     }
     return {
-      string: `productType.id: ${schema.value?.targetProductTypeIds
-        .map((item) => `"${item.id}"`)
+      string: `productType.id: ${schema.value?.targetProductTypes
+        .map((item) => `"${item.productType.id}"`)
         .join(',')}`,
     };
   }, [schema]);
