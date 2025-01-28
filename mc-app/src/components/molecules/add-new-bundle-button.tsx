@@ -34,6 +34,10 @@ const AddNewBundleButton = () => {
   const { ConfirmationModal, showConfirmationModal } =
     useCloseModalConfirmation();
 
+  const handleSubmit = async (values: BundleFormikValues) => {
+    console.log('values', values);
+  };
+
   return (
     <Formik<BundleFormikValues>
       initialValues={{
@@ -42,7 +46,7 @@ const AddNewBundleButton = () => {
         mainProductCreation: {},
         mainProductReference: {},
       }}
-      onSubmit={() => {}}
+      onSubmit={handleSubmit}
     >
       {({
         values,

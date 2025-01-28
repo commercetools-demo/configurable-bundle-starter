@@ -12,7 +12,7 @@ interface Props {
   handleChange: (e: any) => void;
   values: BundleFormikValues;
   errors: any;
-  schema: SchemaResponse;
+  schema?: SchemaResponse;
 }
 
 const SelectProductStep = ({ handleChange, values, errors, schema }: Props) => {

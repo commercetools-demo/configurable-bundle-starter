@@ -112,20 +112,20 @@ const DrawerContent = ({
 
       <StepWrapper>{renderCurrentStep()}</StepWrapper>
 
-      {currentStep < 4 && (
-        <ButtonContainer>
-          <SecondaryButton
-            onClick={prevStep}
-            isDisabled={currentStep === 1}
-            label="Back"
-          >
-            Back
-          </SecondaryButton>
+      <ButtonContainer>
+        <SecondaryButton
+          onClick={prevStep}
+          isDisabled={currentStep === 1}
+          label="Back"
+        >
+          Back
+        </SecondaryButton>
+        {currentStep < 4 && (
           <PrimaryButton label="Next" onClick={nextStep}>
             Next
           </PrimaryButton>
-        </ButtonContainer>
-      )}
+        )}
+      </ButtonContainer>
     </StyledFormWrapper>
   );
 };
