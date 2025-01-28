@@ -1,14 +1,14 @@
 import { Router } from 'express';
 import { logger } from '../utils/logger.utils';
-import { post } from '../controllers/service.controller';
+import { getProductBySKUAction } from '../controllers/product.controller';
 
 const serviceRouter = Router();
 
-serviceRouter.post('/', async (req, res, next) => {
-  logger.info('Service post message received');
+serviceRouter.get('/product-by-sku', async (req, res, next) => {
+  logger.info('product-by-sku message received');
 
   try {
-    await post(req, res);
+    getProductBySKUAction(req, res);
   } catch (error) {
     next(error);
   }
