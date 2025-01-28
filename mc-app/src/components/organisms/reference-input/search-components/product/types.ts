@@ -1,8 +1,10 @@
 import { TEntity } from '../../types';
 
 export interface Product extends TEntity {
+  version?: number;
   productType: {
     key?: string;
+    id?: string;
   };
   masterData: {
     current: {

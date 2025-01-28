@@ -7,6 +7,12 @@ import DrawerContent from '../organisms/new-bundle/drawer-content';
 import { FilePlus2 } from 'lucide-react';
 import { Form, Formik } from 'formik';
 import { useCloseModalConfirmation } from '../../hooks/use-close-modal-confirmation';
+import { useConfigurableBundles } from '../../hooks/use-configurable-bundles';
+import {
+  DOMAINS,
+  NOTIFICATION_KINDS_SIDE,
+} from '@commercetools-frontend/constants';
+import { useShowNotification } from '@commercetools-frontend/actions-global';
 
 export type BundleFormikValues = {
   createProduct: boolean;
@@ -16,6 +22,7 @@ export type BundleFormikValues = {
     value: string;
   };
   mainProductCreation?: {
+    id?: string;
     name?: Record<string, string>;
     description?: Record<string, string>;
     key?: string;
@@ -33,9 +40,26 @@ const AddNewBundleButton = () => {
   const { isModalOpen, openModal, closeModal } = useModalState();
   const { ConfirmationModal, showConfirmationModal } =
     useCloseModalConfirmation();
+  const showNotification = useShowNotification();
+  const { createBundle } = useConfigurableBundles();
 
   const handleSubmit = async (values: BundleFormikValues) => {
-    console.log('values', values);
+    await createBundle(values)
+      .then(() => {
+        showNotification({
+          kind: NOTIFICATION_KINDS_SIDE.success,
+          domain: DOMAINS.SIDE,
+          text: 'Bundle created successfully',
+        });
+        closeModal();
+      })
+      .catch((err) => {
+        showNotification({
+          kind: NOTIFICATION_KINDS_SIDE.error,
+          domain: DOMAINS.SIDE,
+          text: err.message || 'Failed to create bundle',
+        });
+      });
   };
 
   return (

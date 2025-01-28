@@ -51,3 +51,7 @@ export interface PagedQueryResponse<T> {
   total?: number;
   results: T[];
 }
+
+export interface QueryResponse<T> {
+  body: T;
+}
