@@ -1,11 +1,11 @@
 import Spacings from '@commercetools-uikit/spacings';
 import React from 'react';
-import ReferenceInput from '../reference-input';
-import { FormikValues } from '../../molecules/add-new-bundle-button';
+import ReferenceInput from '../organisms/reference-input';
+import { BundleFormikValues } from './add-new-bundle-button';
 
 interface Props {
   handleChange: (e: any) => void;
-  values: FormikValues;
+  values: BundleFormikValues;
   errors: any;
 }
 const SelectProductForm = ({ handleChange, values, errors }: Props) => {

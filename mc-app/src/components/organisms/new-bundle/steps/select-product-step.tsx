@@ -2,14 +2,14 @@ import Spacings from '@commercetools-uikit/spacings';
 import Text from '@commercetools-uikit/text';
 import React from 'react';
 import CollapsibleMotion from '@commercetools-uikit/collapsible-motion';
-import CreateProductForm from './create-product-form';
-import SelectProductForm from './select-product-form';
+import CreateProductForm from '../../../molecules/create-product-form';
+import SelectProductForm from '../../../molecules/select-product-form';
 import PrimaryButton from '@commercetools-uikit/primary-button';
-import { FormikValues } from '../../molecules/add-new-bundle-button';
+import { BundleFormikValues } from '../../../molecules/add-new-bundle-button';
 
 interface Props {
   handleChange: (e: any) => void;
-  values: FormikValues;
+  values: BundleFormikValues;
   errors: any;
 }
 

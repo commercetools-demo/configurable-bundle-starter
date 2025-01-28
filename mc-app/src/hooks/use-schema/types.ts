@@ -1,14 +1,32 @@
-export interface Attribute {
+import { REFERENCE_TYPES_ENUM, TYPES_ENUM } from '../../utils/contants';
+
+export type Reference = { by: string; type: REFERENCE_TYPES_ENUM };
+
+export type LocalizedEnum = {
+  value: string;
+  label: { [key: string]: string };
+};
+
+export type AttributeValue = {
   name: string;
-  type: string;
-  set: boolean;
-  required: boolean;
-  attributes?: Attribute[];
-}
+  type: TYPES_ENUM;
+  set?: boolean;
+  required?: boolean;
+  attributes?: Array<any>;
+  reference?: Reference;
+  display?: boolean;
+  lenum?: Array<LocalizedEnum>;
+  enum?: Array<Enum>;
+};
+
+export type Enum = {
+  value: string;
+  label: string;
+};
 
 export interface Schema {
   name: string;
-  attributes?: Attribute[];
+  attributes?: AttributeValue[];
 }
 
 export interface SchemaResponse {
@@ -16,6 +34,7 @@ export interface SchemaResponse {
   createdAt: string;
   key: string;
   value?: Schema;
+  container: string;
 }
 
 export interface PagedQueryResponse<T> {

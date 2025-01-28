@@ -9,7 +9,7 @@ import { APP_NAME } from '../../constants';
 import { buildUrlWithParams, uniqueId } from '../../utils/utils';
 import { PagedQueryResponse, Schema, SchemaResponse } from './types';
 
-const CONTAINER = `${APP_NAME}_schemas`;
+export const CONTAINER = `${APP_NAME}_schemas`;
 const SCHEMA_KEY_PREFIX = 'schema-';
 
 export const useSchema = () => {

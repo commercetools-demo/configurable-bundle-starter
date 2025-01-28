@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import { Stepper } from './stepper';
 import PrimaryButton from '@commercetools-uikit/primary-button';
 import SecondaryButton from '@commercetools-uikit/secondary-button';
-import SelectBundleTypeStep from './select-bundle-type-step';
-import SelectProductStep from './select-product-step';
-import ReviewStep from './review-step';
+import SelectBundleTypeStep from './steps/select-bundle-type-step';
+import SelectProductStep from './steps/select-product-step';
+import ReviewStep from './steps/review-step';
 import styled from 'styled-components';
-import { FormikValues } from '../../molecules/add-new-bundle-button';
+import { BundleFormikValues } from '../../molecules/add-new-bundle-button';
+import BundleConfigurationStep from './steps/bundle-configuration-step';
+import { useFormik } from 'formik';
+
+type Formik = ReturnType<typeof useFormik>;
 
 const StyledFormWrapper = styled.div`
   max-width: 2xl;
@@ -31,11 +35,19 @@ const StepWrapper = styled.div`
 `;
 
 interface Props {
-  handleChange: (e: any) => void;
-  values: FormikValues;
-  errors: any;
+  values: BundleFormikValues;
+  touched: Formik['touched'];
+  errors: Formik['errors'];
+  handleChange: Formik['handleChange'];
+  handleBlur: Formik['handleBlur'];
 }
-const DrawerContent = ({ handleChange, values, errors }: Props) => {
+const DrawerContent = ({
+  handleBlur,
+  handleChange,
+  touched,
+  values,
+  errors,
+}: Props) => {
   const [currentStep, setCurrentStep] = useState(1);
 
   const nextStep = () => {
@@ -65,6 +77,16 @@ const DrawerContent = ({ handleChange, values, errors }: Props) => {
           />
         );
       case 3:
+        return (
+          <BundleConfigurationStep
+            values={values}
+            handleChange={handleChange}
+            handleBlur={handleBlur}
+            touched={touched}
+            errors={errors}
+          />
+        );
+      case 4:
         return <ReviewStep values={values} />;
       default:
         return null;
@@ -77,7 +99,7 @@ const DrawerContent = ({ handleChange, values, errors }: Props) => {
 
       <StepWrapper>{renderCurrentStep()}</StepWrapper>
 
-      {currentStep < 3 && (
+      {currentStep < 4 && (
         <ButtonContainer>
           <SecondaryButton
             onClick={prevStep}

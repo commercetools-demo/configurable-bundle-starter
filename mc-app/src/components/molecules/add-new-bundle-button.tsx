@@ -8,18 +8,22 @@ import { FilePlus2 } from 'lucide-react';
 import { Form, Formik } from 'formik';
 import { useCloseModalConfirmation } from '../../hooks/use-close-modal-confirmation';
 
-export type FormikValues = {
+export type BundleFormikValues = {
   createProduct: boolean;
   selectProduct: boolean;
-  bundleType?: string;
+  bundleType?: {
+    label: string;
+    value: string;
+  };
   mainProductCreation?: {
-    name?: string;
-    description?: string;
+    name?: Record<string, string>;
+    description?: Record<string, string>;
     key?: string;
     masterVariant?: {
       sku: string;
     };
   };
+  bundleConfiguration?: any;
   mainProductReference?: {
     id?: string;
   };
@@ -31,7 +35,7 @@ const AddNewBundleButton = () => {
     useCloseModalConfirmation();
 
   return (
-    <Formik<FormikValues>
+    <Formik<BundleFormikValues>
       initialValues={{
         createProduct: false,
         selectProduct: true,
@@ -45,9 +49,11 @@ const AddNewBundleButton = () => {
         isValid,
         errors,
         dirty,
+        touched,
         isSubmitting,
         resetForm,
         handleChange,
+        handleBlur,
         submitForm,
       }) => (
         <>
@@ -72,6 +78,8 @@ const AddNewBundleButton = () => {
             >
               <DrawerContent
                 handleChange={handleChange}
+                handleBlur={handleBlur}
+                touched={touched}
                 values={values}
                 errors={errors}
               />

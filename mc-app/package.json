@@ -42,8 +42,11 @@
     "@commercetools-test-data/core": "8.5.0",
     "@commercetools-uikit/async-select-field": "^19.22.1",
     "@commercetools-uikit/collapsible-motion": "^19.22.1",
+    "@commercetools-uikit/collapsible-panel": "^19.22.1",
     "@commercetools-uikit/constraints": "^19.17.1",
     "@commercetools-uikit/data-table": "^19.17.1",
+    "@commercetools-uikit/date-input": "^19.22.1",
+    "@commercetools-uikit/date-time-input": "^19.22.1",
     "@commercetools-uikit/flat-button": "^19.17.1",
     "@commercetools-uikit/grid": "^19.17.1",
     "@commercetools-uikit/hooks": "^19.17.1",
@@ -52,6 +55,7 @@
     "@commercetools-uikit/loading-spinner": "^19.17.1",
     "@commercetools-uikit/localized-text-field": "^19.17.1",
     "@commercetools-uikit/localized-text-input": "^19.17.1",
+    "@commercetools-uikit/money-input": "^19.22.1",
     "@commercetools-uikit/notifications": "^19.17.1",
     "@commercetools-uikit/pagination": "^19.17.1",
     "@commercetools-uikit/select-field": "^19.17.1",
@@ -59,6 +63,7 @@
     "@commercetools-uikit/text": "^19.17.1",
     "@commercetools-uikit/text-field": "^19.17.1",
     "@commercetools-uikit/text-input": "^19.17.1",
+    "@commercetools-uikit/time-input": "^19.22.1",
     "@commercetools/sync-actions": "^5.14.0",
     "@emotion/react": "^11.11.4",
     "@formatjs/cli": "6.2.12",
@@ -95,7 +100,8 @@
     "react-router-dom": "5.3.4",
     "redux": "4.2.1",
     "styled-components": "^6.1.14",
-    "typescript": "5.0.4"
+    "typescript": "5.0.4",
+    "yup": "^1.6.1"
   },
   "resolutions": {
     "@emotion/react": "^11.11.1",

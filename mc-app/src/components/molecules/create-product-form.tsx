@@ -5,10 +5,11 @@ import TextField from '@commercetools-uikit/text-field';
 import React from 'react';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import Card from '@commercetools-uikit/card';
+import { BundleFormikValues } from './add-new-bundle-button';
 
 interface Props {
   handleChange: (e: any) => void;
-  values: any;
+  values: BundleFormikValues;
   errors: any;
 }
 const CreateProductForm = ({ handleChange, values, errors }: Props) => {
@@ -22,7 +23,7 @@ const CreateProductForm = ({ handleChange, values, errors }: Props) => {
           defaultExpandLanguages
           title="Name"
           name="mainProductCreation.name"
-          value={values.mainProductCreation.name || ''}
+          value={values.mainProductCreation?.name || {}}
           isRequired={true}
           onChange={handleChange}
           errors={errors.mainProductCreation?.name}
@@ -31,14 +32,14 @@ const CreateProductForm = ({ handleChange, values, errors }: Props) => {
           selectedLanguage={dataLocale || 'en'}
           title="Description"
           name="mainProductCreation.description"
-          value={values.mainProductCreation.description || ''}
+          value={values.mainProductCreation?.description || {}}
           onChange={handleChange}
           errors={errors.mainProductCreation?.description}
         />
         <TextField
           title="Key"
           name="mainProductCreation.key"
-          value={values.mainProductCreation.key || ''}
+          value={values.mainProductCreation?.key || ''}
           onChange={handleChange}
           errors={errors.mainProductCreation?.key}
         />
@@ -48,7 +49,7 @@ const CreateProductForm = ({ handleChange, values, errors }: Props) => {
         <TextField
           title="SKU"
           name="mainProductCreation.masterVariant.sku"
-          value={values.mainProductCreation.masterVariant?.sku || ''}
+          value={values.mainProductCreation?.masterVariant?.sku || ''}
           onChange={handleChange}
           errors={errors.mainProductCreation?.masterVariant?.sku}
         />

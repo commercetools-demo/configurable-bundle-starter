@@ -2,15 +2,17 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Text from '@commercetools-uikit/text';
 import Spacings from '@commercetools-uikit/spacings';
 import AsyncSelectField from '@commercetools-uikit/async-select-field';
-import { FormikValues } from '../../molecules/add-new-bundle-button';
-import { useSchema } from '../../../hooks/use-schema';
+import { BundleFormikValues } from '../../../molecules/add-new-bundle-button';
+import { useSchema } from '../../../../hooks/use-schema';
 interface Props {
   handleChange: (e: any) => void;
-  values: FormikValues;
+  values: BundleFormikValues;
   errors: any;
 }
 const SelectBundleTypeStep = ({ handleChange, values, errors }: Props) => {
-  const [defaultOptions, setDefaultOptions] = useState<any>([]);
+  const [defaultOptions, setDefaultOptions] = useState<
+    { label: string; value: string }[]
+  >([]);
   const { getSchemas } = useSchema();
 
   const loadOptions = () =>
@@ -23,7 +25,7 @@ const SelectBundleTypeStep = ({ handleChange, values, errors }: Props) => {
 
   useEffect(() => {
     loadOptions().then((options) => {
-      setDefaultOptions(options);
+      setDefaultOptions(options as { label: string; value: string }[]);
     });
   }, []);
 
