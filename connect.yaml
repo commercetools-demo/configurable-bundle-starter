@@ -32,3 +32,5 @@ deployAs:
         - key: CTP_CLIENT_SECRET
           description: commercetools Composable Commerce client secret
           required: true
+  - name: assets
+    applicationType: assets
