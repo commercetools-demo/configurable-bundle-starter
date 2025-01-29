@@ -1,7 +1,9 @@
 import { createApiRoot } from '../client/create.client';
 import { ReturningProdct } from '../types/index.types';
 
-export const getProductBySKU = async (sku?: string): Promise<ReturningProdct | undefined> => {
+export const getProductBySKU = async (
+  sku?: string
+): Promise<ReturningProdct | undefined> => {
   if (sku) {
     return createApiRoot()
       .productProjections()

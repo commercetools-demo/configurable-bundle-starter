@@ -3,7 +3,7 @@ import { getCachedSchemas } from '../cache/schema';
 import { getBundle } from '../services/bundles.service';
 import { ReturningProdct, SchemaCustomObject } from '../types/index.types';
 import { Attribute } from '@commercetools/platform-sdk';
-const sendResponse = (response: Response, product: any) => {
+export const sendSuccessResponse = (response: Response, product: any) => {
   if (product) {
     response.json(product);
     response.status(200);
@@ -15,11 +15,10 @@ const sendResponse = (response: Response, product: any) => {
   }
 };
 
-export const getMatchingSchemas = async (response: Response, product?: ReturningProdct) => {
+export const getMatchingSchemas = async (product?: ReturningProdct) => {
   const cachedSchemas = await getCachedSchemas();
   if (!cachedSchemas) {
-    sendResponse(response, product);
-    return;
+    throw new Error('Cached schemas not found');
   }
 
   const matchingSchemas = cachedSchemas.filter((schema: any) => {
@@ -28,15 +27,13 @@ export const getMatchingSchemas = async (response: Response, product?: Returning
     );
   });
   if (!matchingSchemas || matchingSchemas.length === 0) {
-    sendResponse(response, product);
-    return;
+    throw new Error('No matching schemas found');
   }
 
   return matchingSchemas;
 };
 
 export const getAttributeFromProduct = async (
-  response: Response,
   product?: ReturningProdct,
   matchingSchemas?: SchemaCustomObject[]
 ) => {
@@ -64,8 +61,7 @@ export const getAttributeFromProduct = async (
     selectedAttribute?.value.typeId !== 'key-value-document' ||
     !selectedAttribute.value.id
   ) {
-    sendResponse(response, product);
-    return;
+    throw new Error('No matching attribute found');
   }
 
   return { matchingSchema, selectedAttribute } as {
@@ -74,16 +70,11 @@ export const getAttributeFromProduct = async (
   };
 };
 
-export const getBundleConfiguration = async (
-  response: Response,
-  product?: ReturningProdct,
-  id?: string
-) => {
+export const getBundleConfiguration = async (id?: string) => {
   const bundleConfiguration = await getBundle(id);
 
   if (!bundleConfiguration) {
-    sendResponse(response, product);
-    return;
+    throw new Error('Bundle configuration not found');
   }
 
   return bundleConfiguration;

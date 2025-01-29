@@ -18,7 +18,7 @@ export async function resolveProductReferences(
     if (!response) {
       throw new Error(`Failed to fetch product with id ${id}`);
     }
-    return response
+    return response;
   }
 
   // Recursive function to process attributes and find references
