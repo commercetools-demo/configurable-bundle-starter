@@ -1,10 +1,9 @@
-import { Request } from 'express';
 import { createApiRoot } from '../client/create.client';
+import { ReturningProdct } from '../types/index.types';
 
-export const getProductBySKU = async (request: Request) => {
-  const { sku } = request.query;
+export const getProductBySKU = async (sku?: string): Promise<ReturningProdct | undefined> => {
   if (sku) {
-    return await createApiRoot()
+    return createApiRoot()
       .productProjections()
       .search()
       .get({
@@ -14,7 +13,22 @@ export const getProductBySKU = async (request: Request) => {
       })
       .execute()
       .then((result) => {
-        return result.body.count > 0 ? result.body.results[0] : null;
+        return result.body.count > 0 ? result.body.results[0] : undefined;
+      });
+  }
+
+  return undefined;
+};
+
+export const getProductByID = async (id?: string) => {
+  if (id) {
+    return await createApiRoot()
+      .productProjections()
+      .withId({ ID: id })
+      .get()
+      .execute()
+      .then((result) => {
+        return result.body;
       });
   }
 
