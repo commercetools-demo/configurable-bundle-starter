@@ -6,7 +6,6 @@ interface Product {
   id: string;
 }
 
-// Function to fetch product by ID
 async function fetchProduct(id: string): Promise<Product> {
   const response = await getProductByID(id);
   if (!response) {
@@ -15,72 +14,79 @@ async function fetchProduct(id: string): Promise<Product> {
   return response;
 }
 
-// Recursive function to process attributes and find references
 async function processAttributes(
   schemaAttributes: AttributeValue[],
   bundleData: Record<string, any>,
   path: string[] = []
-): Promise<void> {
+): Promise<Record<string, any>> {
+  const result: Record<string, any> = { ...bundleData };
+
   for (const attr of schemaAttributes) {
-    const currentPath = [...path, attr.name];
+      const currentPath = [...path, attr.name];
+      const value = result[attr.name];
 
-    if (attr.type === 'Reference' && attr.reference?.type === 'product') {
-      const value = get(bundleData, attr.name);
-      if (value?.id) {
-        try {
-          const product = await fetchProduct(value.id);
-          set(bundleData, attr.name, product);
-        } catch (error) {
-          logger.error(
-            `Failed to resolve product reference at path ${currentPath.join('.')}: ${error}`
-          );
-        }
+      if (isProductReference(attr)) {
+          result[attr.name] = await processProductReference(value, currentPath);
+      } else if (isNestedObject(attr)) {
+          result[attr.name] = await processNestedObject(attr, value, currentPath);
       }
-    } else if (attr.type === 'Object' && attr.attributes) {
-      const nestedData = get(bundleData, attr.name);
+  }
 
-      if (attr.set && Array.isArray(nestedData)) {
-        // Handle array of objects
-        for (let i = 0; i < nestedData.length; i++) {
-          await processAttributes(attr.attributes, nestedData[i], [
-            ...currentPath,
-            i.toString(),
-          ]);
-        }
-      } else if (nestedData) {
-        // Handle single object
-        await processAttributes(attr.attributes, nestedData, currentPath);
-      }
-    }
+  return result;
+}
+
+function isProductReference(attr: AttributeValue): boolean {
+  return attr.type === 'Reference' && attr.reference?.type === 'product';
+}
+
+function isNestedObject(attr: AttributeValue): boolean {
+  return attr.type === 'Object' && !!attr.attributes;
+}
+
+async function processProductReference(
+  value: any, 
+  path: string[]
+): Promise<Product | any> {
+  if (!value?.id) {
+      return value;
+  }
+
+  try {
+      return await fetchProduct(value.id);
+  } catch (error) {
+      logger.error(`Failed to resolve product reference at path ${path.join('.')}: ${error}`);
+      return value;
   }
 }
 
-// Helper function to safely get nested object properties
-function get(obj: any, path: string): any {
-  return obj[path];
-}
-
-// Helper function to safely set nested object properties
-function set(obj: any, path: string, value: any): void {
-  obj[path] = value;
-}
-
-export async function resolveProductReferences(
-  schema?: Schema,
-  bundle?: Bundle
-): Promise<Bundle | undefined> {
-  const resolvedBundle = structuredClone(bundle); // Deep clone to avoid modifying original
-
-  if (!schema?.attributes || !resolvedBundle?.bundleConfiguration) {
-    return resolvedBundle;
+async function processNestedObject(
+  attr: AttributeValue,
+  value: any,
+  currentPath: string[]
+): Promise<any> {
+  if (!value) {
+      return value;
   }
 
-  await processAttributes(
-    schema.attributes || [],
-    resolvedBundle.bundleConfiguration
-  );
+  if (attr.set && Array.isArray(value)) {
+      return Promise.all(
+          value.map(async (item, index) => 
+              processAttributes(attr.attributes!, item, [...currentPath, index.toString()])
+          )
+      );
+  }
+
+  return processAttributes(attr.attributes!, value, currentPath);
+}
+
+export async function resolveProductReferences(schema: Schema, bundle: Bundle): Promise<Bundle> {
+  
+  if (!schema?.attributes || !bundle?.bundleConfiguration) {
+    return bundle;
+  }
+
   return {
-    ...resolvedBundle,
-    bundleConfiguration: resolvedBundle.bundleConfiguration,
+      ...bundle,
+      bundleConfiguration: await processAttributes(schema.attributes, bundle.bundleConfiguration)
   };
 }

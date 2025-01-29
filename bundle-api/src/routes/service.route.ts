@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { logger } from '../utils/logger.utils';
 import { getProductBySKUAction } from '../controllers/product.controller';
 
 const serviceRouter = Router();
