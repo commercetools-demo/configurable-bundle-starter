@@ -22,12 +22,16 @@ export const getProductBySKU = async (
   return undefined;
 };
 
-export const getProductByID = async (id?: string) => {
+export const getProductByID = async (id?: string, staged = false) => {
   if (id) {
     return await createApiRoot()
       .productProjections()
       .withId({ ID: id })
-      .get()
+      .get({
+        queryArgs: {
+          staged,
+        },
+      })
       .execute()
       .then((result) => {
         return result.body;

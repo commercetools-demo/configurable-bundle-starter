@@ -22,14 +22,14 @@ async function processAttributes(
   const result: Record<string, any> = { ...bundleData };
 
   for (const attr of schemaAttributes) {
-      const currentPath = [...path, attr.name];
-      const value = result[attr.name];
+    const currentPath = [...path, attr.name];
+    const value = result[attr.name];
 
-      if (isProductReference(attr)) {
-          result[attr.name] = await processProductReference(value, currentPath);
-      } else if (isNestedObject(attr)) {
-          result[attr.name] = await processNestedObject(attr, value, currentPath);
-      }
+    if (isProductReference(attr)) {
+      result[attr.name] = await processProductReference(value, currentPath);
+    } else if (isNestedObject(attr)) {
+      result[attr.name] = await processNestedObject(attr, value, currentPath);
+    }
   }
 
   return result;
@@ -44,18 +44,20 @@ function isNestedObject(attr: AttributeValue): boolean {
 }
 
 async function processProductReference(
-  value: any, 
+  value: any,
   path: string[]
 ): Promise<Product | any> {
   if (!value?.id) {
-      return value;
+    return value;
   }
 
   try {
-      return await fetchProduct(value.id);
+    return await fetchProduct(value.id);
   } catch (error) {
-      logger.error(`Failed to resolve product reference at path ${path.join('.')}: ${error}`);
-      return value;
+    logger.error(
+      `Failed to resolve product reference at path ${path.join('.')}: ${error}`
+    );
+    return value;
   }
 }
 
@@ -65,28 +67,36 @@ async function processNestedObject(
   currentPath: string[]
 ): Promise<any> {
   if (!value) {
-      return value;
+    return value;
   }
 
   if (attr.set && Array.isArray(value)) {
-      return Promise.all(
-          value.map(async (item, index) => 
-              processAttributes(attr.attributes!, item, [...currentPath, index.toString()])
-          )
-      );
+    return Promise.all(
+      value.map(async (item, index) =>
+        processAttributes(attr.attributes!, item, [
+          ...currentPath,
+          index.toString(),
+        ])
+      )
+    );
   }
 
   return processAttributes(attr.attributes!, value, currentPath);
 }
 
-export async function resolveProductReferences(schema: Schema, bundle: Bundle): Promise<Bundle> {
-  
+export async function resolveProductReferences(
+  schema: Schema,
+  bundle: Bundle
+): Promise<Bundle> {
   if (!schema?.attributes || !bundle?.bundleConfiguration) {
     return bundle;
   }
 
   return {
-      ...bundle,
-      bundleConfiguration: await processAttributes(schema.attributes, bundle.bundleConfiguration)
+    ...bundle,
+    bundleConfiguration: await processAttributes(
+      schema.attributes,
+      bundle.bundleConfiguration
+    ),
   };
 }
