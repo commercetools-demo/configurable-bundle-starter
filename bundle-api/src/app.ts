@@ -10,11 +10,11 @@ import ServiceRoutes from './routes/service.route';
 import { readConfiguration } from './utils/config.utils';
 import { errorMiddleware } from './middleware/error.middleware';
 import CustomError from './errors/custom.error';
-import { fetchSchemaAndCache } from './cache/schema';
+import { fetchAllAndCache } from './cache';
 
 // Read env variables
 readConfiguration();
-fetchSchemaAndCache();
+fetchAllAndCache();
 
 // Create the express app
 const app: Express = express();
