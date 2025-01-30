@@ -1,7 +1,7 @@
 // src/components/product-card.ts
 
 interface ProductData {
-    name: string;
+    name: Record<string, string>;
     price: number;
     description: string;
   }
@@ -15,7 +15,7 @@ interface ProductData {
     }
   
     static get observedAttributes(): string[] {
-      return ['sku'];
+        return ['sku', 'baseurl'];
     }
   
     connectedCallback(): void {
@@ -32,23 +32,12 @@ interface ProductData {
     }
   
     private getApiBaseUrl(): string | null {
-      const scriptTag = document.querySelector('script[src*="product-card"]');
-      if (!scriptTag) {
-        console.warn('Product card script tag not found');
-        return null;
-      }
-  
-      const scriptUrl = new URL(scriptTag.getAttribute('src') || '');
-      console.log('scriptUrl', scriptUrl);
-      
-      return `${scriptUrl.origin}/api`;
+      return this.getAttribute('baseurl');
     }
   
     private async fetchProductData(): Promise<void> {
       const sku = this.getAttribute('sku');
       const baseURL = this.getApiBaseUrl();
-      console.log('sku', sku, 'baseURL', baseURL);
-      
       
       if (!sku || !baseURL) {
         console.error('Missing SKU or unable to determine API base URL');
@@ -60,7 +49,7 @@ interface ProductData {
       }
   
       try {
-        const response = await fetch(`${baseURL}/products/${sku}`);
+        const response = await fetch(`${baseURL}/product-by-sku?sku=${sku}`);
         if (!response.ok) throw new Error('Failed to fetch product data');
         
         const product: ProductData = await response.json();
@@ -115,7 +104,7 @@ interface ProductData {
       const productInfo = this.shadow.querySelector('.product-info');
       if (productInfo) {
         productInfo.innerHTML = `
-          <h2>${product.name}</h2>
+          <h2>${product.name?.['en-US']}</h2>
           <p class="price">$${product.price}</p>
           <p class="description">${product.description}</p>
         `;
