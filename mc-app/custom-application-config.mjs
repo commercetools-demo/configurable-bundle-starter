@@ -1,11 +1,11 @@
-import { PERMISSIONS, entryPointUriPath } from './src/constants';
+import { PERMISSIONS } from './src/constants';
 
 /**
  * @type {import('@commercetools-frontend/application-config').ConfigOptionsForCustomApplication}
  */
 const config = {
-  name: 'Starter Typescript 735750',
-  entryPointUriPath,
+  name: 'Configurable bundles',
+  entryPointUriPath: '${env:ENTRY_POINT_URI_PATH}',
   cloudIdentifier: '${env:CLOUD_IDENTIFIER}',
   env: {
     production: {
@@ -18,7 +18,7 @@ const config = {
   },
   oAuthScopes: {
     view: ['view_products'],
-    manage: ['manage_products'],
+    manage: ['manage_products', 'manage_key_value_documents'],
   },
   icon: '${path:@commercetools-frontend/assets/application-icons/rocket.svg}',
   mainMenuLink: {
