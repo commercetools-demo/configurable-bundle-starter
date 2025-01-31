@@ -6,7 +6,11 @@ import PrimaryButton from '@commercetools-uikit/primary-button';
 import { BundleFormikValues } from '../../../molecules/add-new-bundle-button';
 import { SchemaResponse } from '../../../../hooks/use-schema/types';
 import AddNewProductButton from '../../new-product/add-new-product-button';
+import Card from '@commercetools-uikit/card';
+import CollapsiblePanel from '@commercetools-uikit/collapsible-panel';
+import RadioInput from '@commercetools-uikit/radio-input';
 import { useFormik } from 'formik';
+import Constraints from '@commercetools-uikit/constraints';
 type Formik = ReturnType<typeof useFormik>;
 
 interface Props {
@@ -45,70 +49,72 @@ const SelectProductStep = ({
     <Spacings.Stack scale="m">
       <Text.Headline as="h2">Select a product or Create one</Text.Headline>
 
-      <CollapsibleMotion
-        isClosed={values.createProduct}
-        onToggle={handleToggleSelctProduct}
-      >
-        {({ containerStyles, registerContentNode }) => (
-          <Spacings.Stack scale="m">
-            <Spacings.Inline>
-              {values.selectProduct && (
-                <Text.Headline as="h4">Select main product</Text.Headline>
-              )}
-              {values.createProduct && (
-                <PrimaryButton
-                  label="Or Select a product"
-                  onClick={handleToggleSelctProduct}
-                />
-              )}
-            </Spacings.Inline>
+      {/*  */}
 
-            <div style={containerStyles}>
-              <div ref={registerContentNode}>
-                <SelectProductForm
-                  handleChange={handleChange}
-                  values={values}
-                  errors={errors}
-                  schema={schema}
-                />
-              </div>
-            </div>
-          </Spacings.Stack>
-        )}
-      </CollapsibleMotion>
-      <CollapsibleMotion
-        isClosed={!values.createProduct}
-        isDefaultClosed
-        onToggle={handleToggleCreateProduct}
+      <RadioInput.Group
+        direction="stack"
+        directionProps={{
+          scale: 'm',
+        }}
+        name="createProduct"
+        onChange={(e) =>
+          setFieldValue(
+            'createProduct',
+            typeof e.target.value === 'string'
+              ? e.target.value === 'true'
+              : e.target.value
+          )
+        }
+        value={values.createProduct}
       >
-        {({ containerStyles, registerContentNode }) => (
-          <Spacings.Stack>
-            <Spacings.Inline>
-              {values.createProduct && (
-                <Text.Headline as="h4">
-                  Enter the main product info
-                </Text.Headline>
-              )}
-              {values.selectProduct && (
-                <PrimaryButton
-                  label="Or Create a product"
-                  onClick={handleToggleCreateProduct}
-                />
-              )}
-            </Spacings.Inline>
-            <div style={containerStyles}>
-              <div ref={registerContentNode}>
-                <AddNewProductButton
-                  setFieldValue={setFieldValue}
-                  values={values}
-                  errors={errors}
-                  handleChange={handleChange}
-                />
-              </div>
-            </div>
+        <RadioInput.Option value={false}>
+          Select an exsisting product
+        </RadioInput.Option>
+        <CollapsiblePanel
+          header={<></>}
+          css={{ marginTop: '0', minHeight: '0', paddingLeft: '15px' }}
+          hideExpansionControls
+          isClosed={values.createProduct}
+          id="12345"
+          theme="light"
+          tone="primary"
+          condensed
+        >
+          <Constraints.Horizontal max={16}>
+            <SelectProductForm
+              handleChange={handleChange}
+              values={values}
+              errors={errors}
+              schema={schema}
+            />
+          </Constraints.Horizontal>
+        </CollapsiblePanel>
+
+        <RadioInput.Option value={true}>
+          Or create a new product
+        </RadioInput.Option>
+        <CollapsiblePanel
+          header={<></>}
+          css={{ marginTop: '0', minHeight: '0', paddingLeft: '15px' }}
+          hideExpansionControls
+          isClosed={!values.createProduct}
+          id="12345"
+          theme="light"
+          condensed
+          tone="primary"
+        >
+          <Spacings.Stack scale="m">
+            <AddNewProductButton
+              setFieldValue={setFieldValue}
+              values={values}
+              errors={errors}
+              handleChange={handleChange}
+            />
           </Spacings.Stack>
-        )}
-      </CollapsibleMotion>
+        </CollapsiblePanel>
+      </RadioInput.Group>
+
+      {/*  */}
     </Spacings.Stack>
   );
 };
