@@ -4,7 +4,6 @@ import { useFormik } from 'formik';
 
 import messages from './messages';
 import { SchemaResponse } from '../../../hooks/use-schema/types';
-import { BundleFormikValues } from '../../molecules/add-new-bundle-button';
 import Spacings from '@commercetools-uikit/spacings';
 import CollapsiblePanel from '@commercetools-uikit/collapsible-panel';
 import Card from '@commercetools-uikit/card';
@@ -13,23 +12,25 @@ import get from 'lodash/get';
 
 type Formik = ReturnType<typeof useFormik>;
 
-type Props = {
+type Props<T> = {
   schema: SchemaResponse;
-  values: BundleFormikValues;
+  values: T;
+  name: string;
   handleChange: Formik['handleChange'];
   touched: Formik['touched'];
   errors: Formik['errors'];
   handleBlur: Formik['handleBlur'];
 };
 
-const CustomObjectForm: FC<Props> = ({
+function CustomObjectForm<T>({
   values,
   schema,
   touched,
   errors,
+  name: parentName,
   handleChange,
   handleBlur,
-}) => {
+}: Props<T>) {
   return (
     <Spacings.Stack scale="m">
       {schema.value?.attributes && (
@@ -41,7 +42,7 @@ const CustomObjectForm: FC<Props> = ({
           }
         >
           {schema.value?.attributes.map((attribute, index) => {
-            const name = `bundleConfiguration.${attribute.name}`;
+            const name = `${parentName}.${attribute.name}`;
             return (
               <Card key={index} type="flat" insetScale="s">
                 <AttributeField
@@ -67,7 +68,7 @@ const CustomObjectForm: FC<Props> = ({
       )}
     </Spacings.Stack>
   );
-};
+}
 CustomObjectForm.displayName = 'CustomObjectForm';
 
 export default CustomObjectForm;

@@ -64,6 +64,7 @@
     "@commercetools-uikit/text-field": "^19.17.1",
     "@commercetools-uikit/text-input": "^19.17.1",
     "@commercetools-uikit/time-input": "^19.22.1",
+    "@commercetools/platform-sdk": "^8.1.0",
     "@commercetools/sync-actions": "^5.14.0",
     "@emotion/react": "^11.11.4",
     "@formatjs/cli": "6.2.12",

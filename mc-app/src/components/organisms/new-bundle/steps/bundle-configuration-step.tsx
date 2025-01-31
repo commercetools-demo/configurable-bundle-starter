@@ -24,13 +24,17 @@ const BundleConfigurationStep = ({
   values,
   errors,
 }: Props) => {
-  if (!schema && values.configurationType === CONFIGURATION_TYPES_ENUM.CUSTOM_OBJECT) {
+  if (
+    !schema &&
+    values.configurationType === CONFIGURATION_TYPES_ENUM.CUSTOM_OBJECT
+  ) {
     return null;
   }
   if (schema) {
     return (
       <div>
-        <CustomObjectDetails
+        <CustomObjectDetails<BundleFormikValues>
+          name="bundleConfiguration"
           schema={schema}
           values={values}
           errors={errors}
@@ -49,8 +53,7 @@ const BundleConfigurationStep = ({
       handleBlur={handleBlur}
       touched={touched}
     />
-  )
-
+  );
 };
 
 export default BundleConfigurationStep;

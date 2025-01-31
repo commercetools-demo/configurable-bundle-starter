@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { reduce, isPlainObject, get } from 'lodash';
+import { reduce, isPlainObject, get, set } from 'lodash';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import { getAttributeValues } from '../../../utils/form-utils';
 import {
@@ -12,13 +12,14 @@ import { useFormik } from 'formik';
 
 type Formik = ReturnType<typeof useFormik>;
 
-type Props = {
-  values: BundleFormikValues;
+type Props<T> = {
+  values: T;
   schema: SchemaResponse;
   touched: Formik['touched'];
   errors: Formik['errors'];
   handleChange: Formik['handleChange'];
   handleBlur: Formik['handleBlur'];
+  name: string;
 };
 
 const getValueForAttributes = (value: any, empty: any): any => {
@@ -35,7 +36,7 @@ const getValueForAttributes = (value: any, empty: any): any => {
 };
 
 const initializeCustomObjectValues = (
-  customObject: BundleFormikValues['bundleConfiguration'],
+  customObject: any,
   schema: SchemaResponse,
   currencies: Array<string>,
   languages: Array<string>
@@ -49,21 +50,22 @@ const initializeCustomObjectValues = (
   );
 };
 
-const CustomObjectDetails: FC<Props> = ({
+function CustomObjectDetails<T extends Record<string, any>>({
+  name,
   schema,
   values,
   handleChange,
   handleBlur,
   errors,
   touched,
-}) => {
+}: Props<T>) {
   const { currencies, languages } = useApplicationContext((context) => ({
     languages: context.project?.languages ?? [],
     currencies: context.project?.currencies ?? [],
   }));
 
   const initial = initializeCustomObjectValues(
-    values.bundleConfiguration,
+    get(values, name),
     schema,
     currencies,
     languages
@@ -73,8 +75,9 @@ const CustomObjectDetails: FC<Props> = ({
     <CustomObjectForm
       values={{
         ...values,
-        bundleConfiguration: initial,
+        ...set(values, name, initial),
       }}
+      name={name}
       errors={errors}
       touched={touched}
       handleBlur={handleBlur}
@@ -82,7 +85,7 @@ const CustomObjectDetails: FC<Props> = ({
       schema={schema}
     ></CustomObjectForm>
   );
-};
-CustomObjectDetails.displayName = 'ContainerDetails';
+}
+CustomObjectDetails.displayName = 'CustomObjectDetails';
 
 export default CustomObjectDetails;

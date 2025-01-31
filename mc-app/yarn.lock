@@ -2696,6 +2696,17 @@
     "@commercetools/sdk-middleware-logger" "^3.0.0"
     "@commercetools/ts-client" "^2.1.7"
 
+"@commercetools/platform-sdk@^8.1.0":
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/@commercetools/platform-sdk/-/platform-sdk-8.1.0.tgz#3ac0e101f1eb03bc9f1d2a80bafa9b88be5444fd"
+  integrity sha512-bXBPO+XhwupVusq+Pf/SpYLhtRpQJnT6IlayHVu0txX8PiKW5+pvG76VBXOUqV1rg+ytsnRWp9oYEmRlexKNqQ==
+  dependencies:
+    "@commercetools/sdk-client-v2" "^3.0.0"
+    "@commercetools/sdk-middleware-auth" "^7.0.0"
+    "@commercetools/sdk-middleware-http" "^7.0.0"
+    "@commercetools/sdk-middleware-logger" "^3.0.0"
+    "@commercetools/ts-client" "^3.0.1"
+
 "@commercetools/sdk-client-v2@^2.5.0":
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/@commercetools/sdk-client-v2/-/sdk-client-v2-2.5.0.tgz#3fe33f733d059472896f4fd0820cf899a30cd150"
@@ -2703,6 +2714,13 @@
   dependencies:
     buffer "^6.0.3"
     node-fetch "^2.6.1"
+
+"@commercetools/sdk-client-v2@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@commercetools/sdk-client-v2/-/sdk-client-v2-3.0.0.tgz#dccee98fabfd2a06dcccd17c020ebef57c3f5a33"
+  integrity sha512-AU0qyd41lv3l7X/e17mwRbtqGUMCJrCP25/ca3CMGvLGYGLx8zFu5zUYggOyEMTkViwG3NlY83zTTG0/YoUo8Q==
+  dependencies:
+    buffer "^6.0.3"
 
 "@commercetools/sdk-client@3.0.0":
   version "3.0.0"
@@ -2756,6 +2774,13 @@
     abort-controller "3.0.0"
     buffer "^6.0.3"
     node-fetch "^2.6.1"
+
+"@commercetools/ts-client@^3.0.1":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@commercetools/ts-client/-/ts-client-3.0.3.tgz#9f25a01c713386b706bd17a06302e3e840f73f04"
+  integrity sha512-EJ0ArfkKmd1Yo5A6zW/M25hci0XZqhoJZe8EFG5TSI/eY1nfCMcxak3IaoVEDVnAJecmhx6lAL4xkHjOSxYDwQ==
+  dependencies:
+    buffer "^6.0.3"
 
 "@discoveryjs/json-ext@0.5.7":
   version "0.5.7"

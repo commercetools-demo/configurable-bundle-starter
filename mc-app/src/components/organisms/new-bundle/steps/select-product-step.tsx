@@ -1,21 +1,29 @@
 import Spacings from '@commercetools-uikit/spacings';
 import Text from '@commercetools-uikit/text';
-import React from 'react';
 import CollapsibleMotion from '@commercetools-uikit/collapsible-motion';
-import CreateProductForm from '../../../molecules/create-product-form';
 import SelectProductForm from '../../../molecules/select-product-form';
 import PrimaryButton from '@commercetools-uikit/primary-button';
 import { BundleFormikValues } from '../../../molecules/add-new-bundle-button';
 import { SchemaResponse } from '../../../../hooks/use-schema/types';
+import AddNewProductButton from '../../new-product/add-new-product-button';
+import { useFormik } from 'formik';
+type Formik = ReturnType<typeof useFormik>;
 
 interface Props {
-  handleChange: (e: any) => void;
+  handleChange: Formik['handleChange'];
+  setFieldValue: Formik['setFieldValue'];
   values: BundleFormikValues;
-  errors: any;
+  errors: Formik['errors'];
   schema?: SchemaResponse;
 }
 
-const SelectProductStep = ({ handleChange, values, errors, schema }: Props) => {
+const SelectProductStep = ({
+  handleChange,
+  setFieldValue,
+  values,
+  errors,
+  schema,
+}: Props) => {
   const handleToggleCreateProduct = () => {
     handleChange({
       target: { name: 'createProduct', value: !values.createProduct },
@@ -84,17 +92,17 @@ const SelectProductStep = ({ handleChange, values, errors, schema }: Props) => {
               {values.selectProduct && (
                 <PrimaryButton
                   label="Or Create a product"
-                  isDisabled
                   onClick={handleToggleCreateProduct}
                 />
               )}
             </Spacings.Inline>
             <div style={containerStyles}>
               <div ref={registerContentNode}>
-                <CreateProductForm
-                  handleChange={handleChange}
+                <AddNewProductButton
+                  setFieldValue={setFieldValue}
                   values={values}
                   errors={errors}
+                  handleChange={handleChange}
                 />
               </div>
             </div>

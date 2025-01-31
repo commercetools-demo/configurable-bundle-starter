@@ -11,6 +11,7 @@ import { BundleResponse } from './types';
 import { BundleFormikValues } from '../../components/molecules/add-new-bundle-button';
 import { useProductUpdater } from '../use-product-connector';
 import { useSchema } from '../use-schema';
+import { CONFIGURATION_TYPES_ENUM } from '../../utils/contants';
 
 export const CONTAINER = `${APP_NAME}_items`;
 const BUNDLE_KEY_PREFIX = 'bundle-';
@@ -54,36 +55,38 @@ export const useConfigurableBundles = () => {
   };
 
   const createBundle = async (payload: BundleFormikValues): Promise<any> => {
-    const schema = await getSchema(payload.bundleType?.value!);
-    const productRefInPayload = payload?.createProduct
-      ? payload.mainProductCreation
-      : payload.mainProductReference;
+    if (payload.configurationType === CONFIGURATION_TYPES_ENUM.CUSTOM_OBJECT) {
+      const schema = await getSchema(payload.bundleType?.value!);
+      const productRefInPayload = payload?.createProduct
+        ? payload.mainProductCreation
+        : payload.mainProductReference;
 
-    const product = await getProduct(productRefInPayload?.id);
+      const product = await getProduct(productRefInPayload?.id);
 
-    const productRefInSchema = schema?.value?.targetProductTypes?.find(
-      (p) => p.productType?.id === product.productType?.id
-    );
+      const productRefInSchema = schema?.value?.targetProductTypes?.find(
+        (p) => p.productType?.id === product.productType?.id
+      );
 
-    if (product && productRefInSchema) {
-      const { id, key } = await createBundleObject(payload);
+      if (product && productRefInSchema) {
+        const { id, key } = await createBundleObject(payload);
 
-      return updateProduct(product?.id, product.version!, [
-        {
-          action: 'setAttribute',
-          // TODO: read from payload's sku > it should be different based on schema
-          sku: product.masterData.current.masterVariant?.sku,
-          name: productRefInSchema?.attribute || '',
-          staged: false,
-          value: {
-            typeId: 'key-value-document',
-            id,
+        return updateProduct(product?.id, product.version!, [
+          {
+            action: 'setAttribute',
+            // TODO: read from payload's sku > it should be different based on schema
+            sku: product.masterData.current.masterVariant?.sku,
+            name: productRefInSchema?.attribute || '',
+            staged: false,
+            value: {
+              typeId: 'key-value-document',
+              id,
+            },
           },
-        },
-      ]).catch(async (error) => {
-        await deleteBundleObject(key);
-        throw error;
-      });
+        ]).catch(async (error) => {
+          await deleteBundleObject(key);
+          throw error;
+        });
+      }
     }
   };
 

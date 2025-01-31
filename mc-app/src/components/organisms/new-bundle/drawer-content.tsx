@@ -42,10 +42,12 @@ interface Props {
   errors: Formik['errors'];
   handleChange: Formik['handleChange'];
   handleBlur: Formik['handleBlur'];
+  setFieldValue: any;
 }
 const DrawerContent = ({
   handleBlur,
   handleChange,
+  setFieldValue,
   touched,
   values,
   errors,
@@ -82,6 +84,7 @@ const DrawerContent = ({
       case 2:
         return (
           <SelectProductStep
+            setFieldValue={setFieldValue}
             values={values}
             handleChange={handleChange}
             errors={errors}

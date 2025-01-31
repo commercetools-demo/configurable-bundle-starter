@@ -14,6 +14,7 @@ import {
 } from '@commercetools-frontend/constants';
 import { useShowNotification } from '@commercetools-frontend/actions-global';
 import { CONFIGURATION_TYPES_ENUM } from '../../utils/contants';
+import { Product, ProductReference } from '@commercetools/platform-sdk';
 
 export type BundleFormikValues = {
   createProduct: boolean;
@@ -23,15 +24,7 @@ export type BundleFormikValues = {
     label: string;
     value: string;
   };
-  mainProductCreation?: {
-    id?: string;
-    name?: Record<string, string>;
-    description?: Record<string, string>;
-    key?: string;
-    masterVariant?: {
-      sku: string;
-    };
-  };
+  mainProductCreation?: Product;
   bundleConfiguration?: any;
   mainProductReference?: {
     id?: string;
@@ -69,7 +62,7 @@ const AddNewBundleButton = () => {
       initialValues={{
         createProduct: false,
         selectProduct: true,
-        mainProductCreation: {},
+        mainProductCreation: {} as Product,
         mainProductReference: {},
       }}
       onSubmit={handleSubmit}
@@ -85,6 +78,7 @@ const AddNewBundleButton = () => {
         handleChange,
         handleBlur,
         submitForm,
+        setFieldValue,
       }) => (
         <>
           <PrimaryButton
@@ -106,6 +100,7 @@ const AddNewBundleButton = () => {
               onClose={closeModal}
             >
               <DrawerContent
+                setFieldValue={setFieldValue}
                 handleChange={handleChange}
                 handleBlur={handleBlur}
                 touched={touched}

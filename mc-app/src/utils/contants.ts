@@ -68,7 +68,24 @@ export const TYPES = {
   Reference: 'Reference',
 };
 
+export const ATTRIBUTE_DEFINITION_TO_TYPES = {
+  text: 'String',
+  ltext: 'LocalizedString',
+  number: 'Number',
+  boolean: 'Boolean',
+  money: 'Money',
+  date: 'Date',
+  time: 'Time',
+  datetime: 'DateTime',
+  enum: 'Enum',
+  lenum: 'LocalizedEnum',
+  Object: 'Object',
+  reference: 'Reference',
+};
+
 export enum CONFIGURATION_TYPES_ENUM {
   CUSTOM_OBJECT = 'custom-object',
   PRODUCT = 'product',
 }
+
+export const DEFAULT_DATALOCALE = 'en-US';
