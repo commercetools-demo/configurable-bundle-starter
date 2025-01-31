@@ -67,3 +67,8 @@ export const TYPES = {
   Object: 'Object',
   Reference: 'Reference',
 };
+
+export enum CONFIGURATION_TYPES_ENUM {
+  CUSTOM_OBJECT = 'custom-object',
+  PRODUCT = 'product',
+}

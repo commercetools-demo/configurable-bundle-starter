@@ -13,10 +13,12 @@ import {
   NOTIFICATION_KINDS_SIDE,
 } from '@commercetools-frontend/constants';
 import { useShowNotification } from '@commercetools-frontend/actions-global';
+import { CONFIGURATION_TYPES_ENUM } from '../../utils/contants';
 
 export type BundleFormikValues = {
   createProduct: boolean;
   selectProduct: boolean;
+  configurationType?: CONFIGURATION_TYPES_ENUM;
   bundleType?: {
     label: string;
     value: string;
