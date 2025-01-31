@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import { Check, ChevronRight } from 'lucide-react';
+import { BundleFormikValues } from '../../molecules/add-new-bundle-button';
+import Text from '@commercetools-uikit/text';
 
 const StepperContainer = styled.div`
   display: flex;
@@ -28,7 +30,7 @@ const StepCircle = styled.div<{ isActive: boolean; isCompleted: boolean }>`
     props.isCompleted ? '#ffffff' : props.isActive ? 'black' : '#6b7280'};
 `;
 
-const StepTitle = styled.span<{ isActive: boolean }>`
+const StepTitle = styled.div<{ isActive: boolean }>`
   margin-left: 0.5rem;
   color: ${(props) => (props.isActive ? '#2563eb' : '#6b7280')};
 `;
@@ -38,13 +40,26 @@ const Chevron = styled(ChevronRight)`
   color: #9ca3af;
 `;
 
-export const Stepper = ({ currentStep }: { currentStep: number }) => {
+export const Stepper = ({ currentStep, values }: { currentStep: number, values: BundleFormikValues }) => {
   const steps = [
     { title: 'Bundle type', number: 1 },
     { title: 'Main product', number: 2 },
     { title: 'Related products', number: 3 },
     { title: 'Review', number: 4 },
   ];
+
+  const getStepSubtitle = (step: number) => {
+    switch (step) {
+      case 1:
+        return values?.configurationType ? values.configurationType : ''
+      case 2:
+        return values.bundleType?.value ? values.bundleType?.label : '';
+      case 3:
+        return '';
+      case 4:
+        return '';
+    }
+  };
 
   return (
     <StepperContainer>
@@ -62,6 +77,7 @@ export const Stepper = ({ currentStep }: { currentStep: number }) => {
           </StepCircle>
           <StepTitle isActive={currentStep >= step.number}>
             {step.title}
+            <Text.Caption>{getStepSubtitle(step.number)}</Text.Caption>
           </StepTitle>
           {index < steps.length - 1 && <Chevron />}
         </StepWrapper>

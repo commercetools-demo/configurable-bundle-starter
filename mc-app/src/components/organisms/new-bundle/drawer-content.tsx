@@ -111,7 +111,7 @@ const DrawerContent = ({
 
   return (
     <StyledFormWrapper>
-      <Stepper currentStep={currentStep} />
+      <Stepper currentStep={currentStep} values={values} />
 
       <StepWrapper>{renderCurrentStep()}</StepWrapper>
 
