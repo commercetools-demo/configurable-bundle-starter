@@ -22,14 +22,14 @@ const config = {
   },
   icon: '${path:@commercetools-frontend/assets/application-icons/rocket.svg}',
   mainMenuLink: {
-    defaultLabel: 'Template starter',
+    defaultLabel: 'Bundles',
     labelAllLocales: [],
     permissions: [PERMISSIONS.View],
   },
   submenuLinks: [
     {
-      uriPath: 'channels',
-      defaultLabel: 'Channels',
+      uriPath: '/schemas',
+      defaultLabel: 'Schema Editor',
       labelAllLocales: [],
       permissions: [PERMISSIONS.View],
     },

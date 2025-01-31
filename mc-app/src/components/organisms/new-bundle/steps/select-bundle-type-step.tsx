@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { useSchema } from '../../../../hooks/use-schema';
 import { CONFIGURATION_TYPES_ENUM } from '../../../../utils/contants';
 import { BundleFormikValues } from '../../../molecules/add-new-bundle-button';
+import Constraints from '@commercetools-uikit/constraints';
 
 interface Props {
   handleChange: (e: any) => void;
@@ -70,7 +71,7 @@ const SelectBundleTypeStep = ({ handleChange, values, errors }: Props) => {
         </RadioInput.Option>
         <CollapsiblePanel
           header={<></>}
-          css={{ marginTop: '0', minHeight: '0', paddingLeft: '15px' }}
+          css={{ marginTop: '0', minHeight: '0', paddingLeft: '15px', paddingBottom: '15px' }}
           hideExpansionControls
           isClosed={
             values.configurationType !== CONFIGURATION_TYPES_ENUM.CUSTOM_OBJECT
@@ -80,15 +81,8 @@ const SelectBundleTypeStep = ({ handleChange, values, errors }: Props) => {
           condensed
           tone="primary"
         >
-          <Card
-            isDisabled={
-              values.configurationType !==
-              CONFIGURATION_TYPES_ENUM.CUSTOM_OBJECT
-            }
-            type="raised"
-          >
-            <Text.Headline as="h2">Select Bundle Type</Text.Headline>
-            <Spacings.Inline scale="m">
+          <Constraints.Horizontal max={16}>
+            <Spacings.Stack scale="m">
               <AsyncSelectField
                 title="Bundle Type"
                 name="bundleType"
@@ -103,8 +97,8 @@ const SelectBundleTypeStep = ({ handleChange, values, errors }: Props) => {
                 defaultOptions={defaultOptions}
                 loadOptions={loadOptions}
               />
-            </Spacings.Inline>
-          </Card>
+            </Spacings.Stack>
+          </Constraints.Horizontal>
         </CollapsiblePanel>
       </RadioInput.Group>
     </Spacings.Stack>
