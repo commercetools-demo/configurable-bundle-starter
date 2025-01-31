@@ -8,7 +8,7 @@ interface Props {
   handleChange: (e: any) => void;
   values: BundleFormikValues;
   errors: any;
-  schema: SchemaResponse;
+  schema?: SchemaResponse;
 }
 const SelectProductForm = ({ handleChange, values, errors, schema }: Props) => {
   const where = useMemo(() => {
@@ -22,9 +22,6 @@ const SelectProductForm = ({ handleChange, values, errors, schema }: Props) => {
     };
   }, [schema]);
 
-  if (!schema) {
-    return null;
-  }
   return (
     <Spacings.Stack>
       <ReferenceInput

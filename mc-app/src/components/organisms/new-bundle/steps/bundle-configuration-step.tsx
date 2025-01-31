@@ -3,6 +3,8 @@ import { SchemaResponse } from '../../../../hooks/use-schema/types';
 import { BundleFormikValues } from '../../../molecules/add-new-bundle-button';
 import CustomObjectDetails from '../../bundle-configuratiom-details';
 import { useFormik } from 'formik';
+import { CONFIGURATION_TYPES_ENUM } from '../../../../utils/contants';
+import ProductAttributeDetails from '../../product-attribute-details';
 
 type Formik = ReturnType<typeof useFormik>;
 
@@ -22,21 +24,33 @@ const BundleConfigurationStep = ({
   values,
   errors,
 }: Props) => {
-  if (!schema) {
+  if (!schema && values.configurationType === CONFIGURATION_TYPES_ENUM.CUSTOM_OBJECT) {
     return null;
   }
+  if (schema) {
+    return (
+      <div>
+        <CustomObjectDetails
+          schema={schema}
+          values={values}
+          errors={errors}
+          handleChange={handleChange}
+          handleBlur={handleBlur}
+          touched={touched}
+        />
+      </div>
+    );
+  }
   return (
-    <div>
-      <CustomObjectDetails
-        schema={schema}
-        values={values}
-        errors={errors}
-        handleChange={handleChange}
-        handleBlur={handleBlur}
-        touched={touched}
-      />
-    </div>
-  );
+    <ProductAttributeDetails
+      values={values}
+      errors={errors}
+      handleChange={handleChange}
+      handleBlur={handleBlur}
+      touched={touched}
+    />
+  )
+
 };
 
 export default BundleConfigurationStep;

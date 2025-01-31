@@ -33,10 +33,6 @@ const SelectProductStep = ({ handleChange, values, errors, schema }: Props) => {
     });
   };
 
-  if (!schema) {
-    return null;
-  }
-
   return (
     <Spacings.Stack scale="m">
       <Text.Headline as="h2">Select a product or Create one</Text.Headline>
