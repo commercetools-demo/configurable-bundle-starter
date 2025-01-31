@@ -2,7 +2,6 @@ import { useFormik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { ProductFormikValues } from '../../organisms/new-product/add-new-product-button';
 import { useProductTypeConnector } from '../../../hooks/use-product-type-connector';
-import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import { AttributeDefinition } from '@commercetools/platform-sdk';
 import CustomObjectDetails from '../../organisms/bundle-configuratiom-details';
 import { convertAttributeDefinitionToAttribute } from '../../../utils/attributes';
@@ -23,7 +22,6 @@ const ProductAttributeForm = ({
   touched,
 }: Props) => {
   const [attributes, setAttributes] = useState<AttributeDefinition[]>([]);
-  const { dataLocale } = useApplicationContext();
   const { getAttributes } = useProductTypeConnector();
 
   useEffect(() => {
@@ -40,7 +38,6 @@ const ProductAttributeForm = ({
   }
   return (
     <div>
-      {' '}
       <CustomObjectDetails<ProductFormikValues>
         name="productDraft.masterVariant.attributes"
         schema={{
