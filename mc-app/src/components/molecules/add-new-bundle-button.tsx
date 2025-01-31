@@ -103,6 +103,7 @@ const AddNewBundleButton = () => {
               onSecondaryButtonClick={() =>
                 showConfirmationModal(dirty, closeModal)
               }
+              onClose={closeModal}
             >
               <DrawerContent
                 handleChange={handleChange}
