@@ -22,6 +22,7 @@ import { Link } from 'react-router-dom';
 import { ExternalLinkIcon } from '@commercetools-uikit/icons';
 import { BundleFormikValues } from '../../molecules/add-new-bundle-button';
 import { convertAttributeMapToAttributes } from '../../../utils/attributes';
+import { useState } from 'react';
 type Formik = ReturnType<typeof useFormik>;
 export type ProductFormikValues = {
   productDraft: ProductDraft;
@@ -34,16 +35,14 @@ interface Props {
   errors: Formik['errors'];
 }
 
-const AddNewProductButton = ({
-  values: bundleValues,
-  setFieldValue,
-}: Props) => {
+const AddNewProductButton = (_: Props) => {
   const { isModalOpen, openModal, closeModal } = useModalState();
   const { ConfirmationModal, showConfirmationModal } =
     useCloseModalConfirmation();
   const showNotification = useShowNotification();
   const { dataLocale, project } = useApplicationContext();
   const { createProduct } = useProductUpdater();
+  const [createdProduct, setCreatedProduct] = useState<Product | null>();
 
   const hanldeCreateProduct = async (
     values: ProductFormikValues
@@ -87,7 +86,7 @@ const AddNewProductButton = ({
         return null;
       });
 
-    setFieldValue('mainProductCreation', newProduct);
+    setCreatedProduct(newProduct);
   };
 
   return (
@@ -122,31 +121,26 @@ const AddNewProductButton = ({
         touched,
       }) => (
         <>
-          {bundleValues?.mainProductCreation?.id && (
+          {createdProduct?.id && (
             <Spacings.Stack scale="m">
-              <Spacings.Inline>
-                <Text.Headline as="h2">Product created</Text.Headline>
-                <Link
-                  to={getExternalUrl(bundleValues.mainProductCreation?.id)}
-                  target="_blank"
-                >
-                  <ExternalLinkIcon color="info" />
-                </Link>
-              </Spacings.Inline>
-              <Text.Subheadline>
-                Name:{' '}
-                {
-                  bundleValues.mainProductCreation?.masterData?.current.name[
+              <Text.Headline as="h2">
+                Product created successfully!
+              </Text.Headline>
+              <Link to={getExternalUrl(createdProduct?.id)} target="_blank">
+                <Spacings.Inline alignItems="center">
+                  {`View product in a new tab:
+                ${
+                  createdProduct?.masterData?.current.name[
                     dataLocale || DEFAULT_DATALOCALE
                   ]
-                }
-              </Text.Subheadline>
-              <Text.Subheadline>
-                key: {bundleValues.mainProductCreation?.key}
-              </Text.Subheadline>
+                }`}
+                  <ExternalLinkIcon color="info" />
+                </Spacings.Inline>
+              </Link>
+              <Text.Body>Please continue to the next step.</Text.Body>
             </Spacings.Stack>
           )}
-          {!bundleValues?.mainProductCreation?.id && (
+          {!createdProduct?.id && (
             <>
               <PrimaryButton
                 onClick={openModal}

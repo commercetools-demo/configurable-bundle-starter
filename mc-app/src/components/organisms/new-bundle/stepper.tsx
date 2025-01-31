@@ -40,7 +40,13 @@ const Chevron = styled(ChevronRight)`
   color: #9ca3af;
 `;
 
-export const Stepper = ({ currentStep, values }: { currentStep: number, values: BundleFormikValues }) => {
+export const Stepper = ({
+  currentStep,
+  values,
+}: {
+  currentStep: number;
+  values: BundleFormikValues;
+}) => {
   const steps = [
     { title: 'Bundle type', number: 1 },
     { title: 'Main product', number: 2 },
@@ -51,7 +57,7 @@ export const Stepper = ({ currentStep, values }: { currentStep: number, values: 
   const getStepSubtitle = (step: number) => {
     switch (step) {
       case 1:
-        return values?.configurationType ? values.configurationType : ''
+        return values?.configurationType ? values.configurationType : '';
       case 2:
         return values.bundleType?.value ? values.bundleType?.label : '';
       case 3:

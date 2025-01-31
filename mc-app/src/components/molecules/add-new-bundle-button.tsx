@@ -24,7 +24,6 @@ export type BundleFormikValues = {
     label: string;
     value: string;
   };
-  mainProductCreation?: Product;
   bundleConfiguration?: any;
   mainProductReference?: {
     id?: string;
@@ -62,7 +61,6 @@ const AddNewBundleButton = () => {
       initialValues={{
         createProduct: false,
         selectProduct: true,
-        mainProductCreation: {} as Product,
         mainProductReference: {},
       }}
       onSubmit={handleSubmit}

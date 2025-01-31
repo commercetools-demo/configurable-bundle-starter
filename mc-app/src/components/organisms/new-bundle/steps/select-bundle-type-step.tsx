@@ -71,7 +71,12 @@ const SelectBundleTypeStep = ({ handleChange, values, errors }: Props) => {
         </RadioInput.Option>
         <CollapsiblePanel
           header={<></>}
-          css={{ marginTop: '0', minHeight: '0', paddingLeft: '15px', paddingBottom: '15px' }}
+          css={{
+            marginTop: '0',
+            minHeight: '0',
+            paddingLeft: '15px',
+            paddingBottom: '15px',
+          }}
           hideExpansionControls
           isClosed={
             values.configurationType !== CONFIGURATION_TYPES_ENUM.CUSTOM_OBJECT

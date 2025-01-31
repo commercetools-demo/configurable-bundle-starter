@@ -26,18 +26,9 @@ const ProductAttributeDetails = ({
   const { getAttributes } = useProductTypeConnector();
   const { getProduct } = useProductUpdater();
 
-  const productId = useMemo(() => {
-    if (values.mainProductCreation?.id) {
-      return values.mainProductCreation?.id;
-    } else if (values.mainProductReference?.id) {
-      return values.mainProductReference?.id;
-    }
-    return undefined;
-  }, [values]);
-
   useEffect(() => {
-    if (productId) {
-      getProduct(productId).then((product) => {
+    if (values.mainProductReference?.id) {
+      getProduct(values.mainProductReference?.id).then((product) => {
         getAttributes(product.productType?.id).then((attributes) => {
           setAttributes(
             attributes.map((item) =>
@@ -47,7 +38,7 @@ const ProductAttributeDetails = ({
         });
       });
     }
-  }, [productId]);
+  }, [values.mainProductReference?.id]);
   if (!values.mainProductReference?.id) {
     return null;
   }

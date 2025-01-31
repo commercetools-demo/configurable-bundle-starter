@@ -57,11 +57,8 @@ export const useConfigurableBundles = () => {
   const createBundle = async (payload: BundleFormikValues): Promise<any> => {
     if (payload.configurationType === CONFIGURATION_TYPES_ENUM.CUSTOM_OBJECT) {
       const schema = await getSchema(payload.bundleType?.value!);
-      const productRefInPayload = payload?.createProduct
-        ? payload.mainProductCreation
-        : payload.mainProductReference;
 
-      const product = await getProduct(productRefInPayload?.id);
+      const product = await getProduct(payload.mainProductReference?.id);
 
       const productRefInSchema = schema?.value?.targetProductTypes?.find(
         (p) => p.productType?.id === product.productType?.id

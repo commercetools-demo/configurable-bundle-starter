@@ -54,15 +54,6 @@ export type Bundle = {
     label: string;
     value: string;
   };
-  mainProductCreation?: {
-    id?: string;
-    name?: Record<string, string>;
-    description?: Record<string, string>;
-    key?: string;
-    masterVariant?: {
-      sku: string;
-    };
-  };
   bundleConfiguration?: any;
   mainProductReference?: {
     id?: string;
