@@ -79,8 +79,9 @@ export const ATTRIBUTE_DEFINITION_TO_TYPES = {
   datetime: 'DateTime',
   enum: 'Enum',
   lenum: 'LocalizedEnum',
-  Object: 'Object',
+  nested: 'Object',
   reference: 'Reference',
+  set: '',
 };
 
 export enum CONFIGURATION_TYPES_ENUM {

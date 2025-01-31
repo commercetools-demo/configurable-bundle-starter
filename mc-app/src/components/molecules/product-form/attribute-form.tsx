@@ -4,7 +4,8 @@ import { ProductFormikValues } from '../../organisms/new-product/add-new-product
 import { useProductTypeConnector } from '../../../hooks/use-product-type-connector';
 import { AttributeDefinition } from '@commercetools/platform-sdk';
 import CustomObjectDetails from '../../organisms/bundle-configuratiom-details';
-import { convertAttributeDefinitionToAttribute } from '../../../utils/attributes';
+import { convertAttributeDefinitionToAttribute, mapAttributeDefinitionsToAttributes } from '../../../utils/attributes';
+import { AttributeValue, SchemaResponse } from '../../../hooks/use-schema/types';
 type Formik = ReturnType<typeof useFormik>;
 
 interface Props {
@@ -21,16 +22,16 @@ const ProductAttributeForm = ({
   handleBlur,
   touched,
 }: Props) => {
-  const [attributes, setAttributes] = useState<AttributeDefinition[]>([]);
-  const { getAttributes } = useProductTypeConnector();
+  const [attributes, setAttributes] = useState<AttributeValue[]>([]);
+  const { getAttributes, getProductTypeAttributeDefinitions } = useProductTypeConnector();
 
   useEffect(() => {
     getAttributes(values.productDraft?.productType?.id, true).then(
-      (attributes) => {
-        setAttributes(
-          attributes.map((item) => convertAttributeDefinitionToAttribute(item))
-        );
-      }
+      (attributes) =>
+        mapAttributeDefinitionsToAttributes(attributes, getProductTypeAttributeDefinitions).then((mappedAttributes) => {
+          setAttributes(mappedAttributes);
+        })
+
     );
   }, [values.productDraft?.productType?.id]);
   if (!values.productDraft?.productType?.id) {
@@ -42,10 +43,9 @@ const ProductAttributeForm = ({
         name="productDraft.masterVariant.attributes"
         schema={{
           value: {
-            // @ts-ignore
             attributes,
           },
-        }}
+        } as SchemaResponse}
         values={values}
         errors={errors}
         handleChange={handleChange}
