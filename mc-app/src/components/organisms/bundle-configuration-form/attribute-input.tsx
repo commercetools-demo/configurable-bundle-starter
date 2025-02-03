@@ -18,6 +18,7 @@ import AttributeField from './attribute-field'; // eslint-disable-line import/no
 import { TYPES } from '../../../utils/contants';
 import Card from '@commercetools-uikit/card';
 import { AttributeValue } from '../../../hooks/use-schema/types';
+import AddNewProductButton from '../new-product/add-new-product-button';
 
 type Props = {
   type: string;
@@ -241,18 +242,45 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
       const refErrors = get(errors, referenceBy);
       const hasError = !!(refTouched && refErrors);
       return (
-        <div style={style}>
-          <ReferenceInput
-            data-testid="field-type-reference"
-            name={name}
-            value={value}
-            onChange={onChange}
-            onBlur={onBlur}
-            hasError={hasError}
-            reference={reference}
-          />
-          {hasError && (
-            <ErrorMessage data-testid="field-error">{refErrors}</ErrorMessage>
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-between',
+            gap: '1rem',
+          }}
+        >
+          <div style={style}>
+            <ReferenceInput
+              data-testid="field-type-reference"
+              name={name}
+              value={value}
+              onChange={onChange}
+              onBlur={onBlur}
+              hasError={hasError}
+              reference={reference}
+            />
+            {hasError && (
+              <ErrorMessage data-testid="field-error">{refErrors}</ErrorMessage>
+            )}
+          </div>
+          {reference?.type === 'product' && !value.id && (
+            <AddNewProductButton
+              hideSuccessMessage
+              name={name}
+              setFieldValue={(name: string, value: any) => {
+                onChange({
+                  target: {
+                    name,
+                    value: {
+                      id: value,
+                      by: referenceBy,
+                    },
+                  },
+                });
+                return value;
+              }}
+            />
           )}
         </div>
       );

@@ -30,13 +30,18 @@ export type ProductFormikValues = {
 
 interface Props {
   name: string;
-  handleChange: Formik['handleChange'];
+  hideSuccessMessage?: boolean;
+  handleChange?: Formik['handleChange'];
   setFieldValue: Formik['setFieldValue'];
-  values: BundleFormikValues;
-  errors: Formik['errors'];
+  values?: BundleFormikValues;
+  errors?: Formik['errors'];
 }
 
-const AddNewProductButton = ({ setFieldValue, name }: Props) => {
+const AddNewProductButton = ({
+  setFieldValue,
+  name,
+  hideSuccessMessage,
+}: Props) => {
   const { isModalOpen, openModal, closeModal } = useModalState();
   const { ConfirmationModal, showConfirmationModal } =
     useCloseModalConfirmation();
@@ -122,7 +127,7 @@ const AddNewProductButton = ({ setFieldValue, name }: Props) => {
         touched,
       }) => (
         <>
-          {createdProduct?.id && (
+          {!hideSuccessMessage && createdProduct?.id && (
             <Spacings.Stack scale="m">
               <Text.Headline as="h2">
                 Product created successfully!
