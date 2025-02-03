@@ -29,7 +29,7 @@ export type BundleFormikValues = {
     masterVariant?: {
       sku?: string;
       attributes?: any;
-    }
+    };
   };
 };
 

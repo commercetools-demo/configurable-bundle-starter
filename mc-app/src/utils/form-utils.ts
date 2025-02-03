@@ -155,6 +155,11 @@ export const getValueByType = (
         }
       );
 
+    case TYPES.Nested:
+      return [
+        attributes && getAttributeValues(attributes, currencies, languages),
+      ];
+
     case TYPES.Object:
       return (
         attributes && getAttributeValues(attributes, currencies, languages)

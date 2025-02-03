@@ -65,6 +65,7 @@ export const TYPES = {
   Enum: 'Enum',
   LocalizedEnum: 'LocalizedEnum',
   Object: 'Object',
+  Nested: 'Nested',
   Reference: 'Reference',
 };
 
@@ -79,7 +80,7 @@ export const ATTRIBUTE_DEFINITION_TO_TYPES = {
   datetime: 'DateTime',
   enum: 'Enum',
   lenum: 'LocalizedEnum',
-  nested: 'Object',
+  nested: 'Nested',
   reference: 'Reference',
   set: '',
 };

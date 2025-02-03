@@ -1,12 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { BundleFormikValues } from '../../molecules/add-new-bundle-button';
 import { useFormik, useFormikContext } from 'formik';
-import { AttributeDefinition } from '@commercetools/platform-sdk';
 import { useProductTypeConnector } from '../../../hooks/use-product-type-connector';
-import {
-  convertAttributeDefinitionToAttribute,
-  mapAttributeDefinitionsToAttributes,
-} from '../../../utils/attributes';
+import { mapAttributeDefinitionsToAttributes } from '../../../utils/attributes';
 import { useProductUpdater } from '../../../hooks/use-product-connector';
 import CustomObjectDetails from '../bundle-configuratiom-details';
 import {

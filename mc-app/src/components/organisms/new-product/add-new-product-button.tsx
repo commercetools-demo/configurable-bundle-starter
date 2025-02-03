@@ -130,10 +130,11 @@ const AddNewProductButton = ({ setFieldValue, name }: Props) => {
               <Link to={getExternalUrl(createdProduct?.id)} target="_blank">
                 <Spacings.Inline alignItems="center">
                   {`View product in a new tab:
-                ${createdProduct?.masterData?.current.name[
+                ${
+                  createdProduct?.masterData?.current.name[
                     dataLocale || DEFAULT_DATALOCALE
-                    ]
-                    }`}
+                  ]
+                }`}
                   <ExternalLinkIcon color="info" />
                 </Spacings.Inline>
               </Link>

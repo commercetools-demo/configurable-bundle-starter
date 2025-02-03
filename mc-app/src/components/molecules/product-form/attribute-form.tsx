@@ -5,9 +5,7 @@ import {
   AttributeValue,
   SchemaResponse,
 } from '../../../hooks/use-schema/types';
-import {
-  mapAttributeDefinitionsToAttributes,
-} from '../../../utils/attributes';
+import { mapAttributeDefinitionsToAttributes } from '../../../utils/attributes';
 import CustomObjectDetails from '../../organisms/bundle-configuratiom-details';
 import { ProductFormikValues } from '../../organisms/new-product/add-new-product-button';
 type Formik = ReturnType<typeof useFormik>;

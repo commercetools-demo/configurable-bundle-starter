@@ -16,6 +16,8 @@ import Spacings from '@commercetools-uikit/spacings';
 import ReferenceInput from '../reference-input';
 import AttributeField from './attribute-field'; // eslint-disable-line import/no-cycle
 import { TYPES } from '../../../utils/contants';
+import Card from '@commercetools-uikit/card';
+import { AttributeValue } from '../../../hooks/use-schema/types';
 
 type Props = {
   type: string;
@@ -252,6 +254,40 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
           {hasError && (
             <ErrorMessage data-testid="field-error">{refErrors}</ErrorMessage>
           )}
+        </div>
+      );
+    }
+
+    case TYPES.Nested: {
+      return (
+        <div style={style}>
+          {(attributes as AttributeValue[])?.map((attribute, index) => {
+            return (
+              <Card
+                key={index}
+                theme={isNestedSet ? 'light' : 'dark'}
+                type="flat"
+              >
+                <AttributeField
+                  key={index}
+                  type={attribute.type}
+                  reference={attribute.reference}
+                  options={attribute.enum || attribute.lenum}
+                  name={`${name}.${index}.value`}
+                  attributes={attribute.attributes}
+                  title={attribute.name}
+                  isRequired={attribute.required}
+                  isSet={attribute.set}
+                  isNestedSet
+                  value={get(value, `${index}.value`)}
+                  touched={get(touched, `${index}.value`)}
+                  errors={get(errors, `${index}.value`)}
+                  onBlur={onBlur}
+                  onChange={onChange}
+                />
+              </Card>
+            );
+          })}
         </div>
       );
     }

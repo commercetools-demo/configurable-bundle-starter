@@ -95,7 +95,7 @@ const AttributeField: FC<Props> = ({
                   onClick={() => push(emptyValue)}
                 />
               </Constraints.Horizontal>
-              {value.map((val: any, index: number) => (
+              {value?.map((val: any, index: number) => (
                 <Card
                   key={index}
                   theme={isNestedSet ? 'light' : 'dark'}
