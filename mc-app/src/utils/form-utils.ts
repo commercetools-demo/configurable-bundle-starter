@@ -156,9 +156,13 @@ export const getValueByType = (
       );
 
     case TYPES.Nested:
-      return [
-        attributes && getAttributeValues(attributes, currencies, languages),
-      ];
+      const attributeValues =
+        (attributes && getAttributeValues(attributes, currencies, languages)) ||
+        [];
+      return Object.keys(attributeValues).map((attrKey) => ({
+        name: attrKey,
+        value: attributeValues[attrKey],
+      }));
 
     case TYPES.Object:
       return (
