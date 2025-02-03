@@ -9,7 +9,7 @@ export default defineMessages({
   customObjectInformationTitle: {
     id: 'CustomObject.form.panel.container.title',
     description: 'Title for custom object information panel',
-    defaultMessage: 'Custom Object Information',
+    defaultMessage: 'Attributes information',
   },
   containerTitle: {
     id: 'CustomObject.form.container.title',

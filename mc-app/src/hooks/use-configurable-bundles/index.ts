@@ -12,6 +12,10 @@ import { BundleFormikValues } from '../../components/molecules/add-new-bundle-bu
 import { useProductUpdater } from '../use-product-connector';
 import { useSchema } from '../use-schema';
 import { CONFIGURATION_TYPES_ENUM } from '../../utils/contants';
+import {
+  convertAttributeMapToAttributes,
+  filterEmptyAttribute,
+} from '../../utils/attributes';
 
 export const CONTAINER = `${APP_NAME}_items`;
 const BUNDLE_KEY_PREFIX = 'bundle-';
@@ -55,10 +59,13 @@ export const useConfigurableBundles = () => {
   };
 
   const createBundle = async (payload: BundleFormikValues): Promise<any> => {
+    if (!payload.mainProductReference?.id) {
+      throw new Error('Please select a product');
+    }
+    const product = await getProduct(payload.mainProductReference?.id);
+
     if (payload.configurationType === CONFIGURATION_TYPES_ENUM.CUSTOM_OBJECT) {
       const schema = await getSchema(payload.bundleType?.value!);
-
-      const product = await getProduct(payload.mainProductReference?.id);
 
       const productRefInSchema = schema?.value?.targetProductTypes?.find(
         (p) => p.productType?.id === product.productType?.id
@@ -84,6 +91,21 @@ export const useConfigurableBundles = () => {
           throw error;
         });
       }
+    } else if (payload.configurationType === CONFIGURATION_TYPES_ENUM.PRODUCT) {
+      const attributes = convertAttributeMapToAttributes(
+        payload.mainProductReference?.masterVariant?.attributes || {}
+      );
+      return updateProduct(
+        product?.id,
+        product.version!,
+        attributes.filter(filterEmptyAttribute).map((attr) => ({
+          action: 'setAttribute',
+          sku: product.masterData.current.masterVariant?.sku,
+          name: attr.name,
+          staged: false,
+          value: attr.value,
+        }))
+      );
     }
   };
 

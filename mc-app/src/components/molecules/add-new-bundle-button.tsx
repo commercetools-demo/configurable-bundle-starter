@@ -14,7 +14,6 @@ import {
 } from '@commercetools-frontend/constants';
 import { useShowNotification } from '@commercetools-frontend/actions-global';
 import { CONFIGURATION_TYPES_ENUM } from '../../utils/contants';
-import { Product, ProductReference } from '@commercetools/platform-sdk';
 
 export type BundleFormikValues = {
   createProduct: boolean;
@@ -27,6 +26,10 @@ export type BundleFormikValues = {
   bundleConfiguration?: any;
   mainProductReference?: {
     id?: string;
+    masterVariant?: {
+      sku?: string;
+      attributes?: any;
+    }
   };
 };
 
@@ -64,6 +67,7 @@ const AddNewBundleButton = () => {
         mainProductReference: {},
       }}
       onSubmit={handleSubmit}
+      enableReinitialize
     >
       {({
         values,

@@ -33,18 +33,21 @@ export const useProductTypeConnector = () => {
   };
 
   const getProductType = async (id: string): Promise<ProductType> => {
-    
     const result = await dispatchProductTypeRead(
       actions.get({
         mcApiProxyTarget: MC_API_PROXY_TARGETS.COMMERCETOOLS_PLATFORM,
-        uri: buildUrlWithParams(`/${context?.project?.key}/product-types/${id}`, {}),
+        uri: buildUrlWithParams(
+          `/${context?.project?.key}/product-types/${id}`,
+          {}
+        ),
       })
     );
     return result;
   };
 
-  const getProductTypeAttributeDefinitions = async (id: string): Promise<AttributeDefinition[] | undefined> => {
-    console.log('getProductTypeAttributeDefinitions', id);
+  const getProductTypeAttributeDefinitions = async (
+    id: string
+  ): Promise<AttributeDefinition[] | undefined> => {
     return getProductType(id).then((productType) => productType.attributes);
   };
 

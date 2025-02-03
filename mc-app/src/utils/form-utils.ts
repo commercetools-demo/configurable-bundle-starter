@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import { IntlShape, MessageDescriptor } from 'react-intl';
 import { addMethod, array, object, string, number, date, boolean } from 'yup';
 import { AttributeValue, Reference } from '../hooks/use-schema/types';

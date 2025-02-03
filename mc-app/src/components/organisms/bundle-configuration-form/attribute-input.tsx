@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, HTMLAttributes } from 'react';
 import get from 'lodash/get';
 import map from 'lodash/map';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
@@ -40,7 +40,7 @@ type Props = {
   }[];
 };
 
-const AttributeInput: FC<Props> = ({
+const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
   type,
   title,
   name,
@@ -55,6 +55,7 @@ const AttributeInput: FC<Props> = ({
   attributes,
   reference,
   options,
+  style,
 }) => {
   const { currencies, dataLocale, timeZone } = useApplicationContext(
     (context) => ({
@@ -238,7 +239,7 @@ const AttributeInput: FC<Props> = ({
       const refErrors = get(errors, referenceBy);
       const hasError = !!(refTouched && refErrors);
       return (
-        <Spacings.Stack scale="xs">
+        <div style={style}>
           <ReferenceInput
             data-testid="field-type-reference"
             name={name}
@@ -251,7 +252,7 @@ const AttributeInput: FC<Props> = ({
           {hasError && (
             <ErrorMessage data-testid="field-error">{refErrors}</ErrorMessage>
           )}
-        </Spacings.Stack>
+        </div>
       );
     }
 

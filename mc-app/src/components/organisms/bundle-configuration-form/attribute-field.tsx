@@ -102,30 +102,29 @@ const AttributeField: FC<Props> = ({
                   type="flat"
                 >
                   <Spacings.Inline alignItems="center">
-                    <div>
-                      <AttributeInput
-                        data-testid={`set-attribute-input-${index}`}
-                        type={type}
-                        title={title}
-                        name={`${name}.${index}`}
-                        value={val}
-                        touched={get(touched, index)}
-                        errors={get(errors, index)}
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        isRequired={isRequired}
-                        isSet={isSet}
-                        isNestedSet={isNestedSet}
-                        attributes={attributes}
-                        reference={reference}
-                        options={selectOptions}
-                      />
-                    </div>
+                    <AttributeInput
+                      data-testid={`set-attribute-input-${index}`}
+                      type={type}
+                      title={title}
+                      name={`${name}.${index}`}
+                      value={val}
+                      touched={get(touched, index)}
+                      errors={get(errors, index)}
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      isRequired={isRequired}
+                      isSet={isSet}
+                      isNestedSet={isNestedSet}
+                      attributes={attributes}
+                      reference={reference}
+                      options={selectOptions}
+                      style={{ width: '80%' }}
+                    />
                     <SecondaryIconButton
                       data-testid={`remove-attribute-${index}`}
                       icon={<BinLinearIcon />}
                       label={intl.formatMessage(messages.removeLabel)}
-                      isDisabled={index === 0 && value.length === 1}
+                      isDisabled={index === 0 && isRequired}
                       onClick={() => remove(index)}
                     />
                   </Spacings.Inline>

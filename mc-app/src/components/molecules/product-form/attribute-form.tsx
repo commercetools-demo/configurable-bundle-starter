@@ -1,11 +1,15 @@
 import { useFormik } from 'formik';
-import React, { useEffect, useState } from 'react';
-import { ProductFormikValues } from '../../organisms/new-product/add-new-product-button';
+import { useEffect, useState } from 'react';
 import { useProductTypeConnector } from '../../../hooks/use-product-type-connector';
-import { AttributeDefinition } from '@commercetools/platform-sdk';
+import {
+  AttributeValue,
+  SchemaResponse,
+} from '../../../hooks/use-schema/types';
+import {
+  mapAttributeDefinitionsToAttributes,
+} from '../../../utils/attributes';
 import CustomObjectDetails from '../../organisms/bundle-configuratiom-details';
-import { convertAttributeDefinitionToAttribute, mapAttributeDefinitionsToAttributes } from '../../../utils/attributes';
-import { AttributeValue, SchemaResponse } from '../../../hooks/use-schema/types';
+import { ProductFormikValues } from '../../organisms/new-product/add-new-product-button';
 type Formik = ReturnType<typeof useFormik>;
 
 interface Props {
@@ -23,15 +27,18 @@ const ProductAttributeForm = ({
   touched,
 }: Props) => {
   const [attributes, setAttributes] = useState<AttributeValue[]>([]);
-  const { getAttributes, getProductTypeAttributeDefinitions } = useProductTypeConnector();
+  const { getAttributes, getProductTypeAttributeDefinitions } =
+    useProductTypeConnector();
 
   useEffect(() => {
     getAttributes(values.productDraft?.productType?.id, true).then(
       (attributes) =>
-        mapAttributeDefinitionsToAttributes(attributes, getProductTypeAttributeDefinitions).then((mappedAttributes) => {
+        mapAttributeDefinitionsToAttributes(
+          attributes,
+          getProductTypeAttributeDefinitions
+        ).then((mappedAttributes) => {
           setAttributes(mappedAttributes);
         })
-
     );
   }, [values.productDraft?.productType?.id]);
   if (!values.productDraft?.productType?.id) {
@@ -41,11 +48,13 @@ const ProductAttributeForm = ({
     <div>
       <CustomObjectDetails<ProductFormikValues>
         name="productDraft.masterVariant.attributes"
-        schema={{
-          value: {
-            attributes,
-          },
-        } as SchemaResponse}
+        schema={
+          {
+            value: {
+              attributes,
+            },
+          } as SchemaResponse
+        }
         values={values}
         errors={errors}
         handleChange={handleChange}
