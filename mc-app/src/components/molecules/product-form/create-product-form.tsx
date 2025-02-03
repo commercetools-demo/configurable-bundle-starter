@@ -94,7 +94,6 @@ const CreateProductForm = ({
           value={values.productDraft?.masterVariant?.sku || ''}
           onChange={handleChange}
         />
-        <Text.Headline as="h2">Attributes</Text.Headline>
         <ProductAttributeForm
           values={values}
           errors={errors}

@@ -31,7 +31,7 @@ const getValueForAttributes = (value: any, empty: any): any => {
         ? getValueForAttributes(get(value, key), val)
         : get(value, key) || val,
     }),
-    {}
+    value ? value : {}
   );
 };
 
