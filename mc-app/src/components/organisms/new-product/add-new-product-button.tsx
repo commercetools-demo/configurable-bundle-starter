@@ -29,13 +29,14 @@ export type ProductFormikValues = {
 };
 
 interface Props {
+  name: string;
   handleChange: Formik['handleChange'];
   setFieldValue: Formik['setFieldValue'];
   values: BundleFormikValues;
   errors: Formik['errors'];
 }
 
-const AddNewProductButton = (_: Props) => {
+const AddNewProductButton = ({ setFieldValue, name }: Props) => {
   const { isModalOpen, openModal, closeModal } = useModalState();
   const { ConfirmationModal, showConfirmationModal } =
     useCloseModalConfirmation();
@@ -85,7 +86,7 @@ const AddNewProductButton = (_: Props) => {
         });
         return null;
       });
-
+    setFieldValue(name, newProduct?.id);
     setCreatedProduct(newProduct);
   };
 
@@ -129,11 +130,10 @@ const AddNewProductButton = (_: Props) => {
               <Link to={getExternalUrl(createdProduct?.id)} target="_blank">
                 <Spacings.Inline alignItems="center">
                   {`View product in a new tab:
-                ${
-                  createdProduct?.masterData?.current.name[
+                ${createdProduct?.masterData?.current.name[
                     dataLocale || DEFAULT_DATALOCALE
-                  ]
-                }`}
+                    ]
+                    }`}
                   <ExternalLinkIcon color="info" />
                 </Spacings.Inline>
               </Link>

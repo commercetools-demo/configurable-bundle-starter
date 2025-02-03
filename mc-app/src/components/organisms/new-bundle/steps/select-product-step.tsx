@@ -80,6 +80,7 @@ const SelectProductStep = ({
         >
           <Spacings.Stack scale="m">
             <AddNewProductButton
+              name="mainProductReference.id"
               setFieldValue={setFieldValue}
               values={values}
               errors={errors}
@@ -88,8 +89,6 @@ const SelectProductStep = ({
           </Spacings.Stack>
         </CollapsiblePanel>
       </RadioInput.Group>
-
-      {/*  */}
     </Spacings.Stack>
   );
 };
