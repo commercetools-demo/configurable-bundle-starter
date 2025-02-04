@@ -26,7 +26,10 @@ async function processAttributes(
     const value = result[attr.name];
 
     if (isProductReference(attr)) {
-      result[attr.name] = await processProductReference(value, currentPath);
+      result[attr.name] = {
+        ...result[attr.name],
+        obj: await processProductReference(value, currentPath)
+      }
     } else if (isNestedObject(attr)) {
       result[attr.name] = await processNestedObject(attr, value, currentPath);
     }
