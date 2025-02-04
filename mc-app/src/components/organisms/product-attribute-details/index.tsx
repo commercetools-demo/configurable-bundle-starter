@@ -1,14 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BundleFormikValues } from '../../molecules/add-new-bundle-button';
 import { useFormik, useFormikContext } from 'formik';
-import { useProductTypeConnector } from '../../../hooks/use-product-type-connector';
-import { mapAttributeDefinitionsToAttributes } from '../../../utils/attributes';
-import { useProductUpdater } from '../../../hooks/use-product-connector';
 import CustomObjectDetails from '../bundle-configuratiom-details';
 import {
   AttributeValue,
   SchemaResponse,
 } from '../../../hooks/use-schema/types';
+import { useProductAttributes } from '../../../hooks/use-product-attributes';
 type Formik = ReturnType<typeof useFormik>;
 
 interface Props {
@@ -26,27 +24,16 @@ const ProductAttributeDetails = ({
   touched,
 }: Props) => {
   const [emptyAttributes, setEmptyAttributes] = useState<AttributeValue[]>([]);
-
-  const { getAttributes, getProductTypeAttributeDefinitions } =
-    useProductTypeConnector();
-  const { getProduct } = useProductUpdater();
   const { setValues } = useFormikContext();
 
-  useEffect(() => {
-    if (values.mainProductReference?.id) {
-      getProduct(values.mainProductReference?.id).then((product) => {
-        const productAttributeMap = (
-          product.masterData?.current?.masterVariant?.attributes ?? []
-        ).reduce((acc, attribute) => {
-          return {
-            ...acc,
-            [attribute.name]:
-              typeof attribute.value === 'object' && attribute.value?.key
-                ? attribute.value?.key
-                : attribute.value,
-          };
-        }, {});
+  const {
+    getAttributeValueMapByProductId,
+    getProductAttributeSchemaByProductId,
+  } = useProductAttributes();
 
+  useEffect(() => {
+    getAttributeValueMapByProductId(values.mainProductReference?.id).then(
+      (productAttributeMap) => {
         setValues({
           ...values,
           mainProductReference: {
@@ -57,16 +44,14 @@ const ProductAttributeDetails = ({
             },
           },
         });
-        getAttributes(product.productType?.id).then((attributes) => {
-          mapAttributeDefinitionsToAttributes(
-            attributes,
-            getProductTypeAttributeDefinitions
-          ).then((attributes) => {
-            setEmptyAttributes(attributes);
-          });
-        });
-      });
-    }
+      }
+    );
+
+    getProductAttributeSchemaByProductId(values.mainProductReference?.id).then(
+      (attributes) => {
+        setEmptyAttributes(attributes);
+      }
+    );
   }, [values.mainProductReference?.id]);
   if (!values.mainProductReference?.id) {
     return null;
