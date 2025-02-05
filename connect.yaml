@@ -11,7 +11,7 @@ deployAs:
           description: The cloud identifier.
         - key: FEATURE_FLAGS
           description: comma separated list of feature flags: custom-object-bundle, product-attribute-bundle
-          default: custom-object-bundle
+          default: "custom-object-bundle"
       securedConfiguration: []
   - name: bundle-viewer
     applicationType: merchant-center-custom-application
