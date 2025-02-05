@@ -16,6 +16,9 @@ const config = {
       initialProjectKey: '${env:INITIAL_PROJECT_KEY}',
     },
   },
+  additionalEnv: {
+    featureFlags: '${env:FEATURE_FLAGS}',
+  },
   oAuthScopes: {
     view: ['view_products'],
     manage: ['manage_products', 'manage_key_value_documents'],

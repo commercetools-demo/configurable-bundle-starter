@@ -83,6 +83,8 @@ const DrawerContent = ({
       case 1:
         return (
           <SelectBundleTypeStep
+            nextStep={nextStep}
+            setFieldValue={setFieldValue}
             values={values}
             handleChange={handleChange}
             errors={errors}
