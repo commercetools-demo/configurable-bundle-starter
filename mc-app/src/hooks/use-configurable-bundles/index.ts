@@ -7,7 +7,7 @@ import { MC_API_PROXY_TARGETS } from '@commercetools-frontend/constants';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import { APP_NAME } from '../../constants';
 import { uniqueId } from '../../utils/utils';
-import { BundleResponse } from './types';
+import { BundleResponse, PagedQueryResponse } from './types';
 import { BundleFormikValues } from '../../components/molecules/add-new-bundle-button';
 import { useProductUpdater } from '../use-product-connector';
 import { useSchema } from '../use-schema';
@@ -27,6 +27,10 @@ export const useConfigurableBundles = () => {
   const context = useApplicationContext((context) => context);
 
   const dispatchAppsAction = useAsyncDispatch<TSdkAction, BundleResponse>();
+  const dispatchAppsQuery = useAsyncDispatch<
+    TSdkAction,
+    PagedQueryResponse<BundleResponse>
+  >();
 
   const createBundleObject = async (
     payload: BundleFormikValues
@@ -109,7 +113,18 @@ export const useConfigurableBundles = () => {
     }
   };
 
+  const getBundles = async (): Promise<BundleResponse[]> => {
+    const result = await dispatchAppsQuery(
+      actions.get({
+        mcApiProxyTarget: MC_API_PROXY_TARGETS.COMMERCETOOLS_PLATFORM,
+        uri: `/${context?.project?.key}/custom-objects/${CONTAINER}`,
+      })
+    );
+    return result.results;
+  };
+
   return {
     createBundle,
+    getBundles,
   };
 };
