@@ -10,7 +10,7 @@ deployAs:
         - key: CLOUD_IDENTIFIER
           description: The cloud identifier.
         - key: FEATURE_FLAGS
-          description: comma separated list of feature flags: custom-object-bundle, product-attribute-bundle
+          description: Comma separated list of feature flags incl. custom-object-bundle, product-attribute-bundle
           default: "custom-object-bundle"
       securedConfiguration: []
   - name: bundle-viewer
