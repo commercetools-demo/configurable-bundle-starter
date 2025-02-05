@@ -23,6 +23,7 @@ import { ExternalLinkIcon } from '@commercetools-uikit/icons';
 import { BundleFormikValues } from '../../molecules/add-new-bundle-button';
 import { convertAttributeMapToAttributes } from '../../../utils/attributes';
 import { useState } from 'react';
+import { SchemaResponse } from '../../../hooks/use-schema/types';
 type Formik = ReturnType<typeof useFormik>;
 export type ProductFormikValues = {
   productDraft: ProductDraft;
@@ -31,6 +32,7 @@ export type ProductFormikValues = {
 interface Props {
   name: string;
   hideSuccessMessage?: boolean;
+  schema?: SchemaResponse;
   handleChange?: Formik['handleChange'];
   setFieldValue: Formik['setFieldValue'];
   values?: BundleFormikValues;
@@ -38,6 +40,7 @@ interface Props {
 }
 
 const AddNewProductButton = ({
+  schema,
   setFieldValue,
   name,
   hideSuccessMessage,
@@ -171,6 +174,7 @@ const AddNewProductButton = ({
                     touched={touched}
                     values={values}
                     errors={errors}
+                    schema={schema}
                   />
                 </FormModalPage>
               </Form>

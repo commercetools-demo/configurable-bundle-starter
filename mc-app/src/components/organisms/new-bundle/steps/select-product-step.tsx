@@ -80,6 +80,7 @@ const SelectProductStep = ({
         >
           <Spacings.Stack scale="m">
             <AddNewProductButton
+              schema={schema}
               name="mainProductReference.id"
               setFieldValue={setFieldValue}
               values={values}

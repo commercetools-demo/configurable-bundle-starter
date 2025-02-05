@@ -11,6 +11,7 @@ import BundleConfigurationStep from './steps/bundle-configuration-step';
 import { useFormik } from 'formik';
 import { SchemaResponse } from '../../../hooks/use-schema/types';
 import { useSchema } from '../../../hooks/use-schema';
+import { CONFIGURATION_TYPES_ENUM } from '../../../utils/contants';
 
 type Formik = ReturnType<typeof useFormik>;
 
@@ -52,7 +53,7 @@ const DrawerContent = ({
   values,
   errors,
 }: Props) => {
-  const [schema, setSchema] = useState<SchemaResponse>();
+  const [schema, setSchema] = useState<SchemaResponse | undefined>();
   const [currentStep, setCurrentStep] = useState(1);
   const { getSchema } = useSchema();
 
@@ -70,6 +71,12 @@ const DrawerContent = ({
         setSchema(schema);
       });
   }, [values.bundleType, getSchema]);
+
+  useEffect(() => {
+    if (values?.configurationType === CONFIGURATION_TYPES_ENUM.PRODUCT) {
+      setSchema(undefined);
+    }
+  }, [values.configurationType]);
 
   const renderCurrentStep = () => {
     switch (currentStep) {

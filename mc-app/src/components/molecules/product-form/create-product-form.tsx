@@ -2,7 +2,7 @@ import Spacings from '@commercetools-uikit/spacings';
 import Text from '@commercetools-uikit/text';
 import LocalizedtextField from '@commercetools-uikit/localized-text-field';
 import TextField from '@commercetools-uikit/text-field';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import Card from '@commercetools-uikit/card';
 import { ProductFormikValues } from '../../organisms/new-product/add-new-product-button';
@@ -11,6 +11,7 @@ import { useProductTypeConnector } from '../../../hooks/use-product-type-connect
 import SelectField from '@commercetools-uikit/select-field';
 import { useFormik } from 'formik';
 import ProductAttributeForm from './attribute-form';
+import { SchemaResponse } from '../../../hooks/use-schema/types';
 type Formik = ReturnType<typeof useFormik>;
 
 interface Props {
@@ -19,6 +20,7 @@ interface Props {
   touched: Formik['touched'];
   values: ProductFormikValues;
   errors: Formik['errors'];
+  schema?: SchemaResponse;
 }
 const CreateProductForm = ({
   handleChange,
@@ -26,6 +28,7 @@ const CreateProductForm = ({
   touched,
   values,
   errors,
+  schema,
 }: Props) => {
   const { dataLocale } = useApplicationContext();
   const { getProductTypes } = useProductTypeConnector();
@@ -33,8 +36,17 @@ const CreateProductForm = ({
     { label: string; value: string }[]
   >([]);
 
+  const where = useMemo(() => {
+    if (!schema) {
+      return undefined;
+    }
+    return `id in (${schema.value?.targetProductTypes
+      .map((item) => `"${item.productType.id}"`)
+      .join(',')})`;
+  }, [schema]);
+
   useEffect(() => {
-    getProductTypes().then((productTypes) => {
+    getProductTypes(where).then((productTypes) => {
       setProductTypes(
         productTypes.map((productType) => ({
           label: productType.name,
