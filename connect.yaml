@@ -5,9 +5,18 @@ deployAs:
       standardConfiguration:
         - key: CUSTOM_APPLICATION_ID
           description: The ID of the custom application.
-        - key: CLOUD_IDENTIFIER
-          description: The cloud identifier.
         - key: ENTRY_POINT_URI_PATH
+          description: The entry point URI path.
+      securedConfiguration: []
+  - name: bundle-viewer
+    applicationType: merchant-center-custom-application
+    configuration:
+      standardConfiguration:
+        - key: CUSTOM_APPLICATION_ID
+          description: The ID of the custom application.
+        - key: ENTRY_POINT_URI_PATH
+          description: The entry point URI path.
+        - key: API_ENDPOINT
           description: The entry point URI path.
       securedConfiguration: []
   - name: bundle-api
@@ -34,3 +43,8 @@ deployAs:
           required: true
   - name: assets
     applicationType: assets
+inheritAs:
+  configuration:
+    standardConfiguration:
+        - key: CLOUD_IDENTIFIER
+          description: The cloud identifier.
