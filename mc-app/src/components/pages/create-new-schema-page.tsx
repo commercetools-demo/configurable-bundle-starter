@@ -44,7 +44,7 @@ const CreateNewSchemaPage = () => {
       >
         {(formProps) => (
           <CustomFormModalPage
-            title="Create New Schema"
+            title="Create new bundle schema"
             onClose={onClose}
             isOpen
             formControls={

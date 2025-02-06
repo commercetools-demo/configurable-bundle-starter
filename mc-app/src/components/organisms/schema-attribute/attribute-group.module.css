@@ -1,0 +1,11 @@
+.attributeUISettingsTitle {
+    width: 1px;
+    background-color: var(--color-neutral-60);
+    margin-left: var(--spacing-m);
+    margin-right: var(--spacing-m);
+  }
+  .referenceAttribute {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-s);
+  }

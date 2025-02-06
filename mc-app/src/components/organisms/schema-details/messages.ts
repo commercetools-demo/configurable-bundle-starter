@@ -9,7 +9,7 @@ export default defineMessages({
   containerInformationTitle: {
     id: 'Container.form.panel.container.title',
     description: 'Title for container information panel',
-    defaultMessage: 'Schema Information',
+    defaultMessage: 'Bundle schema fields',
   },
   keyTitle: {
     id: 'Container.form.key.title',
@@ -206,5 +206,17 @@ export default defineMessages({
     id: 'Container.form.productType.title',
     description: 'This is the label for the product type field',
     defaultMessage: 'Product Type',
+  },
+
+  attributeUISettingsTitle: {
+    id: 'Container.form.attributeUISettings.title',
+    description: 'Title for attributes UI settings fields',
+    defaultMessage: 'UI Settings',
+  },
+
+  arrayDisplayModeTitle: {
+    id: 'Container.form.arrayDisplayModeTitle.title',
+    description: 'Title for arrayDisplayModeTitle UI settings fields',
+    defaultMessage: 'Display set as',
   },
 });

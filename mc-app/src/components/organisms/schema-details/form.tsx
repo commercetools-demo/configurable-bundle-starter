@@ -8,15 +8,14 @@ import Constraints from '@commercetools-uikit/constraints';
 import SecondaryButton from '@commercetools-uikit/secondary-button';
 import FieldLabel from '@commercetools-uikit/field-label';
 import TextField from '@commercetools-uikit/text-field';
-import { BinLinearIcon, PlusBoldIcon } from '@commercetools-uikit/icons';
+import { PlusBoldIcon } from '@commercetools-uikit/icons';
 import Spacings from '@commercetools-uikit/spacings';
 import styles from './form.module.css';
-import SecondaryIconButton from '@commercetools-uikit/secondary-icon-button';
-import { emptyAttribute, emptyProductType } from '../../../utils/contants';
+import { emptyAttribute } from '../../../utils/contants';
 import AttributeGroup from '../schema-attribute/attribute-group';
 import messages from './messages';
 import { SchemaFormValues } from '.';
-import ReferenceInput from '../reference-input';
+import TargetProductTypes from '../target-product-types';
 
 type Formik = ReturnType<typeof useFormik<SchemaFormValues>>;
 
@@ -70,75 +69,13 @@ const Form: FC<Props> = ({
               onChange={handleChange}
             />
           </Card>
-          <Card type="flat" className={styles['field-card']}>
-            <FieldArray
-              validateOnChange={false}
-              name="targetProductTypes"
-              render={({ push, remove }) => (
-                <Spacings.Stack>
-                  <FieldLabel
-                    title={
-                      <FormattedMessage {...messages.targetProductTypesTitle} />
-                    }
-                    hasRequiredIndicator
-                  />
-                  <Constraints.Horizontal max="scale">
-                    <SecondaryButton
-                      label={intl.formatMessage(messages.addProductTypeButton)}
-                      iconLeft={<PlusBoldIcon />}
-                      onClick={() => push(emptyProductType)}
-                    />
-                  </Constraints.Horizontal>
-                  {values.targetProductTypes?.map((val, index) => (
-                    <Spacings.Inline
-                      key={val.productType?.id || index}
-                      alignItems="center"
-                    >
-                      <Card type="flat">
-                        <FieldLabel
-                          title={
-                            <FormattedMessage {...messages.productTypeTitle} />
-                          }
-                          hasRequiredIndicator
-                        />
-                        <ReferenceInput
-                          name={`targetProductTypes.${index}.productType`}
-                          value={val.productType}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          reference={{
-                            by: 'id',
-                            type: 'product-type',
-                          }}
-                        />
-                        <TextField
-                          name={`targetProductTypes.${index}.attribute`}
-                          value={val.attribute}
-                          title={
-                            <FormattedMessage {...messages.attributeTitle} />
-                          }
-                          isRequired
-                          errors={
-                            TextField.toFieldErrors<SchemaFormValues>(errors)
-                              .name
-                          }
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                        />
-                      </Card>
-                      <SecondaryIconButton
-                        icon={<BinLinearIcon />}
-                        label={intl.formatMessage(
-                          messages.removeAttributeButton
-                        )}
-                        onClick={() => remove(index)}
-                      />
-                    </Spacings.Inline>
-                  ))}
-                </Spacings.Stack>
-              )}
-            />
-          </Card>
+          <TargetProductTypes
+            values={values}
+            touched={touched}
+            errors={errors}
+            handleBlur={handleBlur}
+            handleChange={handleChange}
+          />
         </div>
       </CollapsiblePanel>
       <CollapsiblePanel

@@ -45,7 +45,7 @@ const SchemaDetails = ({ schema }: { schema: SchemaResponse }) => {
       {(formProps) => {
         return (
           <CustomFormModalPage
-            title={'Schema Details'}
+            title={'Bundle schema details'}
             onClose={onClose}
             isOpen
             formControls={

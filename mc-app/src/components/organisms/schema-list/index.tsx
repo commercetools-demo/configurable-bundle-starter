@@ -29,7 +29,7 @@ const SchemaList: React.FC<Props> = ({ schemas }) => {
     <Spacings.Stack scale="m">
       <Spacings.Inline alignItems="center" justifyContent="flex-end">
         <PrimaryButton
-          label="Create Schema"
+          label="Create a new bundle schema"
           onClick={() => push('schema/new')}
           style={{ marginBottom: '16px' }}
         />

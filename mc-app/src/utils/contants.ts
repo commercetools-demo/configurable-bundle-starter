@@ -119,6 +119,19 @@ export const ATTRIBUTES = {
   Reference: 'reference',
   Enum: 'enum',
   LocalizedEnum: 'lenum',
+  ArrayDisplayMode: 'arrayDisplayMode',
+  ProductRefDisplayMode: 'productRefDisplayMode',
+};
+
+export const PRODUCT_REF_DISPLAY_MODES: Record<string, string> = {
+  Cards: 'cards',
+  List: 'list',
+};
+
+export const ARRAY_DISPLAY_MODE: Record<string, string> = {
+  Dropdown: 'dropdown',
+  Checkbox: 'checkbox',
+  Radio: 'radio',
 };
 
 export const REFERENCE_BY = {

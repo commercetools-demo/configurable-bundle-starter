@@ -2,18 +2,17 @@ import React, { FC } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import SecondaryIconButton from '@commercetools-uikit/secondary-icon-button';
 import SelectField from '@commercetools-uikit/select-field';
-import IconButton from '@commercetools-uikit/icon-button';
+import SelectInput from '@commercetools-uikit/select-input';
 import { BinLinearIcon, InformationIcon } from '@commercetools-uikit/icons';
 import CheckboxInput from '@commercetools-uikit/checkbox-input';
 import TextField from '@commercetools-uikit/text-field';
 import Spacings from '@commercetools-uikit/spacings';
 import Text from '@commercetools-uikit/text';
-import Tooltip from '@commercetools-uikit/tooltip';
 import { useFormik } from 'formik';
 import messages from '../schema-details/messages';
 import styles from './attribute.mod.css';
 import { AttributeValue } from '../../../hooks/use-schema/types';
-import { ATTRIBUTES, TYPES } from '../../../utils/contants';
+import { ARRAY_DISPLAY_MODE, ATTRIBUTES, TYPES } from '../../../utils/contants';
 
 type Formik = ReturnType<typeof useFormik<AttributeValue>>;
 
@@ -94,14 +93,7 @@ const Attribute: FC<Props> = ({
   const intl = useIntl();
   const isRequiredDisabled =
     value.type === TYPES.Object || value.type === TYPES.Boolean;
-
-  // React.useEffect(() => {
-  //   if (isRequiredDisabled) {
-  //     handleChange({
-  //       target: { name: `${name}.required`, value: false },
-  //     });
-  //   }
-  // }, [value.type]);
+  const isArray = value.set;
 
   return (
     <Spacings.Inline alignItems="center" justifyContent="space-between">
@@ -109,19 +101,17 @@ const Attribute: FC<Props> = ({
         <TextField
           name={`${name}.${ATTRIBUTES.Name}`}
           title={<FormattedMessage {...messages.nameTitle} />}
-          horizontalConstraint="scale"
+          horizontalConstraint={6}
           isRequired
           value={value.name}
           touched={touched.name}
-          // errors={errors.name}
           onChange={handleChange}
           onBlur={handleBlur}
-          // renderError={(key, error) => error}
         />
         <SelectField
           name={`${name}.${ATTRIBUTES.Type}`}
           title={<FormattedMessage {...messages.typeTitle} />}
-          horizontalConstraint="scale"
+          horizontalConstraint={6}
           isRequired
           value={value.type}
           touched={touched.type}
@@ -134,13 +124,6 @@ const Attribute: FC<Props> = ({
         <Spacings.Stack scale="s">
           <Spacings.Inline alignItems="center">
             <Text.Body isBold intlMessage={messages.attributeSettingsTitle} />
-            <Tooltip title={intl.formatMessage(messages.attributeSettingsHint)}>
-              <IconButton
-                label={intl.formatMessage(messages.attributeSettingsTitle)}
-                icon={<InformationIcon />}
-                size="small"
-              />
-            </Tooltip>
           </Spacings.Inline>
           <Spacings.Inline alignItems="center">
             <CheckboxInput
@@ -161,17 +144,38 @@ const Attribute: FC<Props> = ({
             >
               <FormattedMessage {...messages.setTitle} />
             </CheckboxInput>
-            <CheckboxInput
-              name={`${name}.${ATTRIBUTES.Display}`}
-              value={JSON.stringify(value.display)}
-              isDisabled={isDisplayed}
-              isChecked={value.display}
-              onChange={handleChange}
-            >
-              <FormattedMessage {...messages.displayTitle} />
-            </CheckboxInput>
           </Spacings.Inline>
         </Spacings.Stack>
+        {isArray && (
+          <>
+            <div className={styles.attributeUISettingsTitle} />
+            <Spacings.Stack scale="s">
+              <Spacings.Inline alignItems="center">
+                <Text.Body
+                  isBold
+                  intlMessage={messages.attributeUISettingsTitle}
+                />
+              </Spacings.Inline>
+              <Spacings.Inline alignItems="center">
+                <SelectInput
+                  name={`${name}.${ATTRIBUTES.ArrayDisplayMode}`}
+                  value={value.arrayDisplayMode}
+                  horizontalConstraint={4}
+                  options={Object.keys(ARRAY_DISPLAY_MODE).map((key) => ({
+                    label: key,
+                    value: ARRAY_DISPLAY_MODE[key],
+                  }))}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder={intl.formatMessage(
+                    messages.arrayDisplayModeTitle
+                  )}
+                  isCondensed
+                />
+              </Spacings.Inline>
+            </Spacings.Stack>
+          </>
+        )}
       </div>
       <SecondaryIconButton
         icon={<BinLinearIcon />}

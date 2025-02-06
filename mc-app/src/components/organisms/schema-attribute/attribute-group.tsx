@@ -6,12 +6,20 @@ import Spacings from '@commercetools-uikit/spacings';
 import { useFormik } from 'formik';
 import { get } from 'lodash';
 import { AttributeValue } from '../../../hooks/use-schema/types';
-import { ATTRIBUTES, REFERENCE_BY, TYPES } from '../../../utils/contants';
+import {
+  ATTRIBUTES,
+  PRODUCT_REF_DISPLAY_MODES,
+  REFERENCE_BY,
+  REFERENCE_TYPES,
+  TYPES,
+} from '../../../utils/contants';
 import Attribute from './attribute';
 import ObjectAttributes from './object-attributes';
 import ReferenceAttribute from './reference-attribute';
 import EnumAttributes from './enum-attributes';
 import LocalizedEnumAttributes from './localized-enum-attributes';
+import styles from './attribute-group.module.css';
+import ReferenceUISettings from './reference-ui-settings';
 
 type TFormValues = {
   name?: string;
@@ -133,14 +141,24 @@ const AttributeGroup: FC<Props> = ({
         />
       )}
       {value.type === TYPES.Reference && (
-        <ReferenceAttribute
-          name={`${name}.${ATTRIBUTES.Reference}`}
-          value={get(value, ATTRIBUTES.Reference)}
-          touched={get(touched, ATTRIBUTES.Reference, {})}
-          errors={get(errors, ATTRIBUTES.Reference, {})}
-          handleBlur={handleBlur}
-          handleChange={handleChange}
-        />
+        <div className={styles.referenceAttribute}>
+          <ReferenceAttribute
+            name={`${name}.${ATTRIBUTES.Reference}`}
+            value={get(value, ATTRIBUTES.Reference)}
+            touched={get(touched, ATTRIBUTES.Reference, {})}
+            errors={get(errors, ATTRIBUTES.Reference, {})}
+            handleBlur={handleBlur}
+            handleChange={handleChange}
+          />
+          <ReferenceUISettings
+            name={name}
+            value={value}
+            touched={touched}
+            errors={errors}
+            handleBlur={handleBlur}
+            handleChange={handleChange}
+          />
+        </div>
       )}
       {value.type === TYPES.Enum && (
         <EnumAttributes

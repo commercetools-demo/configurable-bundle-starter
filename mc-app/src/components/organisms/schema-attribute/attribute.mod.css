@@ -6,3 +6,7 @@
 .attribute > * {
   margin-right: var(--spacing-s);
 }
+.attributeUISettingsTitle {
+  width: 1px;
+  background-color: var(--color-neutral-60);
+}
