@@ -26,10 +26,24 @@ async function processAttributes(
     const value = result[attr.name];
 
     if (isProductReference(attr)) {
-      result[attr.name] = {
-        ...result[attr.name],
-        obj: await processProductReference(value, currentPath)
+      if (attr.set) {
+        const products=await Promise.all(
+          value.map(async (item: any) =>
+            processProductReference(item, currentPath)
+          )
+        )
+        
+        result[attr.name] = result[attr.name].map((item: any, index: number) => ({
+          ...item,
+          obj: products[index]
+        }))
+      } else {
+        result[attr.name] = {
+          ...result[attr.name],
+          obj: await processProductReference(value, currentPath)
+        }
       }
+      
     } else if (isNestedObject(attr)) {
       result[attr.name] = await processNestedObject(attr, value, currentPath);
     }
