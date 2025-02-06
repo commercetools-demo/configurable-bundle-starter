@@ -14,6 +14,7 @@ import {
 } from '@commercetools-frontend/constants';
 import { useShowNotification } from '@commercetools-frontend/actions-global';
 import { CONFIGURATION_TYPES_ENUM } from '../../utils/contants';
+import BundleForm from '../organisms/bundle-form';
 
 export type BundleFormikValues = {
   createProduct: boolean;
@@ -35,8 +36,7 @@ export type BundleFormikValues = {
 
 const AddNewBundleButton = () => {
   const { isModalOpen, openModal, closeModal } = useModalState();
-  const { ConfirmationModal, showConfirmationModal } =
-    useCloseModalConfirmation();
+
   const showNotification = useShowNotification();
   const { createBundle } = useConfigurableBundles();
 
@@ -60,66 +60,23 @@ const AddNewBundleButton = () => {
   };
 
   return (
-    <Formik<BundleFormikValues>
+    <BundleForm
       initialValues={{
         createProduct: false,
         selectProduct: true,
         mainProductReference: {},
       }}
+      isModalOpen={isModalOpen}
+      closeModal={closeModal}
       onSubmit={handleSubmit}
-      enableReinitialize
     >
-      {({
-        values,
-        isValid,
-        errors,
-        dirty,
-        touched,
-        isSubmitting,
-        resetForm,
-        handleChange,
-        handleBlur,
-        submitForm,
-        setFieldValue,
-      }) => (
-        <>
-          <PrimaryButton
-            onClick={openModal}
-            label="Add new bundle"
-            data-testid="add-bundle-button"
-            iconLeft={<FilePlus2 stroke="white" height={16} width={16} />}
-          />
-          <Form>
-            <FormModalPage
-              isOpen={isModalOpen}
-              title="Add new bundle"
-              isPrimaryButtonDisabled={isSubmitting || !dirty || !isValid}
-              isSecondaryButtonDisabled={isSubmitting}
-              onPrimaryButtonClick={submitForm}
-              onSecondaryButtonClick={() =>
-                showConfirmationModal(dirty, closeModal)
-              }
-              onClose={closeModal}
-            >
-              <DrawerContent
-                setFieldValue={setFieldValue}
-                handleChange={handleChange}
-                handleBlur={handleBlur}
-                touched={touched}
-                values={values}
-                errors={errors}
-              />
-            </FormModalPage>
-          </Form>
-          <ConfirmationModal
-            onCloseConfirmation={() => {
-              resetForm();
-              closeModal();
-            }}
-          />
-        </>
-      )}
-    </Formik>
+      <PrimaryButton
+        onClick={openModal}
+        label="Add new bundle"
+        data-testid="add-bundle-button"
+        iconLeft={<FilePlus2 stroke="white" height={16} width={16} />}
+      />
+    </BundleForm>
   );
 };
 

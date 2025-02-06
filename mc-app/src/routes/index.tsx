@@ -29,7 +29,7 @@ const ApplicationRoutes = (_props: ApplicationRoutesProps) => {
         <Route path={`${match.path}/bundle/new`}>
           <CreateBundleRoute linkToWelcome={match.url} />
         </Route>
-        <Route path={`${match.path}/bundle/:id`}>
+        <Route path={`${match.path}/bundle/:key`}>
           <BundleRoute linkToWelcome={match.url} />
         </Route>
         <Route>

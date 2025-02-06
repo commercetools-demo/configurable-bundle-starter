@@ -123,8 +123,19 @@ export const useConfigurableBundles = () => {
     return result.results;
   };
 
+  const getBundle = async (key: string): Promise<BundleResponse> => {
+    const result = await dispatchAppsAction(
+      actions.get({
+        mcApiProxyTarget: MC_API_PROXY_TARGETS.COMMERCETOOLS_PLATFORM,
+        uri: `/${context?.project?.key}/custom-objects/${CONTAINER}/${key}`,
+      })
+    );
+    return result;
+  };
+
   return {
     createBundle,
     getBundles,
+    getBundle,
   };
 };

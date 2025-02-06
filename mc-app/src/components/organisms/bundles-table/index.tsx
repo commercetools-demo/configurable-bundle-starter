@@ -7,10 +7,11 @@ import { BundleResponse } from '../../../hooks/use-configurable-bundles/types';
 import { ContentNotification } from '@commercetools-uikit/notifications';
 import Text from '@commercetools-uikit/text';
 import { ExternalLinkIcon } from '@commercetools-uikit/icons';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 
 const BundlesTable = () => {
+  const { push } = useHistory();
   const { getBundles } = useConfigurableBundles();
   const context = useApplicationContext();
   const getExternalUrl = (id: string) =>
@@ -73,7 +74,7 @@ const BundlesTable = () => {
       isCondensed
       columns={columns}
       rows={bundles || []}
-      onRowClick={(row) => console.log(row)}
+      onRowClick={(row) => push(`bundle/${row.key}`)}
     />
   );
 };

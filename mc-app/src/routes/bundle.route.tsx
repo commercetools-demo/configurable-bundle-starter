@@ -1,13 +1,13 @@
 import React from 'react';
 import { useParams } from 'react-router';
+import BundleDetailsPage from '../components/pages/bundle-details-page';
 
 type Props = {
   linkToWelcome: string;
 };
 
 const BundleRoute = (props: Props) => {
-  const { id } = useParams<{ id: string }>();
-  return <div>BundleRoute</div>;
+  return <BundleDetailsPage />;
 };
 
 export default BundleRoute;
