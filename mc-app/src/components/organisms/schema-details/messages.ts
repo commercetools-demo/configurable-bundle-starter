@@ -219,4 +219,35 @@ export default defineMessages({
     description: 'Title for arrayDisplayModeTitle UI settings fields',
     defaultMessage: 'Display set as',
   },
+  bundleUISettingsConfigurationTypes: {
+    id: 'Container.form.bundleUISettingsConfigurationTypes.title',
+    description: 'Title for bundleUISettingsConfigurationTypes fields',
+    defaultMessage: 'UI Configuration Type',
+  },
+  bundleUISettingsConfigurationTypesHint: {
+    id: 'Container.form.bundleUISettingsConfigurationTypes.hint',
+    description: 'Hint for bundleUISettingsConfigurationTypes fields',
+    defaultMessage: 'Determines the bundle configuration behavior and UI flow',
+  },
+  bundleUISettingsDisplayMode: {
+    id: 'Container.form.bundleUISettingsDisplayMode.hint',
+    description: 'Hint for bundleUISettingsDisplayMode fields',
+    defaultMessage: 'Display mode',
+  },
+  bundleUISettingsDisplayModeHint: {
+    id: 'Container.form.bundleUISettingsDisplayModeHint.hint',
+    description: 'Hint for bundleUISettingsDisplayModeHint fields',
+    defaultMessage:
+      'Determines how the configuration interface is presented to the user',
+  },
+  bundleUISettingsShowProgressBar: {
+    id: 'Container.form.bundleUISettingsShowProgressBar.title',
+    description: 'Title for bundleUISettingsShowProgressBar fields',
+    defaultMessage: 'Show Progress Bar',
+  },
+  bundleUISettingsAllowSkipSteps: {
+    id: 'Container.form.bundleUISettingsAllowSkipSteps.title',
+    description: 'Title for bundleUISettingsAllowSkipSteps fields',
+    defaultMessage: 'Allow Skip Steps',
+  },
 });

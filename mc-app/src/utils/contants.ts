@@ -163,3 +163,31 @@ export const REFERENCE_TYPES = {
   Type: 'type',
   Zone: 'zone',
 };
+
+export const BUNDLE_UI_CONFIGURATION_TYPES: Record<string, string> = {
+  'Component  Selection': 'component-selection',
+  'Preset Configs': 'preset-configs',
+  'Base With Addons': 'base-with-addons',
+  'Mix And Match': 'mix-and-match',
+  'Tiered Selection': 'tiered-selection',
+  'Package Deals': 'package-deals',
+  'Subscription Bundle': 'subscription-bundle',
+  'Dynamic Bundle': 'dynamic-bundle',
+};
+
+export const BUNDLE_UI_DISPLAY_MODES: Record<string, string> = {
+  Wizard: 'wizard',
+  Accordion: 'accordion',
+  Tabs: 'tabs',
+  Grid: 'grid',
+  Sidebar: 'sidebar',
+  Carousel: 'carousel',
+  Comparison: 'comparison',
+  Tree: 'tree',
+  'Modal Sequence': 'modal-sequence',
+  Matrix: 'matrix',
+  Timeline: 'timeline',
+  FloatingPanels: 'floating-panels',
+  SplitView: 'split-view',
+  Stepper: 'stepper',
+};

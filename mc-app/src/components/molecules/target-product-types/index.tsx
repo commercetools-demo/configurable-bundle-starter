@@ -1,19 +1,19 @@
-import { FC } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { FieldArray, Formik, useFormik } from 'formik';
-import { SchemaFormValues } from '../schema-details';
-import SecondaryIconButton from '@commercetools-uikit/secondary-icon-button';
 import Card from '@commercetools-uikit/card';
 import Constraints from '@commercetools-uikit/constraints';
-import SecondaryButton from '@commercetools-uikit/secondary-button';
 import FieldLabel from '@commercetools-uikit/field-label';
-import TextField from '@commercetools-uikit/text-field';
-import { emptyProductType } from '../../../utils/contants';
-import Spacings from '@commercetools-uikit/spacings';
-import styles from '../schema-details/form.module.css';
 import { BinLinearIcon, PlusBoldIcon } from '@commercetools-uikit/icons';
-import messages from '../schema-details/messages';
-import ReferenceInput from '../reference-input';
+import SecondaryButton from '@commercetools-uikit/secondary-button';
+import SecondaryIconButton from '@commercetools-uikit/secondary-icon-button';
+import Spacings from '@commercetools-uikit/spacings';
+import TextField from '@commercetools-uikit/text-field';
+import { FieldArray, Formik, useFormik } from 'formik';
+import { FC } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { emptyProductType } from '../../../utils/contants';
+import ReferenceInput from '../../organisms/reference-input';
+import { SchemaFormValues } from '../../organisms/schema-details';
+import messages from '../../organisms/schema-details/messages';
+import styles from '../../organisms/schema-details/form.module.css';
 type Formik = ReturnType<typeof useFormik<SchemaFormValues>>;
 
 type Props = {

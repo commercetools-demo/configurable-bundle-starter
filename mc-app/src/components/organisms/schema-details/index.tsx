@@ -21,6 +21,7 @@ const SchemaDetails = ({ schema }: { schema: SchemaResponse }) => {
         targetProductTypes: values.targetProductTypes,
       }),
       attributes: values.attributes,
+      bundleUISettings: values.bundleUISettings,
     } as Schema);
     goBack();
   };

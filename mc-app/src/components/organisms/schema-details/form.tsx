@@ -15,7 +15,8 @@ import { emptyAttribute } from '../../../utils/contants';
 import AttributeGroup from '../schema-attribute/attribute-group';
 import messages from './messages';
 import { SchemaFormValues } from '.';
-import TargetProductTypes from '../target-product-types';
+import TargetProductTypes from '../../molecules/target-product-types';
+import BundleUIAttributes from '../../molecules/bundle-ui-attributes';
 
 type Formik = ReturnType<typeof useFormik<SchemaFormValues>>;
 
@@ -76,6 +77,15 @@ const Form: FC<Props> = ({
             handleBlur={handleBlur}
             handleChange={handleChange}
           />
+          <Constraints.Horizontal max="scale">
+            <BundleUIAttributes
+              values={values}
+              touched={touched}
+              errors={errors}
+              handleBlur={handleBlur}
+              handleChange={handleChange}
+            />
+          </Constraints.Horizontal>
         </div>
       </CollapsiblePanel>
       <CollapsiblePanel

@@ -36,6 +36,14 @@ export interface Schema {
     };
     attribute: string;
   }[];
+  bundleUISettings?: {
+    configurationType?: string;
+    displayMode?: string;
+    displayModeProperties?: {
+      showProgressBar?: boolean;
+      allowSkipSteps?: boolean;
+    };
+  };
   attributes?: AttributeValue[];
 }
 
