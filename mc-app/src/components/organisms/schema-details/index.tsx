@@ -5,13 +5,15 @@ import {
 import ContainerForm from './schema-details-form';
 import { Schema, SchemaResponse } from '../../../hooks/use-schema/types';
 import { CONTAINER, useSchema } from '../../../hooks/use-schema';
+import { useHistory } from 'react-router-dom';
 
 export type SchemaFormValues = Partial<Schema> & {
   key: string;
 };
 
 const SchemaDetails = ({ schema }: { schema: SchemaResponse }) => {
-  const { updateSchema } = useSchema();
+  const { updateSchema, deleteSchema } = useSchema();
+  const { goBack } = useHistory();
   const onSubmit = async (values: SchemaFormValues) => {
     await updateSchema(schema.key, {
       name: values.name || '',
@@ -20,14 +22,16 @@ const SchemaDetails = ({ schema }: { schema: SchemaResponse }) => {
       }),
       attributes: values.attributes,
     } as Schema);
+    goBack();
   };
 
   const onClose = () => {
-    console.log('onClose');
+    goBack();
   };
 
-  const onDelete = () => {
-    console.log('onDelete');
+  const onDelete = async () => {
+    await deleteSchema(schema.key);
+    goBack();
   };
 
   return (
