@@ -31,10 +31,12 @@ const config = {
   },
   submenuLinks: [
     {
-      uriPath: '/schemas',
+      defaultLabel: 'Bundles',
+      uriPath: '/',
+    },
+    {
       defaultLabel: 'Schema Editor',
-      labelAllLocales: [],
-      permissions: [PERMISSIONS.View],
+      uriPath: '/schemas',
     },
   ],
 };

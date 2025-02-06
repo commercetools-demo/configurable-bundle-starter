@@ -1,3 +1,4 @@
+import { CustomObject } from '@commercetools/platform-sdk';
 import { REFERENCE_TYPES_ENUM, TYPES_ENUM } from '../../utils/contants';
 
 export type Reference = { by: string; type: REFERENCE_TYPES_ENUM };
