@@ -140,28 +140,28 @@ export const REFERENCE_BY = {
 };
 
 export const REFERENCE_TYPES = {
-  Cart: 'cart',
-  CartDiscount: 'cart-discount',
-  Category: 'category',
-  Channel: 'channel',
-  Customer: 'customer',
-  CustomerGroup: 'customer-group',
-  DiscountCode: 'discount-code',
-  KeyValueDocument: 'key-value-document',
-  Payment: 'payment',
+  // Cart: 'cart',
+  // CartDiscount: 'cart-discount',
+  // Category: 'category',
+  // Channel: 'channel',
+  // Customer: 'customer',
+  // CustomerGroup: 'customer-group',
+  // DiscountCode: 'discount-code',
+  // KeyValueDocument: 'key-value-document',
+  // Payment: 'payment',
   Product: 'product',
-  ProductDiscount: 'product-discount',
-  ProductPrice: 'product-price',
-  ProductType: 'product-type',
-  Order: 'order',
-  OrderEdit: 'order-edit',
-  ShippingMethod: 'shipping-method',
-  ShoppingList: 'shopping-list',
-  State: 'state',
-  Store: 'store',
-  TaxCategory: 'tax-category',
-  Type: 'type',
-  Zone: 'zone',
+  // ProductDiscount: 'product-discount',
+  // ProductPrice: 'product-price',
+  // ProductType: 'product-type',
+  // Order: 'order',
+  // OrderEdit: 'order-edit',
+  // ShippingMethod: 'shipping-method',
+  // ShoppingList: 'shopping-list',
+  // State: 'state',
+  // Store: 'store',
+  // TaxCategory: 'tax-category',
+  // Type: 'type',
+  // Zone: 'zone',
 };
 
 export const BUNDLE_UI_CONFIGURATION_TYPES: Record<string, string> = {
@@ -190,4 +190,9 @@ export const BUNDLE_UI_DISPLAY_MODES: Record<string, string> = {
   FloatingPanels: 'floating-panels',
   SplitView: 'split-view',
   Stepper: 'stepper',
+};
+
+export const ADD_TO_CART_CONFIGURATION_TYPES: Record<string, string> = {
+  'Add with parent link': 'add-with-parent-link',
+  'Add with custom fields': 'add-with-custom-fields',
 };
