@@ -11,12 +11,13 @@ import TextField from '@commercetools-uikit/text-field';
 import { PlusBoldIcon } from '@commercetools-uikit/icons';
 import Spacings from '@commercetools-uikit/spacings';
 import styles from './form.module.css';
-import { emptyAttribute } from '../../../utils/contants';
+import { ADD_TO_CART_CONFIGURATION_TYPES, emptyAttribute } from '../../../utils/contants';
 import AttributeGroup from '../schema-attribute/attribute-group';
 import messages from './messages';
 import { SchemaFormValues } from '.';
 import TargetProductTypes from '../../molecules/target-product-types';
 import BundleUIAttributes from '../../molecules/bundle-ui-attributes';
+import SelectField from '@commercetools-uikit/select-field';
 
 type Formik = ReturnType<typeof useFormik<SchemaFormValues>>;
 
@@ -48,6 +49,7 @@ const Form: FC<Props> = ({
       >
         <div className={styles.form}>
           <Card type="flat" className={styles['field-card']}>
+            <Spacings.Stack scale='s'>
             <TextField
               name="key"
               value={values.key}
@@ -69,6 +71,19 @@ const Form: FC<Props> = ({
               onBlur={handleBlur}
               onChange={handleChange}
             />
+            <SelectField
+              name="locale"
+              value={values.addToCartConfiguration}
+              title={<FormattedMessage {...messages.addToCartConfigigurationTitle} />}
+              isRequired
+              options={Object.entries(ADD_TO_CART_CONFIGURATION_TYPES).map(([key, value]) => ({
+                label: key,
+                value,
+              }))}
+              onBlur={handleBlur}
+              onChange={handleChange}
+            />
+          </Spacings.Stack>
           </Card>
           <TargetProductTypes
             values={values}

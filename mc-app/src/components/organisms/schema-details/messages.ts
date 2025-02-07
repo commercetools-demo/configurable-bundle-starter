@@ -250,4 +250,9 @@ export default defineMessages({
     description: 'Title for bundleUISettingsAllowSkipSteps fields',
     defaultMessage: 'Allow Skip Steps',
   },
+  addToCartConfigigurationTitle: {
+    id: 'Container.form.addToCartConfigiguration.title',
+    description: 'Title for addToCartConfigiguration fields',
+    defaultMessage: 'Add to Cart Configuration',
+  },
 });

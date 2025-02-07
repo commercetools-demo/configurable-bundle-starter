@@ -29,6 +29,7 @@ export type Enum = {
 
 export interface Schema {
   name: string;
+  addToCartConfiguration: string;
   targetProductTypes: {
     productType: {
       typeId: 'product-type';
