@@ -1,23 +1,36 @@
 import { BundleComponent, ConfigurationState } from '../interfaces/bundle.interfaces';
-import { truncateDescription, formatPrice } from '../utils/format.utils';
+import { truncateDescription } from '../utils/format.utils';
 
 class ComponentSelector extends HTMLElement {
   private shadow: ShadowRoot;
   private component: BundleComponent | null = null;
   private selections: ConfigurationState['selections'] = {};
+  private locale: string = 'en-US';
 
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: 'open' });
   }
 
-  set data({ component, selections }: { 
+  set data({ component, selections, locale }: { 
     component: BundleComponent; 
     selections: ConfigurationState['selections'];
+    locale: string;
   }) {
     this.component = component;
     this.selections = selections;
+    this.locale = locale;
     this.render();
+  }
+
+  private formatPrice(price: any): string {
+    if (!price) return '';
+    
+    const amount = price.centAmount / Math.pow(10, price.fractionDigits);
+    return new Intl.NumberFormat(this.locale, {
+      style: 'currency',
+      currency: price.currencyCode
+    }).format(amount);
   }
 
   private render(): void {
@@ -96,22 +109,24 @@ class ComponentSelector extends HTMLElement {
               <div class="product-image">
                 ${product.obj.masterVariant.images?.[0]?.url ? `
                   <img src="${product.obj.masterVariant.images[0].url}" 
-                       alt="${product.obj.name['en-US']}"
+                       alt="${product.obj.name[this.locale] || product.obj.name['en-US']}"
                        class="product-img">
                 ` : ''}
               </div>
-              <h3 class="product-name">${product.obj.name['en-US']}</h3>
-              <p class="product-description">${truncateDescription(product.obj.description?.['en-US'] || '')}</p>
+              <h3 class="product-name">${product.obj.name[this.locale] || product.obj.name['en-US']}</h3>
+              <p class="product-description">
+                ${truncateDescription(product.obj.description?.[this.locale] || product.obj.description?.['en-US'] || '')}
+              </p>
               <div class="product-price">
-                ${formatPrice(product.obj.masterVariant.prices?.[0]?.value)}
+                ${this.formatPrice(product.obj.masterVariant.prices?.[0]?.value)}
               </div>
-              ${this.component.maxQuantity > 1 ? `
+              ${this.component?.maxQuantity && this.component?.maxQuantity > 1 ? `
                 <div class="quantity-selector">
                   <label>Quantity:</label>
                   <input type="number" 
-                         min="${this.component.mandatoryQuantity}"
-                         max="${this.component.maxQuantity}"
-                         value="${this.selections[this.component.title]?.quantity || this.component.mandatoryQuantity}">
+                         min="${this.component?.mandatoryQuantity || 1}"
+                         max="${this.component?.maxQuantity || 100}"
+                         value="${this.selections[this.component!.title]?.quantity || this.component?.mandatoryQuantity || 1}">
                 </div>
               ` : ''}
             </div>

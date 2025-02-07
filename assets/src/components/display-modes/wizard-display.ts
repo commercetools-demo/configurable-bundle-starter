@@ -6,20 +6,23 @@ class WizardDisplay extends HTMLElement {
   private components: BundleComponent[] = [];
   private currentStep = 0;
   private selections: ConfigurationState['selections'] = {};
+  private locale: string = 'en-US';
 
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: 'open' });
   }
 
-  set data({ components, currentStep, selections }: {
+  set data({ components, currentStep, selections, locale }: {
     components: BundleComponent[];
     currentStep: number;
     selections: ConfigurationState['selections'];
+    locale: string;
   }) {
     this.components = components;
     this.currentStep = currentStep;
     this.selections = selections;
+    this.locale = locale;
     this.render();
   }
 
@@ -93,7 +96,8 @@ class WizardDisplay extends HTMLElement {
     if (componentSelector) {
       (componentSelector as any).data = {
         component: this.components[this.currentStep],
-        selections: this.selections
+        selections: this.selections,
+        locale: this.locale
       };
     }
 

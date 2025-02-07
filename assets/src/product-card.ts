@@ -18,7 +18,7 @@ class ProductCard extends HTMLElement {
   }
 
   static get observedAttributes(): string[] {
-    return ['sku', 'baseurl'];
+    return ['sku', 'baseurl', 'cartid', 'locale'];
   }
 
   connectedCallback(): void {
@@ -34,6 +34,14 @@ class ProductCard extends HTMLElement {
 
   private getApiBaseUrl(): string | null {
     return this.getAttribute('baseurl');
+  }
+
+  private getCartId(): string | null {
+    return this.getAttribute('cartid');
+  }
+
+  private getLocale(): string {
+    return this.getAttribute('locale') || 'en-US';
   }
 
   private async fetchProductData(): Promise<void> {
@@ -77,7 +85,8 @@ class ProductCard extends HTMLElement {
     (displayComponent as any).data = {
       components: this.product.resolvedBundle.bundleConfiguration.components_and_parts,
       currentStep: this.state.currentStep,
-      selections: this.state.selections
+      selections: this.state.selections,
+      locale: this.getLocale()
     };
 
     this.attachDisplayListeners(displayComponent);
@@ -95,9 +104,9 @@ class ProductCard extends HTMLElement {
       } else {
         delete this.state.selections[componentTitle];
       }
-
-      // TODO: we do not need rerendering
-      // this.renderConfigurator();
+      
+      // Update add to cart button state when selections change
+      this.updateAddToCartButton();
     });
 
     displayComponent.addEventListener('quantity-change', (e: any) => {
@@ -121,6 +130,49 @@ class ProductCard extends HTMLElement {
     });
   }
 
+  private async addToCart(): Promise<void> {
+    const baseURL = this.getApiBaseUrl();
+    const cartId = this.getCartId();
+    
+    if (!baseURL || !this.product || !cartId || Object.keys(this.state.selections).length === 0) {
+      this.showError('Cannot add to cart: missing data, cart ID or selections');
+      return;
+    }
+
+    try {
+      const response = await fetch(`${baseURL}/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productId: this.product.id,
+          cartId,
+          selections: this.state.selections
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add to cart');
+      }
+
+      this.showSuccess('Successfully added to cart');
+    } catch (error) {
+      this.showError('Failed to add to cart');
+    }
+  }
+
+  private showSuccess(message: string): void {
+    const successElement = this.shadow.querySelector('.success');
+    if (successElement) {
+      successElement.textContent = message;
+      successElement.setAttribute('style', 'display: block');
+      setTimeout(() => {
+        successElement.setAttribute('style', 'display: none');
+      }, 3000);
+    }
+  }
+
   private render(): void {
     const styles = `
       :host {
@@ -139,13 +191,48 @@ class ProductCard extends HTMLElement {
         padding: 1rem;
       }
 
-      .error {
-        color: var(--error-color);
-        background: #fee2e2;
+      .error, .success {
         padding: 1rem;
         border-radius: 0.5rem;
         margin-bottom: 1rem;
         display: none;
+      }
+
+      .error {
+        color: var(--error-color);
+        background: #fee2e2;
+      }
+
+      .success {
+        color: var(--success-color);
+        background: #ecfdf5;
+      }
+
+      .cart-button-container {
+        margin-top: 2rem;
+        display: flex;
+        justify-content: center;
+      }
+
+      .add-to-cart-button {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 0.5rem;
+        font-size: 1.125rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s;
+      }
+
+      .add-to-cart-button:hover {
+        background: var(--secondary-color);
+      }
+
+      .add-to-cart-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
       }
     `;
 
@@ -153,11 +240,32 @@ class ProductCard extends HTMLElement {
       <style>${styles}</style>
       <div class="bundle-configurator">
         <div class="error"></div>
+        <div class="success"></div>
         <div class="configurator-container">
           Loading...
         </div>
+        <div class="cart-button-container">
+          <button class="add-to-cart-button" disabled>
+            Add to Cart
+          </button>
+        </div>
       </div>
     `;
+
+    // Enable/disable add to cart button based on selections
+    this.updateAddToCartButton();
+  }
+
+  private updateAddToCartButton(): void {
+    const button = this.shadow.querySelector('.add-to-cart-button');
+    if (button) {
+      const hasSelections = Object.keys(this.state.selections).length > 0;
+      button.toggleAttribute('disabled', !hasSelections);
+      
+      if (hasSelections) {
+        button.addEventListener('click', () => void this.addToCart());
+      }
+    }
   }
 }
 
