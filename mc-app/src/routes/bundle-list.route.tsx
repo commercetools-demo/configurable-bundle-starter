@@ -5,7 +5,7 @@ type Props = {
   linkToWelcome: string;
 };
 
-const BundleListRoute = ({linkToWelcome}: Props) => {
+const BundleListRoute = ({ linkToWelcome }: Props) => {
   return <BundleListPage parentUrl={linkToWelcome} />;
 };
 

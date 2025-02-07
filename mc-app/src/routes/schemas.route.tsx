@@ -4,12 +4,14 @@ import { SchemaResponse } from '../hooks/use-schema/types';
 import { ContentNotification } from '@commercetools-uikit/notifications';
 import Text from '@commercetools-uikit/text';
 import SchemaList from '../components/organisms/schema-list';
+import { useFeatureFlags } from '../hooks/use-feature-flags';
 type Props = {
   linkToWelcome: string;
 };
 
 const SchemasRoute = (props: Props) => {
   const { getSchemas } = useSchema();
+  const { customObjectBundle } = useFeatureFlags();
   const [schemas, setSchemas] = useState<SchemaResponse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -19,6 +21,12 @@ const SchemasRoute = (props: Props) => {
       setIsLoading(false);
     });
   }, []);
+
+  if (!customObjectBundle) {
+    <ContentNotification type="info">
+      <Text.Body>Your project is not configured to use this page.</Text.Body>
+    </ContentNotification>;
+  }
 
   if (isLoading) {
     return (
