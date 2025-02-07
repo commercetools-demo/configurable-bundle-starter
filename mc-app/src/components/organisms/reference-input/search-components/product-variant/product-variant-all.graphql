@@ -1,0 +1,16 @@
+query SearchProducts($locale: Locale!, $filters: [SearchFilterInput!]) {
+  productProjectionSearch(filters: $filters, limit: 50) {
+    total
+    results {
+      id
+      productType {
+        key
+      }
+      key
+      name(locale:$locale)
+      allVariants {
+        sku
+      }
+    }
+  }
+}

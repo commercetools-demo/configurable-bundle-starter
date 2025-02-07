@@ -8,6 +8,9 @@ import ProductByKey from './product-by-key.graphql';
 import ProductSearch from './product-search.graphql';
 import ProductAll from './product-all.graphql';
 import { Product, ProductProjectionItem } from './types';
+import ProductVariantSearchInput from '../product-variant';
+import Constraints from '@commercetools-uikit/constraints';
+import Spacings from '@commercetools-uikit/spacings';
 
 const localizePathProductprojection = (product: ProductProjectionItem) => {
   return `${product.name} (${product.masterVariant?.sku})`;
@@ -35,18 +38,23 @@ const ProductSearchInput: FC<
     locale: dataLocale,
   });
   return (
-    <AsyncSearchInput<Product, Result<Product>>
-      optionMapper={optionMapper}
-      localizePath={localizePath}
-      variableBuilder={variableBuilder}
-      searchQuery={ProductSearch}
-      byKeyQuery={ProductByKey}
-      byIdQuery={ProductById}
-      allQuery={ProductAll}
-      {...props}
-    />
+    <Constraints.Horizontal>
+      <Spacings.Inline alignItems="flex-end">
+        <AsyncSearchInput<Product, Result<Product>>
+          optionMapper={optionMapper}
+          localizePath={localizePath}
+          variableBuilder={variableBuilder}
+          searchQuery={ProductSearch}
+          byKeyQuery={ProductByKey}
+          byIdQuery={ProductById}
+          allQuery={ProductAll}
+          {...props}
+        />
+        <ProductVariantSearchInput {...props} />
+      </Spacings.Inline>
+    </Constraints.Horizontal>
   );
 };
-ProductSearchInput.displayName = 'CustomerSearchInput';
+ProductSearchInput.displayName = 'ProductSearchInput';
 
 export default ProductSearchInput;
