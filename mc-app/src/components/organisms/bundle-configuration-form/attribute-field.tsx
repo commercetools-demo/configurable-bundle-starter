@@ -14,14 +14,6 @@ import AttributeInput from './attribute-input';
 import messages from './messages';
 import { TYPES } from '../../../utils/contants';
 import { getValueByType } from '../../../utils/form-utils';
-import styled from 'styled-components';
-
-const StyledRow = styled.div`
-  display: flex;
-  width: 100%;
-  flex-direction: row;
-  gap: 15px;
-`;
 
 type Props = {
   type: any;
@@ -109,7 +101,7 @@ const AttributeField: FC<Props> = ({
                   theme={isNestedSet ? 'light' : 'dark'}
                   type="flat"
                 >
-                  <StyledRow>
+                  <Spacings.Inline alignItems="center">
                     <AttributeInput
                       data-testid={`set-attribute-input-${index}`}
                       type={type}
@@ -135,14 +127,14 @@ const AttributeField: FC<Props> = ({
                       isDisabled={index === 0 && isRequired}
                       onClick={() => remove(index)}
                     />
-                  </StyledRow>
+                  </Spacings.Inline>
                 </Card>
               ))}
             </Spacings.Stack>
           )}
         />
       ) : (
-        <StyledRow>
+        <Spacings.Stack>
           <AttributeLabel
             data-testid="single-attribute-label"
             type={type}
@@ -166,7 +158,7 @@ const AttributeField: FC<Props> = ({
             reference={reference}
             options={selectOptions}
           />
-        </StyledRow>
+        </Spacings.Stack>
       )}
     </>
   );

@@ -7,6 +7,11 @@ import React, { Suspense, lazy } from 'react';
 import { Link } from 'react-router-dom';
 import { ReferenceInputProps } from './search-input/types';
 import { referenceTypeToSingleValueMap } from '../../../utils/contants';
+import styled from 'styled-components';
+
+const StyledLink = styled(Link)`
+  padding-top: 6px;
+`;
 
 const referenceTypeToComponentMap: Record<string, any> = {
   category: lazy(() => import('./search-components/category')),
@@ -128,9 +133,9 @@ const ReferenceInput: React.FC<
                 {...props}
               />
               {!!externalUrl && !!refValue && (
-                <Link to={externalUrl} target="_blank">
+                <StyledLink to={externalUrl} target="_blank">
                   <ExternalLinkIcon color="info" />
-                </Link>
+                </StyledLink>
               )}
             </Spacings.Inline>
           </Suspense>
