@@ -36,6 +36,13 @@ export const useConfigurableBundles = () => {
     payload: BundleFormikValues
   ): Promise<BundleResponse> => {
     const key = uniqueId(BUNDLE_KEY_PREFIX);
+    return updateBundleObject(key, payload);
+  };
+
+  const updateBundleObject = async (
+    key: string,
+    payload: BundleFormikValues
+  ): Promise<BundleResponse> => {
     const result = await dispatchAppsAction(
       actions.post({
         mcApiProxyTarget: MC_API_PROXY_TARGETS.COMMERCETOOLS_PLATFORM,
@@ -113,6 +120,60 @@ export const useConfigurableBundles = () => {
     }
   };
 
+  const updateBundle = async (
+    key: string,
+    payload: BundleFormikValues
+  ): Promise<any> => {
+    if (!payload.mainProductReference?.id) {
+      throw new Error('Please select a product');
+    }
+    const product = await getProduct(payload.mainProductReference?.id);
+
+    if (payload.configurationType === CONFIGURATION_TYPES_ENUM.CUSTOM_OBJECT) {
+      const schema = await getSchema(payload.bundleType?.value!);
+
+      const productRefInSchema = schema?.value?.targetProductTypes?.find(
+        (p) => p.productType?.id === product.productType?.id
+      );
+
+      if (product && productRefInSchema) {
+        const { id } = await updateBundleObject(key, payload);
+
+        return updateProduct(product?.id, product.version!, [
+          {
+            action: 'setAttribute',
+            // TODO: read from payload's sku > it should be different based on schema
+            sku: product.masterData.current.masterVariant?.sku,
+            name: productRefInSchema?.attribute || '',
+            staged: false,
+            value: {
+              typeId: 'key-value-document',
+              id,
+            },
+          },
+        ]).catch(async (error) => {
+          await deleteBundleObject(key);
+          throw error;
+        });
+      }
+    } else if (payload.configurationType === CONFIGURATION_TYPES_ENUM.PRODUCT) {
+      const attributes = convertAttributeMapToAttributes(
+        payload.mainProductReference?.masterVariant?.attributes || {}
+      );
+      return updateProduct(
+        product?.id,
+        product.version!,
+        attributes.filter(filterEmptyAttribute).map((attr) => ({
+          action: 'setAttribute',
+          sku: product.masterData.current.masterVariant?.sku,
+          name: attr.name,
+          staged: false,
+          value: attr.value,
+        }))
+      );
+    }
+  };
+
   const getBundles = async (): Promise<BundleResponse[]> => {
     const result = await dispatchAppsQuery(
       actions.get({
@@ -135,6 +196,7 @@ export const useConfigurableBundles = () => {
 
   return {
     createBundle,
+    updateBundle,
     getBundles,
     getBundle,
   };
