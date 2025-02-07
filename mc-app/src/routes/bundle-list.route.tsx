@@ -5,8 +5,8 @@ type Props = {
   linkToWelcome: string;
 };
 
-const BundleListRoute = (props: Props) => {
-  return <BundleListPage />;
+const BundleListRoute = ({linkToWelcome}: Props) => {
+  return <BundleListPage parentUrl={linkToWelcome} />;
 };
 
 export default BundleListRoute;

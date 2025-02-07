@@ -4,7 +4,7 @@ import Spacings from '@commercetools-uikit/spacings';
 import Constraints from '@commercetools-uikit/constraints';
 import BundlesTable from '../organisms/bundles-table';
 
-const BundleListPage = () => {
+const BundleListPage = ({ parentUrl }: { parentUrl: string }) => {
   return (
     <Constraints.Horizontal max="scale">
       <Spacings.Stack scale="m">
@@ -12,7 +12,7 @@ const BundleListPage = () => {
           <AddNewBundleButton />
         </Spacings.Inline>
         <Constraints.Horizontal max="scale">
-          <BundlesTable />
+          <BundlesTable parentUrl={parentUrl} />
         </Constraints.Horizontal>
       </Spacings.Stack>
     </Constraints.Horizontal>

@@ -10,7 +10,7 @@ import { ExternalLinkIcon } from '@commercetools-uikit/icons';
 import { Link, useHistory } from 'react-router-dom';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 
-const BundlesTable = () => {
+const BundlesTable = ({ parentUrl }: { parentUrl: string }) => {
   const { push } = useHistory();
   const { getBundles } = useConfigurableBundles();
   const context = useApplicationContext();
@@ -74,7 +74,7 @@ const BundlesTable = () => {
       isCondensed
       columns={columns}
       rows={bundles || []}
-      onRowClick={(row) => push(`bundle/${row.key}`)}
+      onRowClick={(row) => push(`${parentUrl}/bundle/${row.key}`)}
     />
   );
 };
