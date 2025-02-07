@@ -19,6 +19,7 @@ import { TYPES } from '../../../utils/contants';
 import Card from '@commercetools-uikit/card';
 import { AttributeValue } from '../../../hooks/use-schema/types';
 import AddNewProductButton from '../new-product/add-new-product-button';
+import Constraints from '@commercetools-uikit/constraints';
 
 type Props = {
   type: string;
@@ -242,14 +243,7 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
       const refErrors = get(errors, referenceBy);
       const hasError = !!(refTouched && refErrors);
       return (
-        <div
-          style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'space-between',
-            gap: '1rem',
-          }}
-        >
+        <>
           <div style={style}>
             <ReferenceInput
               data-testid="field-type-reference"
@@ -282,7 +276,7 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
               }}
             />
           )}
-        </div>
+        </>
       );
     }
 
@@ -322,7 +316,7 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
 
     case TYPES.Object:
       return (
-        <div>
+        <Constraints.Horizontal max={16}>
           <Spacings.Stack scale="s">
             {map(attributes, (attribute: any, index) => {
               const attributeName = attribute.name;
@@ -348,7 +342,7 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
               );
             })}
           </Spacings.Stack>
-        </div>
+        </Constraints.Horizontal>
       );
 
     default:
