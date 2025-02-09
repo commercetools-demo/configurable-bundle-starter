@@ -11,6 +11,7 @@ export const useFeatureFlags = (): FeatureFlags => {
   const { environment } = useApplicationContext();
   const featureFlags = useMemo(() => {
     const featureFlagString = (environment as any).featureFlags;
+    console.log('featureFlagString', featureFlagString);
     const featureFlags = featureFlagString?.split(',');
     return {
       productAttributeBundle: featureFlags.includes(
