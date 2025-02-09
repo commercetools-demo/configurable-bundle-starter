@@ -11,7 +11,7 @@ deployAs:
           description: The cloud identifier.
         - key: APPLICATION_URL
           description: Application url.
-        - key: FEATURE_FLAGS
+        - key: BUNDLE_FEATURE_FLAGS
           description: Comma separated list of feature flags incl. custom-object-bundle, product-attribute-bundle
           default: "custom-object-bundle"
       securedConfiguration: []

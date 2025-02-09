@@ -17,7 +17,7 @@ const config = {
     },
   },
   additionalEnv: {
-    featureFlags: '${env:FEATURE_FLAGS}',
+    featureFlags: '${env:BUNDLE_FEATURE_FLAGS}',
   },
   oAuthScopes: {
     view: ['view_products'],
