@@ -1,4 +1,3 @@
-import { CustomObject } from '@commercetools/platform-sdk';
 import { REFERENCE_TYPES_ENUM, TYPES_ENUM } from '../../utils/contants';
 
 export type Reference = { by: string; type: REFERENCE_TYPES_ENUM };
@@ -29,7 +28,14 @@ export type Enum = {
 
 export interface Schema {
   name: string;
-  addToCartConfiguration: string;
+  addToCartConfiguration: {
+    type: string;
+    customType: {
+      typeId: string;
+      id: string;
+    };
+    customTypeField: string;
+  };
   targetProductTypes: {
     productType: {
       typeId: 'product-type';

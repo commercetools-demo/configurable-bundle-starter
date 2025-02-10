@@ -22,6 +22,7 @@ const SchemaDetails = ({ schema }: { schema: SchemaResponse }) => {
       }),
       attributes: values.attributes,
       bundleUISettings: values.bundleUISettings,
+      addToCartConfiguration: values.addToCartConfiguration,
     } as Schema);
     goBack();
   };

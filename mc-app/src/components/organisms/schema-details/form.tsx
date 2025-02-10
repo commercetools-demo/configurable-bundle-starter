@@ -7,17 +7,18 @@ import CollapsiblePanel from '@commercetools-uikit/collapsible-panel';
 import Constraints from '@commercetools-uikit/constraints';
 import SecondaryButton from '@commercetools-uikit/secondary-button';
 import FieldLabel from '@commercetools-uikit/field-label';
-import TextField from '@commercetools-uikit/text-field';
 import { PlusBoldIcon } from '@commercetools-uikit/icons';
 import Spacings from '@commercetools-uikit/spacings';
 import styles from './form.module.css';
-import { ADD_TO_CART_CONFIGURATION_TYPES, emptyAttribute } from '../../../utils/contants';
+import {
+  emptyAttribute,
+} from '../../../utils/contants';
 import AttributeGroup from '../schema-attribute/attribute-group';
 import messages from './messages';
 import { SchemaFormValues } from '.';
 import TargetProductTypes from '../../molecules/target-product-types';
 import BundleUIAttributes from '../../molecules/bundle-ui-attributes';
-import SelectField from '@commercetools-uikit/select-field';
+import { SchemaConfiguration } from '../schema-configuration';
 
 type Formik = ReturnType<typeof useFormik<SchemaFormValues>>;
 
@@ -49,41 +50,13 @@ const Form: FC<Props> = ({
       >
         <div className={styles.form}>
           <Card type="flat" className={styles['field-card']}>
-            <Spacings.Stack scale='s'>
-            <TextField
-              name="key"
-              value={values.key}
-              title={<FormattedMessage {...messages.keyTitle} />}
-              isRequired
-              isReadOnly
-              errors={TextField.toFieldErrors<SchemaFormValues>(errors).key}
-              touched={touched.key}
-              onBlur={handleBlur}
-              onChange={handleChange}
+            <SchemaConfiguration
+              values={values}
+              touched={touched}
+              errors={errors}
+              handleBlur={handleBlur}
+              handleChange={handleChange}
             />
-            <TextField
-              name="name"
-              value={values.name || ''}
-              title={<FormattedMessage {...messages.nameTitle} />}
-              isRequired
-              errors={TextField.toFieldErrors<SchemaFormValues>(errors).name}
-              touched={touched.name}
-              onBlur={handleBlur}
-              onChange={handleChange}
-            />
-            <SelectField
-              name="locale"
-              value={values.addToCartConfiguration}
-              title={<FormattedMessage {...messages.addToCartConfigigurationTitle} />}
-              isRequired
-              options={Object.entries(ADD_TO_CART_CONFIGURATION_TYPES).map(([key, value]) => ({
-                label: key,
-                value,
-              }))}
-              onBlur={handleBlur}
-              onChange={handleChange}
-            />
-          </Spacings.Stack>
           </Card>
           <TargetProductTypes
             values={values}

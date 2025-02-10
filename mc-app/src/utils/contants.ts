@@ -193,6 +193,6 @@ export const BUNDLE_UI_DISPLAY_MODES: Record<string, string> = {
 };
 
 export const ADD_TO_CART_CONFIGURATION_TYPES: Record<string, string> = {
-  'Add with parent link': 'add-with-parent-link',
-  'Add with custom fields': 'add-with-custom-fields',
+  'Add all using parent link': 'add-with-parent-link',
+  'Add as custom field': 'add-with-custom-fields',
 };
