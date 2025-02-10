@@ -250,4 +250,19 @@ export default defineMessages({
     description: 'Title for bundleUISettingsAllowSkipSteps fields',
     defaultMessage: 'Allow Skip Steps',
   },
+  addToCartConfigigurationTitle: {
+    id: 'Container.form.addToCartConfigiguration.title',
+    description: 'Title for addToCartConfigiguration fields',
+    defaultMessage: 'Add to Cart Configuration',
+  },
+  customTypeReferenceInputTitle: {
+    id: 'Container.form.customTypeReferenceInput.title',
+    description: 'Title for customTypeReferenceInput fields',
+    defaultMessage: 'Custom Type',
+  },
+  customFieldReferenceInputTitle: {
+    id: 'Container.form.customFieldReferenceInput.title',
+    description: 'Title for customFieldReferenceInput fields',
+    defaultMessage: 'Custom Field Reference',
+  },
 });

@@ -7,7 +7,7 @@ import Checkbox from '@commercetools-uikit/checkbox-input';
 import FieldLabel from '@commercetools-uikit/field-label';
 import Spacings from '@commercetools-uikit/spacings';
 import Constraints from '@commercetools-uikit/constraints';
-import { useLazyQuery, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import ProductVariantAll from './product-variant-all.graphql';
 import { GRAPHQL_TARGETS } from '@commercetools-frontend/constants';
 import styled from 'styled-components';

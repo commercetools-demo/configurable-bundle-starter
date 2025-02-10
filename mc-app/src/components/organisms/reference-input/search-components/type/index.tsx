@@ -7,6 +7,7 @@ import TypeByKey from './type-by-key.graphql';
 import TypeSearch from './type-search.graphql';
 import TypeAll from './type-all.graphql';
 import { TType } from './types';
+import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 
 const localizePath = (type: TType) => {
   return `${type.name ?? ''} - key: ${
@@ -17,6 +18,7 @@ const localizePath = (type: TType) => {
 const TypeSearchInput: FC<
   React.HTMLAttributes<HTMLDivElement> & GenericSearchInputProps<TType>
 > = (props) => {
+  const { dataLocale } = useApplicationContext((context) => context);
   const optionMapper = (data: Result<TType>) =>
     data.typeDefinitions.results.map((type: TType): TEntity => {
       return {
@@ -28,6 +30,7 @@ const TypeSearchInput: FC<
 
   const variableBuilder = (text: string) => ({
     where: `key = "${text}"`,
+    locale: dataLocale,
   });
 
   return (
