@@ -140,7 +140,7 @@ class ProductCard extends HTMLElement {
     }
 
     try {
-      const response = await fetch(`${baseURL}/`, {
+      const response = await fetch(`${baseURL}/add-to-cart`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -151,14 +151,18 @@ class ProductCard extends HTMLElement {
           selections: this.state.selections
         })
       });
+      const data = await response.json();
+
 
       if (!response.ok) {
-        throw new Error('Failed to add to cart');
+        throw new Error(data.error || 'Failed to add to cart');
       }
 
       this.showSuccess('Successfully added to cart');
     } catch (error) {
-      this.showError('Failed to add to cart');
+      console.log('oh here', error);
+      
+      this.showError(error instanceof Error ? error.message : 'Failed to add to cart');
     }
   }
 
@@ -252,6 +256,11 @@ class ProductCard extends HTMLElement {
       </div>
     `;
 
+    const button = this.shadow.querySelector('.add-to-cart-button');
+    if (button) {
+      button.addEventListener('click', () => this.addToCart());
+    }
+
     // Enable/disable add to cart button based on selections
     this.updateAddToCartButton();
   }
@@ -261,10 +270,6 @@ class ProductCard extends HTMLElement {
     if (button) {
       const hasSelections = Object.keys(this.state.selections).length > 0;
       button.toggleAttribute('disabled', !hasSelections);
-      
-      if (hasSelections) {
-        button.addEventListener('click', () => void this.addToCart());
-      }
     }
   }
 }
