@@ -1,5 +1,8 @@
 import { Router } from 'express';
-import { addToCartAction, getProductBySKUAction } from '../controllers/product.controller';
+import {
+  addToCartAction,
+  getProductBySKUAction,
+} from '../controllers/product.controller';
 
 const serviceRouter = Router();
 

@@ -44,15 +44,16 @@ async function resolveProductAttribute(
   const isSet = attributeDef.type.name === 'set';
   const newValue = isSet
     ? await Promise.all(
-        (attribute.value as Array<{ id: string; typeId: string }>).map(async (ref) =>({
-          ...ref,
-          obj: await fetchProduct(ref.id)
-        })
+        (attribute.value as Array<{ id: string; typeId: string }>).map(
+          async (ref) => ({
+            ...ref,
+            obj: await fetchProduct(ref.id),
+          })
+        )
       )
-    )
     : {
         ...attribute.value,
-        obj: await fetchProduct(attribute.value.id)
+        obj: await fetchProduct(attribute.value.id),
       };
 
   return {

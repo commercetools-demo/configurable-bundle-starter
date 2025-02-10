@@ -8,8 +8,8 @@ export const getAllSchemas = async (): Promise<SchemaCustomObject[]> => {
     .withContainer({ container: SCHEMAS_CONTAINER })
     .get({
       queryArgs: {
-        limit: 500
-      }
+        limit: 500,
+      },
     })
     .execute()
     .then((result) => {

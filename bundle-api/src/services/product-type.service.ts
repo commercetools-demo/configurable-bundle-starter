@@ -6,8 +6,8 @@ export const getAllProductTypes = async (): Promise<ProductType[]> => {
     .productTypes()
     .get({
       queryArgs: {
-        limit: 500
-      }
+        limit: 500,
+      },
     })
     .execute()
     .then((result) => {

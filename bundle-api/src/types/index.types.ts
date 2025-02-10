@@ -37,6 +37,14 @@ export interface SchemaCustomObject extends CustomObject {
 
 export interface Schema {
   name: string;
+  addToCartConfiguration: {
+    type: string;
+    customType: {
+      typeId: string;
+      id: string;
+    };
+    customTypeField: string;
+  };
   targetProductTypes: {
     productType: {
       typeId: 'product-type';
