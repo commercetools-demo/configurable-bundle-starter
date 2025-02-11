@@ -22,7 +22,7 @@ app.disable('x-powered-by');
 
 app.use(
   cors({
-    origin: /\.frontend\.site$/, // Matches any subdomain of frontend.site
+    origin: '*', // Matches any subdomain of frontend.site
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
