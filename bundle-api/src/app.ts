@@ -3,7 +3,7 @@ dotenv.config();
 
 import express, { Express } from 'express';
 import bodyParser from 'body-parser';
-
+import cors from 'cors';
 // Import routes
 import ServiceRoutes from './routes/service.route';
 
@@ -19,6 +19,14 @@ fetchAllAndCache();
 // Create the express app
 const app: Express = express();
 app.disable('x-powered-by');
+
+app.use(
+  cors({
+    origin: /\.frontend\.site$/, // Matches any subdomain of frontend.site
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 
 // Define configurations
 app.use(bodyParser.json());
