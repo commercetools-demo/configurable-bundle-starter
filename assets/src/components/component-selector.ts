@@ -46,7 +46,7 @@ class ComponentSelector extends HTMLElement {
       }
 
       .component-selector.cards {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
       }
 
       .product-option {
@@ -80,6 +80,10 @@ class ComponentSelector extends HTMLElement {
         color: var(--text-color);
         opacity: 0.8;
         margin: 0;
+        display: block;
+        white-space: nowrap;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
       }
 
       .product-price {
