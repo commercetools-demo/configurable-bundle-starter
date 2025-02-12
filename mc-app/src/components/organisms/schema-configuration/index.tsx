@@ -1,9 +1,7 @@
 import TextField from '@commercetools-uikit/text-field';
 import SelectField from '@commercetools-uikit/select-field';
 import ReferenceInput from '../reference-input';
-import {
-  ADD_TO_CART_CONFIGURATION_TYPES,
-} from '../../../utils/contants';
+import { ADD_TO_CART_CONFIGURATION_TYPES } from '../../../utils/contants';
 import Spacings from '@commercetools-uikit/spacings';
 import { FormattedMessage } from 'react-intl';
 import messages from '../schema-details/messages';

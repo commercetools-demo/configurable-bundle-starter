@@ -10,9 +10,7 @@ import FieldLabel from '@commercetools-uikit/field-label';
 import { PlusBoldIcon } from '@commercetools-uikit/icons';
 import Spacings from '@commercetools-uikit/spacings';
 import styles from './form.module.css';
-import {
-  emptyAttribute,
-} from '../../../utils/contants';
+import { emptyAttribute } from '../../../utils/contants';
 import AttributeGroup from '../schema-attribute/attribute-group';
 import messages from './messages';
 import { SchemaFormValues } from '.';
