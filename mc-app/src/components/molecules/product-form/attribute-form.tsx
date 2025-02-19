@@ -29,15 +29,14 @@ const ProductAttributeForm = ({
     useProductTypeConnector();
 
   useEffect(() => {
-    getAttributes(values.productDraft?.productType?.id, true).then(
-      (attributes) =>
-        mapAttributeDefinitionsToAttributes(
-          attributes,
-          getProductTypeAttributeDefinitions
-        ).then((mappedAttributes) => {
-          setAttributes(mappedAttributes);
-        })
-    );
+    getAttributes(values.productDraft?.productType?.id, true).then((attrs) => {
+      mapAttributeDefinitionsToAttributes(
+        attrs,
+        getProductTypeAttributeDefinitions
+      ).then((mappedAttributes) => {
+        setAttributes(mappedAttributes);
+      });
+    });
   }, [values.productDraft?.productType?.id]);
   if (!values.productDraft?.productType?.id) {
     return null;

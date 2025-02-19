@@ -16,12 +16,14 @@ import {
   convertAttributeMapToAttributes,
   filterEmptyAttribute,
 } from '../../utils/attributes';
+import { useProductTypeConnector } from '../use-product-type-connector';
 
 export const CONTAINER = `${APP_NAME}_items`;
 const BUNDLE_KEY_PREFIX = 'bundle-';
 
 export const useConfigurableBundles = () => {
   const { updateProduct, getProduct } = useProductUpdater();
+  const { getProductTypeAttributeDefinitions } = useProductTypeConnector();
   const { getSchema } = useSchema();
 
   const context = useApplicationContext((context) => context);
@@ -103,8 +105,11 @@ export const useConfigurableBundles = () => {
         });
       }
     } else if (payload.configurationType === CONFIGURATION_TYPES_ENUM.PRODUCT) {
+      const productTypeAttributeDefinitions =
+        await getProductTypeAttributeDefinitions(product.productType?.id);
       const attributes = convertAttributeMapToAttributes(
-        payload.mainProductReference?.masterVariant?.attributes || {}
+        payload.mainProductReference?.masterVariant?.attributes || {},
+        productTypeAttributeDefinitions
       );
       return updateProduct(
         product?.id,
@@ -157,8 +162,12 @@ export const useConfigurableBundles = () => {
         });
       }
     } else if (payload.configurationType === CONFIGURATION_TYPES_ENUM.PRODUCT) {
+      const productTypeAttributeDefinitions =
+        await getProductTypeAttributeDefinitions(product.productType?.id);
+
       const attributes = convertAttributeMapToAttributes(
-        payload.mainProductReference?.masterVariant?.attributes || {}
+        payload.mainProductReference?.masterVariant?.attributes || {},
+        productTypeAttributeDefinitions
       );
       return updateProduct(
         product?.id,

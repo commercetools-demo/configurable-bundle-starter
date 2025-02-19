@@ -199,12 +199,42 @@ export const mapAttributeDefinitionsToAttributes = async (
   );
 
 export const convertAttributeMapToAttributes = (
-  attributeMap: Record<string, any>
+  attributeMap: Record<string, any>,
+  attributeDefinitions?: Array<AttributeDefinition>
 ): Attribute[] => {
-  return Object.keys(attributeMap).map((key) => ({
-    name: key,
-    value: attributeMap[key],
-  }));
+  return Object.keys(attributeMap).map((key) => {
+    const attributeDefinition = attributeDefinitions?.find(
+      (attr) => attr.name === key
+    );
+    return {
+      name: key,
+      value: convertAttributeMapValueToAttributeValue(
+        attributeMap[key],
+        attributeDefinition?.type
+      ),
+    };
+  });
+};
+
+const convertAttributeMapValueToAttributeValue = (
+  attributeValue: any,
+  attributeType?: AttributeType
+): any => {
+  if (Array.isArray(attributeValue)) {
+    return attributeValue.map((item) =>
+      convertAttributeMapValueToAttributeValue(
+        item,
+        (attributeType as AttributeSetType)?.elementType
+      )
+    );
+  }
+  if (typeof attributeValue === 'object') {
+    return {
+      id: attributeValue.id,
+      typeId: (attributeType as AttributeReferenceType)?.referenceTypeId,
+    };
+  }
+  return attributeValue;
 };
 
 export const filterEmptyAttribute = (attribute: Attribute): boolean => {

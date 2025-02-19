@@ -24,6 +24,8 @@ import { BundleFormikValues } from '../../molecules/add-new-bundle-button';
 import { convertAttributeMapToAttributes } from '../../../utils/attributes';
 import { useState } from 'react';
 import { SchemaResponse } from '../../../hooks/use-schema/types';
+import { useProductTypeConnector } from '../../../hooks/use-product-type-connector';
+
 type Formik = ReturnType<typeof useFormik>;
 export type ProductFormikValues = {
   productDraft: ProductDraft;
@@ -51,13 +53,21 @@ const AddNewProductButton = ({
   const showNotification = useShowNotification();
   const { dataLocale, project } = useApplicationContext();
   const { createProduct } = useProductUpdater();
+  const { getProductTypeAttributeDefinitions } = useProductTypeConnector();
   const [createdProduct, setCreatedProduct] = useState<Product | null>();
 
   const hanldeCreateProduct = async (
     values: ProductFormikValues
   ): Promise<Product | undefined> => {
     const attributes = values?.productDraft?.masterVariant?.attributes || {};
-    const convertedAttributes = convertAttributeMapToAttributes(attributes);
+    const productTypeAttributeDefinitions =
+      await getProductTypeAttributeDefinitions(
+        values?.productDraft?.productType?.id
+      );
+    const convertedAttributes = convertAttributeMapToAttributes(
+      attributes,
+      productTypeAttributeDefinitions
+    );
     const productDraft: ProductDraft = {
       ...values?.productDraft,
       masterVariant: {

@@ -14,8 +14,7 @@ const ButtonContainer = styled.div`
   justify-content: space-between;
   border-top: 1px solid #e5e7eb;
   padding: 1rem;
-  --color-primary-25: 'black',
-
+  --color-primary-25: 'black';
 `;
 
 interface BundleFormProps {
@@ -95,22 +94,16 @@ const BundleForm: React.FC<React.PropsWithChildren<BundleFormProps>> = ({
                   onClick={prevStep}
                   isDisabled={currentStep === 1}
                   label="Back"
-                  tone='secondary'
-                  iconLeft={
-                    <AngleLeftIcon
-                    size='small'
-                    />
-                  }
+                  tone="secondary"
+                  iconLeft={<AngleLeftIcon size="small" />}
                 >
                   Back
                 </SecondaryButton>
                 {currentStep < 4 && (
-                  <PrimaryButton label="Next" onClick={nextStep}
-                    iconRight={
-                      <AngleRightIcon
-                        size='small'
-                      />
-                    }
+                  <PrimaryButton
+                    label="Next"
+                    onClick={nextStep}
+                    iconRight={<AngleRightIcon size="small" />}
                   >
                     Next
                   </PrimaryButton>
