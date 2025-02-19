@@ -1,18 +1,14 @@
-import PrimaryButton from '@commercetools-uikit/primary-button';
+import { useShowNotification } from '@commercetools-frontend/actions-global';
 import {
-  FormModalPage,
-  useModalState,
+  useModalState
 } from '@commercetools-frontend/application-components';
-import DrawerContent from '../organisms/new-bundle/drawer-content';
-import { FilePlus2 } from 'lucide-react';
-import { Form, Formik } from 'formik';
-import { useCloseModalConfirmation } from '../../hooks/use-close-modal-confirmation';
-import { useConfigurableBundles } from '../../hooks/use-configurable-bundles';
 import {
   DOMAINS,
   NOTIFICATION_KINDS_SIDE,
 } from '@commercetools-frontend/constants';
-import { useShowNotification } from '@commercetools-frontend/actions-global';
+import PrimaryButton from '@commercetools-uikit/primary-button';
+import { FilePlus2 } from 'lucide-react';
+import { useConfigurableBundles } from '../../hooks/use-configurable-bundles';
 import { CONFIGURATION_TYPES_ENUM } from '../../utils/contants';
 import BundleForm from '../organisms/bundle-form';
 

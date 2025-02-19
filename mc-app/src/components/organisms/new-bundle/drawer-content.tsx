@@ -16,19 +16,22 @@ import { CONFIGURATION_TYPES_ENUM } from '../../../utils/contants';
 type Formik = ReturnType<typeof useFormik>;
 
 const StyledFormWrapper = styled.div`
-  max-width: 2xl;
   margin: 0 auto;
   padding: 6;
   background-color: white;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  padding-top: 1rem;
   border-top: 1px solid #e5e7eb;
+  margin-top: auto;
+  padding: 1rem;
 `;
 
 const StepWrapper = styled.div`
