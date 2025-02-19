@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Stepper } from './stepper';
-import PrimaryButton from '@commercetools-uikit/primary-button';
-import SecondaryButton from '@commercetools-uikit/secondary-button';
+
 import SelectBundleTypeStep from './steps/select-bundle-type-step';
 import SelectProductStep from './steps/select-product-step';
 import ReviewStep from './steps/review-step';
@@ -21,17 +20,9 @@ const StyledFormWrapper = styled.div`
   background-color: white;
   border-radius: 0.5rem;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  min-height: 400px;
   display: flex;
   flex-direction: column;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  border-top: 1px solid #e5e7eb;
-  margin-top: auto;
-  padding: 1rem;
+  padding: 0 1rem 2rem 1rem;
 `;
 
 const StepWrapper = styled.div`
@@ -47,6 +38,9 @@ interface Props {
   handleChange: Formik['handleChange'];
   handleBlur: Formik['handleBlur'];
   setFieldValue: any;
+  currentStep: number;
+  nextStep: () => void;
+  prevStep: () => void;
 }
 const DrawerContent = ({
   handleBlur,
@@ -55,18 +49,12 @@ const DrawerContent = ({
   touched,
   values,
   errors,
+  currentStep,
+  nextStep,
+  prevStep,
 }: Props) => {
   const [schema, setSchema] = useState<SchemaResponse | undefined>();
-  const [currentStep, setCurrentStep] = useState(1);
   const { getSchema } = useSchema();
-
-  const nextStep = () => {
-    setCurrentStep((prev) => Math.min(prev + 1, 4));
-  };
-
-  const prevStep = () => {
-    setCurrentStep((prev) => Math.max(prev - 1, 1));
-  };
 
   useEffect(() => {
     values.bundleType?.value &&
@@ -126,21 +114,6 @@ const DrawerContent = ({
       <Stepper currentStep={currentStep} values={values} />
 
       <StepWrapper>{renderCurrentStep()}</StepWrapper>
-
-      <ButtonContainer>
-        <SecondaryButton
-          onClick={prevStep}
-          isDisabled={currentStep === 1}
-          label="Back"
-        >
-          Back
-        </SecondaryButton>
-        {currentStep < 4 && (
-          <PrimaryButton label="Next" onClick={nextStep}>
-            Next
-          </PrimaryButton>
-        )}
-      </ButtonContainer>
     </StyledFormWrapper>
   );
 };

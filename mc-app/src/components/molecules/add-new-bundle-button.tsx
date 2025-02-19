@@ -1,7 +1,5 @@
 import { useShowNotification } from '@commercetools-frontend/actions-global';
-import {
-  useModalState
-} from '@commercetools-frontend/application-components';
+import { useModalState } from '@commercetools-frontend/application-components';
 import {
   DOMAINS,
   NOTIFICATION_KINDS_SIDE,

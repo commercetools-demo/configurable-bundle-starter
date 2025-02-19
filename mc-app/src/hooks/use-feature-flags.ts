@@ -10,8 +10,12 @@ interface FeatureFlags {
 export const useFeatureFlags = (): FeatureFlags => {
   const { environment } = useApplicationContext();
   const featureFlags = useMemo(() => {
-    const featureFlagString = (environment as any).featureFlags || FEATURE_FLAGS_ENUM.CUSTOM_OBJECT_BUNDLE;
-    const featureFlags = featureFlagString?.split(',').map((flag: string) => flag.trim());
+    const featureFlagString =
+      (environment as any).featureFlags ||
+      FEATURE_FLAGS_ENUM.CUSTOM_OBJECT_BUNDLE;
+    const featureFlags = featureFlagString
+      ?.split(',')
+      .map((flag: string) => flag.trim());
     return {
       productAttributeBundle: featureFlags.includes(
         FEATURE_FLAGS_ENUM.PRODUCT_ATTRIBUTE_BUNDLE
