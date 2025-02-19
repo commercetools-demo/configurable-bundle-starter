@@ -126,7 +126,7 @@ const flattenProducts = (data: Product | ProductProjection): Product[] => {
     'masterVariant' in data &&
     (data as ProductProjection).masterVariant?.attributes
   ) {
-    products = flattenProductsFromAttributes(data);
+    products = flattenProductsFromAttributes(data, data.id);
   }
 
   // Remove duplicates based on product ID
