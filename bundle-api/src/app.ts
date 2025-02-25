@@ -22,7 +22,13 @@ app.disable('x-powered-by');
 
 app.use(
   cors({
-    origin: process.env.CORS_ALLOWED_ORIGINS ? process.env.CORS_ALLOWED_ORIGINS.split(',') : '*',
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (process.env.CORS_ALLOWED_ORIGINS?.split(',').includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(new Error('Not allowed by CORS'));
+    },
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
