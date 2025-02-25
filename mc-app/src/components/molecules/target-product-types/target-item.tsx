@@ -10,10 +10,11 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useProductTypeConnector } from '../../../hooks/use-product-type-connector';
 import ReferenceInput from '../../organisms/reference-input';
 import messages from '../../organisms/schema-details/messages';
+import { Schema } from '../../../hooks/use-schema/types';
 
 type TargetItemProps = {
   index: number;
-  value: any;
+  value: Schema['targetProductTypes'][0];
   handleChange: any;
   handleBlur: any;
   errors: any;
@@ -33,6 +34,15 @@ const TargetItem: FC<TargetItemProps> = ({
   const [defaultOptions, setDefaultOptions] = useState<
     { label: string; value: string }[]
   >([]);
+
+  const onChange = (e: any) => {
+    handleChange({
+      target: {
+        name: `targetProductTypes.${index}.attribute`,
+        value: e.target.value.value,
+      },
+    });
+  };
 
   const loadAttributeOptions = () =>
     getProductTypeAttributeDefinitions(value.productType.id).then(
@@ -69,12 +79,15 @@ const TargetItem: FC<TargetItemProps> = ({
         <AsyncSelectField
           name={`targetProductTypes.${index}.attribute`}
           title={<FormattedMessage {...messages.attributeTitle} />}
-          value={value.attribute}
+          value={{
+            label: value.attribute,
+            value: value.attribute,
+          }}
           loadOptions={loadAttributeOptions}
           defaultOptions={defaultOptions}
           isRequired
           onBlur={handleBlur}
-          onChange={handleChange}
+          onChange={onChange}
         />
       </Card>
       <SecondaryIconButton
