@@ -40,3 +40,27 @@ export const getProductByID = async (id?: string, staged = false) => {
 
   return null;
 };
+
+export const getProductsByCategoryId = async (
+  categoryId: string,
+  offset: number = 0,
+  limit: number = 20
+) => {
+  if (categoryId) {
+    return await createApiRoot()
+      .productProjections()
+      .get({
+        queryArgs: {
+          filter: `categories.id: "${categoryId}"`,
+          offset,
+          limit,
+        },
+      })
+      .execute()
+      .then((result) => {
+        return result.body.results;
+      });
+  }
+
+  return null;
+};
