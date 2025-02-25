@@ -38,6 +38,10 @@ const typeOptions = [
     value: TYPES.Money,
   },
   {
+    label: <FormattedMessage {...messages.localizedMoneyLabel} />,
+    value: TYPES.LocalizedMoney,
+  },
+  {
     label: <FormattedMessage {...messages.dateLabel} />,
     value: TYPES.Date,
   },

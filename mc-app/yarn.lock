@@ -2447,6 +2447,31 @@
     prop-types "15.8.1"
     react-intl "^6.3.2"
 
+"@commercetools-uikit/localized-money-input@^19.22.6":
+  version "19.22.6"
+  resolved "https://registry.yarnpkg.com/@commercetools-uikit/localized-money-input/-/localized-money-input-19.22.6.tgz#61738387d64d3368e2d91ea4928402f0952503e4"
+  integrity sha512-TmPjS1WJg+APmyOvyJp93q0r5r35Z7hV/a6tdkvllEwRXa0IMNMxt4gETkpnQLxDkRjtWeV95XZtxvNBWMum4A==
+  dependencies:
+    "@babel/runtime" "^7.20.13"
+    "@babel/runtime-corejs3" "^7.20.13"
+    "@commercetools-uikit/constraints" "19.22.6"
+    "@commercetools-uikit/design-system" "19.22.6"
+    "@commercetools-uikit/flat-button" "19.22.6"
+    "@commercetools-uikit/hooks" "19.22.6"
+    "@commercetools-uikit/icons" "19.22.6"
+    "@commercetools-uikit/input-utils" "19.22.6"
+    "@commercetools-uikit/localized-utils" "19.22.6"
+    "@commercetools-uikit/messages" "19.22.6"
+    "@commercetools-uikit/money-input" "19.22.6"
+    "@commercetools-uikit/select-utils" "19.22.6"
+    "@commercetools-uikit/spacings-stack" "19.22.6"
+    "@commercetools-uikit/tooltip" "19.22.6"
+    "@commercetools-uikit/utils" "19.22.6"
+    "@emotion/react" "^11.10.5"
+    "@emotion/styled" "^11.10.5"
+    prop-types "15.8.1"
+    react-select "5.9.0"
+
 "@commercetools-uikit/localized-text-field@^19.17.1":
   version "19.22.1"
   resolved "https://registry.yarnpkg.com/@commercetools-uikit/localized-text-field/-/localized-text-field-19.22.1.tgz#9e73a577563892409a92e45cb7613337ab698d0c"
@@ -2500,6 +2525,16 @@
     "@commercetools-uikit/utils" "19.22.1"
     lodash "4.17.21"
 
+"@commercetools-uikit/localized-utils@19.22.6":
+  version "19.22.6"
+  resolved "https://registry.yarnpkg.com/@commercetools-uikit/localized-utils/-/localized-utils-19.22.6.tgz#110b244ed1170b7dc48662dea62e194fe64aa9aa"
+  integrity sha512-5Dn20j5L5yD5fL7zu9+1GdWMWAnEE4sOUri7Vsxqs8fBKuMIhQajEtqwMPTTv8GnfJp1oFc/D4Y3awMgdFdipA==
+  dependencies:
+    "@babel/runtime" "^7.20.13"
+    "@babel/runtime-corejs3" "^7.20.13"
+    "@commercetools-uikit/utils" "19.22.6"
+    lodash "4.17.21"
+
 "@commercetools-uikit/messages@19.22.1", "@commercetools-uikit/messages@^19.17.1":
   version "19.22.1"
   resolved "https://registry.yarnpkg.com/@commercetools-uikit/messages/-/messages-19.22.1.tgz#472a26c049196212857dfa7d2a8f6df201bd8067"
@@ -2527,6 +2562,27 @@
     "@emotion/styled" "^11.10.5"
     prop-types "15.8.1"
     react-intl "^6.3.2"
+
+"@commercetools-uikit/money-input@19.22.6":
+  version "19.22.6"
+  resolved "https://registry.yarnpkg.com/@commercetools-uikit/money-input/-/money-input-19.22.6.tgz#b34bd85dc8d02f2916f25569767dd9ca06597c02"
+  integrity sha512-amTkW4pCy7oWzBn+uLI2/lolB04xXbs10VYKyynAnKX2L2YfOovUtMeVT2Y0/FHpoiwp9pBzzK0prIruBGj84w==
+  dependencies:
+    "@babel/runtime" "^7.20.13"
+    "@babel/runtime-corejs3" "^7.20.13"
+    "@commercetools-uikit/constraints" "19.22.6"
+    "@commercetools-uikit/design-system" "19.22.6"
+    "@commercetools-uikit/hooks" "19.22.6"
+    "@commercetools-uikit/icons" "19.22.6"
+    "@commercetools-uikit/input-utils" "19.22.6"
+    "@commercetools-uikit/select-utils" "19.22.6"
+    "@commercetools-uikit/tooltip" "19.22.6"
+    "@commercetools-uikit/utils" "19.22.6"
+    "@emotion/react" "^11.10.5"
+    "@emotion/styled" "^11.10.5"
+    lodash "4.17.21"
+    prop-types "15.8.1"
+    react-select "5.9.0"
 
 "@commercetools-uikit/money-input@^19.22.1":
   version "19.22.1"
@@ -3019,6 +3075,24 @@
     "@commercetools-uikit/design-system" "19.22.1"
     "@commercetools-uikit/hooks" "19.22.1"
     "@commercetools-uikit/utils" "19.22.1"
+    "@emotion/react" "^11.10.5"
+    "@emotion/styled" "^11.10.5"
+    lodash "4.17.21"
+    prop-types "15.8.1"
+    react-is "17.0.2"
+    use-popper "1.1.6"
+
+"@commercetools-uikit/tooltip@19.22.6":
+  version "19.22.6"
+  resolved "https://registry.yarnpkg.com/@commercetools-uikit/tooltip/-/tooltip-19.22.6.tgz#edad028f39a49bd839b1bd1f3c3f2f88fdbe6327"
+  integrity sha512-C9RMciI3tdB+mXbygLLJx4xtUtMHpHmbEKxJkB9/rUK6n5kif7sj1er3tSDMnq7PS6W4Jmqy7/KLF+Y+yFK9bg==
+  dependencies:
+    "@babel/runtime" "^7.20.13"
+    "@babel/runtime-corejs3" "^7.20.13"
+    "@commercetools-uikit/constraints" "19.22.6"
+    "@commercetools-uikit/design-system" "19.22.6"
+    "@commercetools-uikit/hooks" "19.22.6"
+    "@commercetools-uikit/utils" "19.22.6"
     "@emotion/react" "^11.10.5"
     "@emotion/styled" "^11.10.5"
     lodash "4.17.21"

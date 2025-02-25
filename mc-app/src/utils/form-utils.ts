@@ -1,9 +1,19 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
+import LocalizedTextInput from '@commercetools-uikit/localized-text-input';
 import { IntlShape, MessageDescriptor } from 'react-intl';
-import { addMethod, array, object, string, number, date, boolean } from 'yup';
+import { addMethod, array, boolean, date, number, object, string } from 'yup';
 import { AttributeValue, Reference } from '../hooks/use-schema/types';
 import { TYPES, TYPES_ENUM } from './contants';
-import LocalizedTextInput from '@commercetools-uikit/localized-text-input';
+
+const getEmptyCurrencies = (currencies: Array<string>) => {
+  return currencies.reduce((acc, curr) => {
+    acc[curr] = {
+      amount: '',
+      currencyCode: curr,
+    };
+    return acc;
+  }, {} as Record<string, { amount: string; currencyCode: string }>);
+};
 
 export const getValidation = (
   method: any,
@@ -70,6 +80,7 @@ export const getValidationByType = (
     case TYPES.String:
     case TYPES.Enum:
     case TYPES.LocalizedEnum:
+    case TYPES.LocalizedMoney:
     case TYPES.Time:
       return getValidation('string', required, messages, intl);
 
@@ -137,6 +148,9 @@ export const getValueByType = (
 
     case TYPES.LocalizedString:
       return LocalizedTextInput.createLocalizedString(languages);
+
+    case TYPES.LocalizedMoney:
+      return getEmptyCurrencies(currencies);
 
     case TYPES.Boolean:
       return false;

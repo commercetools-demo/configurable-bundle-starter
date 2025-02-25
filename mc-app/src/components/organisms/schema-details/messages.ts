@@ -66,6 +66,11 @@ export default defineMessages({
     description: 'Label for attributes money value',
     defaultMessage: 'Money',
   },
+  localizedMoneyLabel: {
+    id: 'Container.form.type.label.localizedMoney',
+    description: 'Label for attributes localized money value',
+    defaultMessage: 'Localized Money',
+  },
   dateLabel: {
     id: 'Container.form.type.label.date',
     description: 'Label for attributes date value',

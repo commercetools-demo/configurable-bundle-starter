@@ -20,6 +20,7 @@ import Card from '@commercetools-uikit/card';
 import { AttributeValue } from '../../../hooks/use-schema/types';
 import AddNewProductButton from '../new-product/add-new-product-button';
 import Constraints from '@commercetools-uikit/constraints';
+import LocalizedMoneyInput from '@commercetools-uikit/localized-money-input';
 
 type Props = {
   type: string;
@@ -149,6 +150,26 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
           <MoneyInput
             data-testid="field-type-money"
             currencies={currencies}
+            name={name}
+            value={value}
+            hasError={!!(touched && errors)}
+            onChange={onChange}
+            onBlur={onBlur}
+          />
+          {touched && errors && (
+            <ErrorMessage data-testid="field-error">
+              {get(errors, 'amount')}
+            </ErrorMessage>
+          )}
+        </Spacings.Stack>
+      );
+
+    case TYPES.LocalizedMoney:
+      return (
+        <Spacings.Stack scale="xs">
+          <LocalizedMoneyInput
+            selectedCurrency={currencies?.[0]}
+            data-testid="field-type-money"
             name={name}
             value={value}
             hasError={!!(touched && errors)}

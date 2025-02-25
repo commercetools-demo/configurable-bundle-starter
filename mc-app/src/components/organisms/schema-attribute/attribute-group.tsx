@@ -1,24 +1,18 @@
-import React, { FC } from 'react';
-import includes from 'lodash/includes';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import LocalizedTextInput from '@commercetools-uikit/localized-text-input';
 import Spacings from '@commercetools-uikit/spacings';
 import { useFormik } from 'formik';
 import { get } from 'lodash';
+import includes from 'lodash/includes';
+import { FC } from 'react';
 import { AttributeValue } from '../../../hooks/use-schema/types';
-import {
-  ATTRIBUTES,
-  PRODUCT_REF_DISPLAY_MODES,
-  REFERENCE_BY,
-  REFERENCE_TYPES,
-  TYPES,
-} from '../../../utils/contants';
+import { ATTRIBUTES, REFERENCE_BY, TYPES } from '../../../utils/contants';
 import Attribute from './attribute';
-import ObjectAttributes from './object-attributes';
-import ReferenceAttribute from './reference-attribute';
+import styles from './attribute-group.module.css';
 import EnumAttributes from './enum-attributes';
 import LocalizedEnumAttributes from './localized-enum-attributes';
-import styles from './attribute-group.module.css';
+import ObjectAttributes from './object-attributes';
+import ReferenceAttribute from './reference-attribute';
 import ReferenceUISettings from './reference-ui-settings';
 
 type TFormValues = {
