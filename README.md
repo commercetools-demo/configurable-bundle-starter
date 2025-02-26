@@ -6,6 +6,12 @@ A comprehensive solution for managing and viewing configurable bundles in commer
 
 The project consists of the following applications:
 
+- `assets/`: Web component for bundle configuration
+- `bundle-api/`: Backend API service
+- `bundle-viewer/`: Merchant Center custom view to display bundle information
+- `mc-app/`: Merchant Center custom application
+
+
 ### 1. Merchant Center Application (mc-app)
 
 A custom Merchant Center application for managing configurable bundles.
@@ -81,9 +87,108 @@ A service application that handles the backend logic for bundle management.
      ```
    - **Response:** Returns the updated cart with added bundle items
 
-### 4. Assets
 
-Static assets used across the applications.
+### 4. Assets - Web Component
+
+A customizable web component for configuring product bundles with various display modes and pricing options.
+
+**Installation**
+
+```html
+<script src="path/to/configurable-bundles.js"></script>
+```
+
+**Usage**
+
+```html
+<product-card
+  sku="your-product-sku"
+  baseurl="https://your-api-url"
+  cartid="your-cart-id"
+  locale="en-US">
+</product-card>
+```
+
+**Properties**
+
+| Property | Type | Required | Default | Description |
+|----------|------|----------|---------|-------------|
+| `sku` | string | Yes | - | The SKU of the product bundle to configure |
+| `baseurl` | string | Yes | - | Base URL for the API endpoints |
+| `cartid` | string | Yes | - | The ID of the shopping cart |
+| `locale` | string | No | 'en-US' | Locale for formatting prices and text |
+| `pricecountry` | string | No | - | Country code for price calculation |
+| `pricecurrency` | string | No | - | Currency code for price display |
+| `pricecustomergroup` | string | No | - | Customer group for price calculation |
+| `pricechannel` | string | No | - | Sales channel for price calculation |
+| `storeprojection` | string | No | - | Store projection for product data |
+
+**CSS Custom Properties**
+
+The component can be styled using CSS custom properties:
+
+```css
+product-card {
+  --configurator-primary-color: #2563eb;
+  --configurator-secondary-color: #1d4ed8;
+  --configurator-background-color: white;
+  --configurator-text-color: #1f2937;
+  --configurator-border-color: #e5e7eb;
+  --configurator-error-color: #dc2626;
+  --configurator-success-color: #059669;
+}
+```
+
+**Events**
+
+| Event Name | Detail | Description |
+|------------|--------|-------------|
+| `configuration-complete` | `{ selections: Object }` | Fired when configuration is complete |
+| `selection-change` | `{ componentTitle: string, productId: string, checked: boolean }` | Fired when a component selection changes |
+| `quantity-change` | `{ componentTitle: string, quantity: number }` | Fired when a component quantity changes |
+
+**Example**
+
+```html
+<product-card
+  sku="BUNDLE-123"
+  baseurl="https://api.example.com"
+  cartid="cart-456"
+  locale="en-US"
+  pricecountry="US"
+  pricecurrency="USD"
+  pricecustomergroup="VIP"
+  pricechannel="web"
+  storeprojection="main">
+</product-card>
+
+<script>
+  const productCard = document.querySelector('product-card');
+  
+  productCard.addEventListener('configuration-complete', (e) => {
+    console.log('Configuration complete:', e.detail.selections);
+  });
+
+  productCard.addEventListener('selection-change', (e) => {
+    console.log('Selection changed:', e.detail);
+  });
+
+  productCard.addEventListener('quantity-change', (e) => {
+    console.log('Quantity changed:', e.detail);
+  });
+</script>
+```
+
+**Display Modes**
+
+The component supports multiple display modes that can be configured through the product bundle schema:
+
+- Wizard: Step-by-step configuration
+- Accordion: Expandable sections
+- Grid: All components visible at once (not implemented yet)
+- Carousel: Sliding component selection (not implemented yet)
+
+The display mode is determined by the `bundleSchema.bundleUISettings.displayMode` property in the product data.
 
 ## Getting Started
 
