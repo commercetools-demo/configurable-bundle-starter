@@ -23,16 +23,6 @@ class ComponentSelector extends HTMLElement {
     this.render();
   }
 
-  private formatPrice(price: any): string {
-    if (!price) return '';
-    
-    const amount = price.centAmount / Math.pow(10, price.fractionDigits);
-    return new Intl.NumberFormat(this.locale, {
-      style: 'currency',
-      currency: price.currencyCode
-    }).format(amount);
-  }
-
   private render(): void {
     if (!this.component) return;
 

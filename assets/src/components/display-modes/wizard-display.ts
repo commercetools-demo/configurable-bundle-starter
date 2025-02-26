@@ -44,11 +44,6 @@ class WizardDisplay extends HTMLElement {
     }, 0);
   }
 
-  private calculateTotal(): number {
-    const mainProductPrice = getVariantPrice(this.mainProduct?.masterVariant);
-    return (mainProductPrice / 100) + this.calculateSelectionsTotal();
-  }
-
   private render(): void {
     const styles = `
       .wizard {
