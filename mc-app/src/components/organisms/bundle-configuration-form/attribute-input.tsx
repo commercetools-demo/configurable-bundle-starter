@@ -21,6 +21,18 @@ import { AttributeValue } from '../../../hooks/use-schema/types';
 import AddNewProductButton from '../new-product/add-new-product-button';
 import Constraints from '@commercetools-uikit/constraints';
 import LocalizedMoneyInput from '@commercetools-uikit/localized-money-input';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+
+const WrappedReferenceInput = styled.div`
+  flex-basis: 100%;
+`;
 
 type Props = {
   type: string;
@@ -264,8 +276,8 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
       const refErrors = get(errors, referenceBy);
       const hasError = !!(refTouched && refErrors);
       return (
-        <>
-          <div style={style}>
+        <Wrapper>
+          <WrappedReferenceInput>
             <ReferenceInput
               data-testid="field-type-reference"
               name={name}
@@ -278,7 +290,7 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
             {hasError && (
               <ErrorMessage data-testid="field-error">{refErrors}</ErrorMessage>
             )}
-          </div>
+          </WrappedReferenceInput>
           {reference?.type === 'product' && !value.id && (
             <AddNewProductButton
               hideSuccessMessage
@@ -297,7 +309,7 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
               }}
             />
           )}
-        </>
+        </Wrapper>
       );
     }
 

@@ -71,6 +71,12 @@ const getReferenceType = (type: AttributeType) => {
         .referenceTypeId as REFERENCE_TYPES_ENUM,
     };
   }
+  if (type.name === 'reference') {
+    return {
+      by: 'id',
+      type: type.referenceTypeId as  REFERENCE_TYPES_ENUM,
+    };
+  }
   return undefined;
 };
 
