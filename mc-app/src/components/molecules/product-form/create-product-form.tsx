@@ -46,7 +46,7 @@ const CreateProductForm = ({
   }, [schema]);
 
   useEffect(() => {
-    getProductTypes(where).then((productTypes) => {
+    getProductTypes(where, 100).then((productTypes) => {
       setProductTypes(
         productTypes.map((productType) => ({
           label: productType.name,

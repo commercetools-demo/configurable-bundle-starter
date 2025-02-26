@@ -22,12 +22,16 @@ export const useProductTypeConnector = () => {
   const dispatchProductTypeRead = useAsyncDispatch<TSdkAction, ProductType>();
   const context = useApplicationContext((context) => context);
 
-  const getProductTypes = async (where?: string): Promise<ProductType[]> => {
+  const getProductTypes = async (
+    where?: string,
+    limit?: number
+  ): Promise<ProductType[]> => {
     const result = await dispatchProductsRead(
       actions.get({
         mcApiProxyTarget: MC_API_PROXY_TARGETS.COMMERCETOOLS_PLATFORM,
         uri: buildUrlWithParams(`/${context?.project?.key}/product-types`, {
           ...(where ? { where } : {}),
+          ...(limit ? { limit: limit.toString() } : {}),
         }),
       })
     );
