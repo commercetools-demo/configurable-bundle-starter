@@ -47,7 +47,6 @@ class ComponentSelector extends HTMLElement {
 
       .product-image {
         width: 100%;
-        aspect-ratio: 1;
         overflow: hidden;
         border-radius: 0.5rem;
         margin-bottom: 0.5rem;
@@ -107,7 +106,7 @@ class ComponentSelector extends HTMLElement {
                        class="product-img">
                 ` : ''}
               </div>
-              <h3 class="product-name">${product.obj.name[this.locale] || product.obj.name['en-US']}</h3>
+              <h3 class="product-name">${truncateDescription(product.obj.name[this.locale] || product.obj.name['en-US'] || '', 28)}</h3>
               <p class="product-description">
                 ${truncateDescription(product.obj.description?.[this.locale] || product.obj.description?.['en-US'] || '')}
               </p>
