@@ -26,6 +26,13 @@ export interface Variant {
       currencyCode: string;
     }
   }>;
+  price?: {
+    value: {
+      centAmount: number;
+      fractionDigits: number;
+      currencyCode: string;
+    }
+  }
 }
 
 export interface BundleComponent {

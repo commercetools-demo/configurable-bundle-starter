@@ -133,7 +133,8 @@ class ProductCard extends HTMLElement {
       components: this.product.resolvedBundle.bundleConfiguration.components_and_parts,
       currentStep: this.state.currentStep,
       selections: this.state.selections,
-      locale: this.getLocale()
+      locale: this.getLocale(),
+      mainProduct: this.product
     };
 
     this.attachDisplayListeners(displayComponent);

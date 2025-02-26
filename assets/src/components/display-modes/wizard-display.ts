@@ -1,4 +1,5 @@
 import { BundleComponent, ConfigurationState } from '../../interfaces/bundle.interfaces';
+import { getVariantPrice, formatPrice } from '../../utils/format.utils';
 import '../component-selector';
 
 class WizardDisplay extends HTMLElement {
@@ -7,23 +8,45 @@ class WizardDisplay extends HTMLElement {
   private currentStep = 0;
   private selections: ConfigurationState['selections'] = {};
   private locale: string = 'en-US';
+  private mainProduct: any = null;
 
   constructor() {
     super();
     this.shadow = this.attachShadow({ mode: 'open' });
   }
 
-  set data({ components, currentStep, selections, locale }: {
+  set data({ components, currentStep, selections, locale, mainProduct }: {
     components: BundleComponent[];
     currentStep: number;
     selections: ConfigurationState['selections'];
     locale: string;
+    mainProduct: any;
   }) {
     this.components = components;
     this.currentStep = currentStep;
     this.selections = selections;
     this.locale = locale;
+    this.mainProduct = mainProduct;
     this.render();
+  }
+
+
+  private calculateSelectionsTotal(): number {
+    return Object.entries(this.selections).reduce((total, [componentId, selection]) => {
+      const component = this.components.find(c => c.title === componentId);
+      if (!component) return total;
+      
+      const selectedProduct = component.productselectableProducts.find(p => p.id === selection.productId);
+      if (!selectedProduct) return total;
+
+      const price = getVariantPrice(selectedProduct.obj.masterVariant);
+      return total + (price / 100 * (selection.quantity || 1));
+    }, 0);
+  }
+
+  private calculateTotal(): number {
+    const mainProductPrice = getVariantPrice(this.mainProduct?.masterVariant);
+    return (mainProductPrice / 100) + this.calculateSelectionsTotal();
   }
 
   private render(): void {
@@ -93,6 +116,16 @@ class WizardDisplay extends HTMLElement {
       }
     `;
 
+    const isLastStep = this.currentStep === this.components.length - 1;
+    const hasCurrentSelection = this.selections[this.components[this.currentStep]?.title];
+    const showContinueButton = !isLastStep || (isLastStep && !hasCurrentSelection);
+
+    const mainProductPrice = getVariantPrice(this.mainProduct?.masterVariant);
+    const selectionsTotal = this.calculateSelectionsTotal();
+    const currency = this.mainProduct?.masterVariant?.price?.value?.currencyCode || 
+                    this.mainProduct?.masterVariant?.prices?.[0]?.value?.currencyCode ||
+                    'USD';
+
     this.shadow.innerHTML = `
       <style>${styles}</style>
       <div class="wizard">
@@ -109,17 +142,13 @@ class WizardDisplay extends HTMLElement {
         </div>
         <div class="wizard-footer">
           <div class="total">
-            Total: ${new Intl.NumberFormat(this.locale, {
-              style: 'currency',
-              currency: 'USD'
-            }).format(this.calculateTotal())}
+            Total: ${formatPrice(mainProductPrice, this.locale, currency)} + ${formatPrice(selectionsTotal * 100, this.locale, currency)} = ${formatPrice((mainProductPrice + selectionsTotal * 100), this.locale, currency)}
           </div>
-          <button class="continue-button">
-            Continue +${new Intl.NumberFormat(this.locale, {
-              style: 'currency',
-              currency: 'USD'
-            }).format(this.getSelectedComponentPrice())}
-          </button>
+          ${showContinueButton ? `
+            <button class="continue-button">
+              Continue +${formatPrice(this.getSelectedComponentPrice() * 100, this.locale, currency)}
+            </button>
+          ` : ''}
         </div>
       </div>
     `;
@@ -136,30 +165,15 @@ class WizardDisplay extends HTMLElement {
     this.attachListeners();
   }
 
-  private calculateTotal(): number {
-    return Object.entries(this.selections).reduce((total, [componentId, selection]) => {
-      const component = this.components.find(c => c.title === componentId);
-      if (!component) return total;
-      
-      const selectedProduct = component.productselectableProducts.find(p => p.id === selection.productId);
-      if (!selectedProduct) return total;
-
-      const price = selectedProduct.obj.masterVariant.prices?.[0]?.value.centAmount || 0;
-      return total + (price / 100 * (selection.quantity || 1));
-    }, 0);
-  }
-
   private getSelectedComponentPrice(): number {
     const currentComponent = this.components[this.currentStep];
     const selection = this.selections[currentComponent.title];
-    console.log('selection', selection);
     if (!selection) return 0;
 
     const selectedProduct = currentComponent.productselectableProducts.find(p => p.id === selection.productId);
-    console.log('selectedProduct', selectedProduct);
     if (!selectedProduct) return 0;
 
-    const price = selectedProduct.obj.masterVariant.prices?.[0]?.value.centAmount || 0;
+    const price = getVariantPrice(selectedProduct.obj.masterVariant);
     return price / 100;
   }
 

@@ -1,5 +1,5 @@
 import { BundleComponent, ConfigurationState } from '../interfaces/bundle.interfaces';
-import { truncateDescription } from '../utils/format.utils';
+import { formatPrice, getVariantPrice, truncateDescription } from '../utils/format.utils';
 
 class ComponentSelector extends HTMLElement {
   private shadow: ShadowRoot;
@@ -122,7 +122,7 @@ class ComponentSelector extends HTMLElement {
                 ${truncateDescription(product.obj.description?.[this.locale] || product.obj.description?.['en-US'] || '')}
               </p>
               <div class="product-price">
-                ${this.formatPrice(product.obj.masterVariant.prices?.[0]?.value)}
+                ${formatPrice(getVariantPrice(product.obj.masterVariant))}
               </div>
               ${this.component?.maxQuantity && this.component?.maxQuantity > 1 ? `
                 <div class="quantity-selector">
