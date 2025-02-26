@@ -301,7 +301,7 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
                     name,
                     value: {
                       id: value,
-                      by: referenceBy,
+                      typeId: reference?.type,
                     },
                   },
                 });
