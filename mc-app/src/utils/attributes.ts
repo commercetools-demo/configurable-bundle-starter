@@ -12,8 +12,29 @@ import {
   ATTRIBUTE_DEFINITION_TO_TYPES,
   REFERENCE_TYPES_ENUM,
   TYPES_ENUM,
+  TYPES_TO_ATTRIBUTE_DEFINITION,
 } from './contants';
 import { AttributeValue } from '../hooks/use-schema/types';
+
+const convertValueByType = (attributeValue: any, type?: AttributeType): any => {
+  switch (type?.name) {
+    case TYPES_TO_ATTRIBUTE_DEFINITION.Reference:
+      return {
+        id: attributeValue.id,
+        typeId: (type as AttributeReferenceType)?.referenceTypeId,
+      };
+
+    case TYPES_TO_ATTRIBUTE_DEFINITION.Set:
+      return Array.isArray(attributeValue)
+        ? attributeValue.map((item) =>
+            convertValueByType(item, (type as AttributeSetType)?.elementType)
+          )
+        : attributeValue;
+
+    default:
+      return attributeValue;
+  }
+};
 
 const getEnumValues = (
   attribute: AttributeDefinition
@@ -74,7 +95,7 @@ const getReferenceType = (type: AttributeType) => {
   if (type.name === 'reference') {
     return {
       by: 'id',
-      type: type.referenceTypeId as  REFERENCE_TYPES_ENUM,
+      type: type.referenceTypeId as REFERENCE_TYPES_ENUM,
     };
   }
   return undefined;
@@ -214,10 +235,7 @@ export const convertAttributeMapToAttributes = (
     );
     return {
       name: key,
-      value: convertAttributeMapValueToAttributeValue(
-        attributeMap[key],
-        attributeDefinition?.type
-      ),
+      value: convertValueByType(attributeMap[key], attributeDefinition?.type),
     };
   });
 };

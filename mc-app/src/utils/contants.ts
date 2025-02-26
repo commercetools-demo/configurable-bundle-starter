@@ -89,6 +89,23 @@ export const ATTRIBUTE_DEFINITION_TO_TYPES = {
   set: '',
 };
 
+export const TYPES_TO_ATTRIBUTE_DEFINITION = {
+  String: 'text',
+  LocalizedString: 'ltext',
+  Number: 'number',
+  Boolean: 'boolean',
+  Money: 'money',
+  LocalizedMoney: 'lmoney',
+  Date: 'date',
+  Time: 'time',
+  DateTime: 'datetime',
+  Enum: 'enum',
+  LocalizedEnum: 'lenum',
+  Nested: 'nested',
+  Reference: 'reference',
+  Set: 'set',
+};
+
 export enum CONFIGURATION_TYPES_ENUM {
   CUSTOM_OBJECT = 'custom-object',
   PRODUCT = 'product',
