@@ -18,7 +18,17 @@ class ProductCard extends HTMLElement {
   }
 
   static get observedAttributes(): string[] {
-    return ['sku', 'baseurl', 'cartid', 'locale'];
+    return [
+      'sku',
+      'baseurl',
+      'cartid',
+      'locale',
+      'pricecountry',
+      'pricecurrency',
+      'pricecustomergroup',
+      'pricechannel',
+      'storeprojection'
+    ];
   }
 
   connectedCallback(): void {
@@ -44,6 +54,26 @@ class ProductCard extends HTMLElement {
     return this.getAttribute('locale') || 'en-US';
   }
 
+  private getPriceCountry(): string | null {
+    return this.getAttribute('pricecountry');
+  }
+
+  private getPriceCurrency(): string | null {
+    return this.getAttribute('pricecurrency');
+  }
+
+  private getPriceCustomerGroup(): string | null {
+    return this.getAttribute('pricecustomergroup');
+  }
+
+  private getPriceChannel(): string | null {
+    return this.getAttribute('pricechannel');
+  }
+
+  private getStoreProjection(): string | null {
+    return this.getAttribute('storeprojection');
+  }
+
   private async fetchProductData(): Promise<void> {
     const sku = this.getAttribute('sku');
     const baseURL = this.getApiBaseUrl();
@@ -54,7 +84,24 @@ class ProductCard extends HTMLElement {
     }
 
     try {
-      const response = await fetch(`${baseURL}/product-by-sku?sku=${sku}`);
+      const queryParams = new URLSearchParams({
+        sku: sku
+      });
+
+      // Add optional price parameters if they exist
+      const priceCountry = this.getPriceCountry();
+      const priceCurrency = this.getPriceCurrency();
+      const priceCustomerGroup = this.getPriceCustomerGroup();
+      const priceChannel = this.getPriceChannel();
+      const storeProjection = this.getStoreProjection();
+
+      if (priceCountry) queryParams.append('priceCountry', priceCountry);
+      if (priceCurrency) queryParams.append('priceCurrency', priceCurrency);
+      if (priceCustomerGroup) queryParams.append('priceCustomerGroup', priceCustomerGroup);
+      if (priceChannel) queryParams.append('priceChannel', priceChannel);
+      if (storeProjection) queryParams.append('storeProjection', storeProjection);
+
+      const response = await fetch(`${baseURL}/product-by-sku?${queryParams.toString()}`);
       if (!response.ok) throw new Error('Failed to fetch product data');
 
       this.product = await response.json();
