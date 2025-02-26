@@ -2,15 +2,15 @@ import {
   getProductByID,
   getProductsByCategoryId,
 } from '../services/product.service';
-import { AttributeValue, Bundle, Schema } from '../types/index.types';
+import { AttributeValue, Bundle, ProductProjectionSearchOptions, Schema } from '../types/index.types';
 import { logger } from './logger.utils';
 
 interface Product {
   id: string;
 }
 
-async function fetchProduct(id: string): Promise<Product> {
-  const response = await getProductByID(id);
+async function fetchProduct(id: string, options?: ProductProjectionSearchOptions): Promise<Product> {
+  const response = await getProductByID(id, undefined, options);
   if (!response) {
     throw new Error(`Failed to fetch product with id ${id}`);
   }
@@ -19,10 +19,9 @@ async function fetchProduct(id: string): Promise<Product> {
 
 async function fetchProductsByCategory(
   categoryId: string,
-  offset: number = 0,
-  limit: number = 5
+  options?: ProductProjectionSearchOptions
 ): Promise<Product[]> {
-  const response = await getProductsByCategoryId(categoryId, offset, limit);
+  const response = await getProductsByCategoryId(categoryId, options);
   if (!response) {
     throw new Error(`Failed to fetch products with CategoryId ${categoryId}`);
   }
@@ -33,8 +32,7 @@ async function processAttributes(
   schemaAttributes: AttributeValue[],
   bundleData: Record<string, any>,
   path: string[] = [],
-  limit?: number,
-  offset?: number
+  options?: ProductProjectionSearchOptions
 ): Promise<Record<string, any>> {
   const result: Record<string, any> = { ...bundleData };
 
@@ -46,7 +44,7 @@ async function processAttributes(
       if (attr.set) {
         const products = await Promise.all(
           value.map(async (item: any) =>
-            processProductReference(item, currentPath)
+            processProductReference(item, currentPath, options)
           )
         );
 
@@ -59,7 +57,7 @@ async function processAttributes(
       } else {
         result[attr.name] = {
           ...result[attr.name],
-          obj: await processProductReference(value, currentPath),
+          obj: await processProductReference(value, currentPath, options),
         };
       }
     } else if (isCategoryReference(attr)) {
@@ -70,8 +68,7 @@ async function processAttributes(
               if (!item?.id) return item;
               const products = await fetchProductsByCategory(
                 item.id,
-                offset,
-                limit
+                options
               );
               return {
                 ...item,
@@ -83,8 +80,7 @@ async function processAttributes(
         } else {
           const products = await fetchProductsByCategory(
             value.id,
-            offset,
-            limit
+            options
           );
           result[attr.name] = {
             ...result[attr.name],
@@ -101,8 +97,7 @@ async function processAttributes(
         attr,
         value,
         currentPath,
-        limit,
-        offset
+        options
       );
     }
   }
@@ -124,14 +119,15 @@ function isNestedObject(attr: AttributeValue): boolean {
 
 async function processProductReference(
   value: any,
-  path: string[]
+  path: string[],
+  options?: ProductProjectionSearchOptions
 ): Promise<Product | any> {
   if (!value?.id) {
     return value;
   }
 
   try {
-    return await fetchProduct(value.id);
+    return await fetchProduct(value.id, options);
   } catch (error) {
     logger.error(
       `Failed to resolve product reference at path ${path.join('.')}: ${error}`
@@ -144,8 +140,7 @@ async function processNestedObject(
   attr: AttributeValue,
   value: any,
   currentPath: string[],
-  limit?: number,
-  offset?: number
+  options?: ProductProjectionSearchOptions
 ): Promise<any> {
   if (!value) {
     return value;
@@ -158,21 +153,19 @@ async function processNestedObject(
           attr.attributes!,
           item,
           [...currentPath, index.toString()],
-          limit,
-          offset
+          options
         )
       )
     );
   }
 
-  return processAttributes(attr.attributes!, value, currentPath, limit, offset);
+  return processAttributes(attr.attributes!, value, currentPath, options);
 }
 
 export async function resolveProductReferences(
   schema: Schema,
   bundle: Bundle,
-  limit?: number,
-  offset?: number
+  options?: ProductProjectionSearchOptions,
 ): Promise<Bundle> {
   if (!schema?.attributes || !bundle?.bundleConfiguration) {
     return bundle;
@@ -183,8 +176,7 @@ export async function resolveProductReferences(
       schema.attributes,
       bundle.bundleConfiguration,
       [],
-      limit,
-      offset
+      options
     ),
   };
 }

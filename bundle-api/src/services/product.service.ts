@@ -1,5 +1,5 @@
 import { createApiRoot } from '../client/create.client';
-import { ReturningProdct } from '../types/index.types';
+import { ProductProjectionSearchOptions, ReturningProdct } from '../types/index.types';
 
 export const getProductBySKU = async (
   sku?: string
@@ -22,7 +22,7 @@ export const getProductBySKU = async (
   return undefined;
 };
 
-export const getProductByID = async (id?: string, staged = false) => {
+export const getProductByID = async (id?: string, staged = false, options?: ProductProjectionSearchOptions) => {
   if (id) {
     return await createApiRoot()
       .productProjections()
@@ -30,6 +30,7 @@ export const getProductByID = async (id?: string, staged = false) => {
       .get({
         queryArgs: {
           staged,
+          ...(options && { ...options }),
         },
       })
       .execute()
@@ -43,8 +44,7 @@ export const getProductByID = async (id?: string, staged = false) => {
 
 export const getProductsByCategoryId = async (
   categoryId: string,
-  offset: number = 0,
-  limit: number = 20
+  options?: ProductProjectionSearchOptions
 ) => {
   if (categoryId) {
     return await createApiRoot()
@@ -52,8 +52,7 @@ export const getProductsByCategoryId = async (
       .get({
         queryArgs: {
           filter: `categories.id: "${categoryId}"`,
-          offset,
-          limit,
+          ...(options && { ...options }),
         },
       })
       .execute()

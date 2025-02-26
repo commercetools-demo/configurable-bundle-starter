@@ -19,7 +19,21 @@ export const getProductBySKUAction = async (
     sku,
     limit,
     offset,
-  }: { sku?: string; limit?: string; offset?: string } = request.query;
+    priceCountry,
+    priceCurrency,
+    priceCustomerGroup,
+    priceChannel,
+    storeProjection,
+  }: {
+    sku?: string;
+    limit?: string;
+    offset?: string;
+    priceCountry?: string;
+    priceCurrency?: string;
+    priceCustomerGroup?: string;
+    priceChannel?: string;
+    storeProjection?: string;
+  } = request.query;
   logger.info(`product-by-sku message received with sku: ${sku}`);
 
   let product = await getProductBySKU(sku);
@@ -42,8 +56,15 @@ export const getProductBySKUAction = async (
     const resolvedBundle = await resolveProductReferences(
       matchingSchema?.value,
       bundleConfiguration?.value,
-      limit ? parseInt(limit) : undefined,
-      offset ? parseInt(offset) : undefined
+      {
+        priceCountry,
+        priceCurrency,
+        priceCustomerGroup,
+        priceChannel,
+        storeProjection,
+        limit: limit ? parseInt(limit) : undefined,
+        offset: offset ? parseInt(offset) : undefined,
+      }
     );
     if (product) {
       product.resolvedBundle = resolvedBundle;

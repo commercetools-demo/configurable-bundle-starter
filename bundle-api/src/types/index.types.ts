@@ -31,6 +31,16 @@ export type AttributeValue = {
   display?: boolean;
 };
 
+export type ProductProjectionSearchOptions = {
+  priceCountry?: string;
+  priceCurrency?: string;
+  priceCustomerGroup?: string;
+  priceChannel?: string;
+  storeProjection?: string;
+  limit?: number;
+  offset?: number;
+};
+
 export interface SchemaCustomObject extends CustomObject {
   value: Schema;
 }
