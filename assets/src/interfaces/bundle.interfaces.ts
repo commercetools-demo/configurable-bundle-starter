@@ -17,6 +17,16 @@ export interface BundleProduct {
     };
   };
 }
+export interface Variant {
+  images?: Array<{ url: string }>;
+  prices?: Array<{
+    value: {
+      centAmount: number;
+      fractionDigits: number;
+      currencyCode: string;
+    }
+  }>;
+}
 
 export interface BundleComponent {
   title: string;
@@ -24,16 +34,8 @@ export interface BundleComponent {
     typeId: string;
     id: string;
     obj: {
-      masterVariant: {
-        images?: Array<{ url: string }>;
-        prices?: Array<{
-          value: {
-            centAmount: number;
-            fractionDigits: number;
-            currencyCode: string;
-          }
-        }>;
-      };
+      masterVariant: Variant;
+      variants: Array<Variant>;
       name: Record<string, string>;
       description?: Record<string, string>;
     };

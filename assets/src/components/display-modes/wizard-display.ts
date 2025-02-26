@@ -28,45 +28,66 @@ class WizardDisplay extends HTMLElement {
 
   private render(): void {
     const styles = `
-      .wizard-steps {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        margin-bottom: 2rem;
+      .wizard {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 2rem;
+        padding: 1rem;
       }
 
-      .step-indicator {
-        width: 2rem;
-        height: 2rem;
-        border-radius: 50%;
-        background: var(--border-color);
+      .component-tabs {
         display: flex;
-        align-items: center;
-        justify-content: center;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .component-tab {
+        padding: 1rem;
+        text-align: left;
+        background: none;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        color: var(--text-color);
+        font-size: 1rem;
+      }
+
+      .component-tab.active {
+        background: var(--background-hover);
         font-weight: bold;
       }
 
-      .step-indicator.active {
-        background: var(--primary-color);
-        color: white;
+      .wizard-content {
+        border-left: 1px solid var(--border-color);
+        padding-left: 2rem;
       }
 
-      .wizard-navigation {
+      .wizard-footer {
+        grid-column: 1 / -1;
         display: flex;
         justify-content: space-between;
+        align-items: center;
         margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--border-color);
       }
 
-      .nav-button {
+      .total {
+        font-size: 1.25rem;
+        font-weight: bold;
+      }
+
+      .continue-button {
         background: var(--primary-color);
         color: white;
         border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 0.25rem;
+        padding: 0.75rem 2rem;
+        border-radius: 4px;
         cursor: pointer;
+        font-size: 1rem;
       }
 
-      .nav-button:disabled {
+      .continue-button:disabled {
         opacity: 0.5;
         cursor: not-allowed;
       }
@@ -75,18 +96,29 @@ class WizardDisplay extends HTMLElement {
     this.shadow.innerHTML = `
       <style>${styles}</style>
       <div class="wizard">
-        <div class="wizard-steps">
-          ${this.components.map((_, index) => `
-            <div class="step-indicator ${index === this.currentStep ? 'active' : ''}">${index + 1}</div>
+        <div class="component-tabs">
+          ${this.components.map((component, index) => `
+            <button class="component-tab ${index === this.currentStep ? 'active' : ''}"
+                    data-step="${index}">
+              ${component.title}
+            </button>
           `).join('')}
         </div>
         <div class="wizard-content">
           <component-selector></component-selector>
         </div>
-        <div class="wizard-navigation">
-          <button class="nav-button prev" ${this.currentStep === 0 ? 'disabled' : ''}>Previous</button>
-          <button class="nav-button next" ${this.currentStep === this.components.length - 1 ? 'disabled' : ''}>
-            ${this.currentStep === this.components.length - 1 ? 'Finish' : 'Next'}
+        <div class="wizard-footer">
+          <div class="total">
+            Total: ${new Intl.NumberFormat(this.locale, {
+              style: 'currency',
+              currency: 'USD'
+            }).format(this.calculateTotal())}
+          </div>
+          <button class="continue-button">
+            Continue +${new Intl.NumberFormat(this.locale, {
+              style: 'currency',
+              currency: 'USD'
+            }).format(this.getSelectedComponentPrice())}
           </button>
         </div>
       </div>
@@ -104,19 +136,46 @@ class WizardDisplay extends HTMLElement {
     this.attachListeners();
   }
 
-  private attachListeners(): void {
-    const prevButton = this.shadow.querySelector('.prev');
-    const nextButton = this.shadow.querySelector('.next');
+  private calculateTotal(): number {
+    return Object.entries(this.selections).reduce((total, [componentId, selection]) => {
+      const component = this.components.find(c => c.title === componentId);
+      if (!component) return total;
+      
+      const selectedProduct = component.productselectableProducts.find(p => p.id === selection.productId);
+      if (!selectedProduct) return total;
 
-    prevButton?.addEventListener('click', () => {
-      if (this.currentStep > 0) {
+      const price = selectedProduct.obj.masterVariant.prices?.[0]?.value.centAmount || 0;
+      return total + (price / 100 * (selection.quantity || 1));
+    }, 0);
+  }
+
+  private getSelectedComponentPrice(): number {
+    const currentComponent = this.components[this.currentStep];
+    const selection = this.selections[currentComponent.title];
+    console.log('selection', selection);
+    if (!selection) return 0;
+
+    const selectedProduct = currentComponent.productselectableProducts.find(p => p.id === selection.productId);
+    console.log('selectedProduct', selectedProduct);
+    if (!selectedProduct) return 0;
+
+    const price = selectedProduct.obj.masterVariant.prices?.[0]?.value.centAmount || 0;
+    return price / 100;
+  }
+
+  private attachListeners(): void {
+    const tabs = this.shadow.querySelectorAll('.component-tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        const step = parseInt((e.currentTarget as HTMLElement).dataset.step || '0', 10);
         this.dispatchEvent(new CustomEvent('step-change', {
-          detail: { step: this.currentStep - 1 }
+          detail: { step }
         }));
-      }
+      });
     });
 
-    nextButton?.addEventListener('click', () => {
+    const continueButton = this.shadow.querySelector('.continue-button');
+    continueButton?.addEventListener('click', () => {
       if (this.currentStep < this.components.length - 1) {
         this.dispatchEvent(new CustomEvent('step-change', {
           detail: { step: this.currentStep + 1 }
@@ -129,11 +188,36 @@ class WizardDisplay extends HTMLElement {
     const componentSelector = this.shadow.querySelector('component-selector');
     if (componentSelector) {
       componentSelector.addEventListener('selection-change', (e: any) => {
+        const { componentTitle, productId, checked } = e.detail;
+        // Update local state
+        if (checked) {
+          this.selections[componentTitle] = {
+            productId,
+            quantity: this.selections[componentTitle]?.quantity || 1
+          };
+        } else {
+          delete this.selections[componentTitle];
+        }
+        
+        // Dispatch event for parent components
         this.dispatchEvent(new CustomEvent('selection-change', { detail: e.detail }));
+        
+        // Re-render to update prices
+        this.render();
       });
 
       componentSelector.addEventListener('quantity-change', (e: any) => {
+        const { componentTitle, quantity } = e.detail;
+        // Update local state
+        if (this.selections[componentTitle]) {
+          this.selections[componentTitle].quantity = quantity;
+        }
+        
+        // Dispatch event for parent components
         this.dispatchEvent(new CustomEvent('quantity-change', { detail: e.detail }));
+        
+        // Re-render to update prices
+        this.render();
       });
     }
   }
