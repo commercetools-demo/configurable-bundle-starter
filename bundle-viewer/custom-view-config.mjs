@@ -11,6 +11,7 @@ const config = {
     },
     production: {
       customViewId: '${env:CUSTOM_VIEW_ID}',
+      url: '${env:APPLICATION_URL}',
     },
   },
   additionalEnv: {
