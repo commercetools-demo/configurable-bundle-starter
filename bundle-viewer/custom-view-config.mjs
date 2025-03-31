@@ -10,8 +10,7 @@ const config = {
       hostUriPath: '${env:HOST_URI_PATH}',
     },
     production: {
-      customViewId: '${env:CUSTOM_APPLICATION_ID}',
-      url: '${env:APPLICATION_URL}',
+      customViewId: '${env:CUSTOM_VIEW_ID}',
     },
   },
   additionalEnv: {

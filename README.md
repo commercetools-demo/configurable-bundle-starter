@@ -39,7 +39,7 @@ A custom Merchant Center view for displaying and interacting with bundles.
 - Integration with Merchant Center
 
 **Configuration:**
-- `CUSTOM_APPLICATION_ID`: The ID of the custom application
+- `CUSTOM_VIEW_ID`: The ID of the custom view application
 - `ENTRY_POINT_URI_PATH`: The entry point URI path
 - `CLOUD_IDENTIFIER`: The cloud identifier
 - `API_ENDPOINT`: The entry point URI path of Bundle API

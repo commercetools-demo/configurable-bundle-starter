@@ -19,7 +19,7 @@ deployAs:
     applicationType: merchant-center-custom-view
     configuration:
       standardConfiguration:
-        - key: CUSTOM_APPLICATION_ID
+        - key: CUSTOM_VIEW_ID
           description: The ID of the custom application.
         - key: ENTRY_POINT_URI_PATH
           description: The entry point URI path.
