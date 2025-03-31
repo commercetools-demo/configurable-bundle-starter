@@ -107,6 +107,7 @@ class ProductCard extends HTMLElement {
       this.product = await response.json();
       this.renderConfigurator();
     } catch (error) {
+      console.log('oh here', error);
       this.showError('Error loading product configuration');
     }
   }
@@ -129,13 +130,28 @@ class ProductCard extends HTMLElement {
     container.innerHTML = '';
 
     const displayComponent = document.createElement(`${displayMode}-display`);
-    (displayComponent as any).data = {
-      components: this.product.resolvedBundle.bundleConfiguration.components_and_parts,
-      currentStep: this.state.currentStep,
-      selections: this.state.selections,
-      locale: this.getLocale(),
-      mainProduct: this.product
-    };
+    
+    // Handle different configuration types
+    const configurationType = this.product.bundleSchema.bundleUISettings.configurationType;
+    
+    if (configurationType === 'base-with-addons') {
+      // For base-with-addons, pass the whole product to get access to bundleVariants
+      (displayComponent as any).data = {
+        components: this.product.resolvedBundle.bundleConfiguration.components_and_parts,
+        currentStep: this.state.currentStep,
+        selections: this.state.selections,
+        locale: this.getLocale(),
+        mainProduct: this.product
+      };
+    } else {
+      // Default configuration
+      (displayComponent as any).data = {
+        components: this.product.resolvedBundle.bundleConfiguration.components_and_parts,
+        currentStep: this.state.currentStep,
+        selections: this.state.selections,
+        locale: this.getLocale()
+      };
+    }
 
     this.attachDisplayListeners(displayComponent);
     container.appendChild(displayComponent);
@@ -143,14 +159,20 @@ class ProductCard extends HTMLElement {
 
   private attachDisplayListeners(displayComponent: Element): void {
     displayComponent.addEventListener('selection-change', (e: any) => {
-      const { componentTitle, productId, checked } = e.detail;
-      if (checked) {
-        this.state.selections[componentTitle] = {
-          productId,
-          quantity: this.state.selections[componentTitle]?.quantity || 1
-        };
+      // For base-with-addons configuration, handle complete selection change
+      if (e.detail.selections) {
+        this.state.selections = e.detail.selections;
       } else {
-        delete this.state.selections[componentTitle];
+        // Original selection change handling
+        const { componentTitle, productId, checked } = e.detail;
+        if (checked) {
+          this.state.selections[componentTitle] = {
+            productId,
+            quantity: this.state.selections[componentTitle]?.quantity || 1
+          };
+        } else {
+          delete this.state.selections[componentTitle];
+        }
       }
       
       // Update add to cart button state when selections change

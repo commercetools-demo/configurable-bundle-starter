@@ -1,0 +1,75 @@
+{
+    "container": "configurable-bundles_schemas",
+    "key": "schema--1743187738889",
+    "value": {
+        "name": "Bundles",
+        "targetProductTypes": [
+            {
+                "productType": {
+                    "typeId": "product-type",
+                    "id": "<id>"
+                },
+                "attribute": "configuration"
+            }
+        ],
+        "attributes": [
+            {
+                "name": "Bundle name",
+                "type": "LocalizedString",
+                "set": false,
+                "required": false
+            },
+            {
+                "name": "Description",
+                "type": "LocalizedString",
+                "set": false,
+                "required": false
+            },
+            {
+                "name": "bundleVariants",
+                "type": "Object",
+                "set": true,
+                "required": false,
+                "attributes": [
+                    {
+                        "name": "product",
+                        "type": "Reference",
+                        "set": true,
+                        "required": false,
+                        "reference": {
+                            "by": "id",
+                            "type": "product"
+                        },
+                        "arrayDisplayMode": "checkbox"
+                    },
+                    {
+                        "name": "variantName",
+                        "type": "LocalizedString",
+                        "set": false,
+                        "required": false
+                    },
+                    {
+                        "name": "variantDescription",
+                        "type": "LocalizedString",
+                        "set": false,
+                        "required": false
+                    },
+                    {
+                        "name": "price",
+                        "type": "Money",
+                        "set": false,
+                        "required": false
+                    }
+                ],
+                "arrayDisplayMode": "all"
+            }
+        ],
+        "bundleUISettings": {
+            "configurationType": "base-with-addons",
+            "displayMode": "accordion"
+        },
+        "addToCartConfiguration": {
+            "type": "add-with-parent-link"
+        }
+    }
+}

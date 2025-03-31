@@ -10,6 +10,7 @@ import { resolveProductReferences } from '../utils/bundle.utils';
 import { logger } from '../utils/logger.utils';
 import { resolveProductTypeReferences } from '../utils/product-type.utils';
 import { addBundleToCart } from '../services/cart.service';
+import { validateComponentSelections, validateBundleVariantSelections } from '../utils/bundle-validation.utils';
 
 export const getProductBySKUAction = async (
   request: Request,
@@ -123,7 +124,7 @@ export const addToCartAction = async (request: Request, response: Response) => {
       return;
     }
 
-    // // Validate that the selections match the bundle configuration
+    // Validate that the selections match the bundle configuration
     const matchingSchemas = await getMatchingSchemas(product);
     const attributesResult = await getAttributeFromProduct(
       product,
@@ -141,59 +142,51 @@ export const addToCartAction = async (request: Request, response: Response) => {
     const bundleConfiguration = await getBundleConfiguration(
       selectedAttribute?.value?.id
     );
-    const selectionProducts = [];
+    
+    // Default to empty array for selectionProducts
+    let selectionProducts: any[] = [];
 
-    // Validate that all required components have selections
-    const components =
-      bundleConfiguration?.value?.bundleConfiguration?.components_and_parts ||
-      [];
-    for await (const component of components) {
-      const selection = selections[component.title];
+    // Determine the bundle configuration type
+    const configurationType = matchingSchema?.value?.bundleUISettings?.configurationType || '';
 
-      // Check if component is mandatory (mandatoryQuantity > 0) and has a selection
-      if (component.mandatoryQuantity > 0 && !selection) {
-        response.status(400).json({
-          message: `Missing selection for mandatory component: ${component.title}`,
-          success: false,
-        });
+    if (configurationType === 'base-with-addons') {
+      // Use bundleVariants validation for base-with-addons type
+      const bundleVariants = bundleConfiguration?.value?.bundleConfiguration?.bundleVariants || [];
+      
+      const validatedProducts = await validateBundleVariantSelections(
+        bundleVariants,
+        selections,
+        response
+      );
+      
+      // Only proceed if validation passed
+      if (validatedProducts === null) {
         return;
       }
-
-      // Validate quantity limits if there is a selection
-      if (selection) {
-        if (
-          selection.quantity < component.mandatoryQuantity ||
-          selection.quantity > component.maxQuantity
-        ) {
-          response.status(400).json({
-            message: `Invalid quantity for component ${component.title}. Must be between ${component.mandatoryQuantity} and ${component.maxQuantity}`,
-            success: false,
-          });
-          return;
-        }
-
-        // Validate that the selected product is in the allowed products list
-        const validProductIds = component.productselectableProducts.map(
-          (p: any) => p.id
-        );
-        if (!validProductIds.includes(selection.productId)) {
-          response.status(400).json({
-            message: `Invalid product selection for component ${component.title}`,
-            success: false,
-          });
-          return;
-        }
-        selectionProducts.push({
-          product: await getProductByID(selection.productId),
-          quantity: selection.quantity,
-        });
+      
+      selectionProducts = validatedProducts;
+    } else {
+      // Use components_and_parts validation for other types
+      const components = bundleConfiguration?.value?.bundleConfiguration?.components_and_parts || [];
+      logger.info('components', components);
+      
+      const validatedProducts = await validateComponentSelections(
+        components,
+        selections,
+        response
+      );
+      
+      // Only proceed if validation passed
+      if (validatedProducts === null) {
+        return;
       }
+      
+      selectionProducts = validatedProducts;
     }
-
-    // TODO: Add your cart service call here to actually add the items to the cart
-    // const cartService = new CartService();
+    
+    
     await addBundleToCart(
-      matchingSchema?.value?.addToCartConfiguration,
+      matchingSchema?.value?.addToCartConfiguration as any,
       cartId,
       product,
       selectionProducts

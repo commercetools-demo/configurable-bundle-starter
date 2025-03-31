@@ -5,6 +5,7 @@ export interface BundleProduct {
   resolvedBundle: {
     bundleConfiguration: {
       components_and_parts: Array<BundleComponent>;
+      bundleVariants?: Array<BundleVariant>;
     };
   };
   bundleSchema: {
@@ -17,6 +18,26 @@ export interface BundleProduct {
     };
   };
 }
+
+export interface BundleVariant {
+  product: Array<{
+    typeId: string;
+    id: string;
+    obj: {
+      masterVariant: Variant;
+      variants: Array<Variant>;
+      name: Record<string, string>;
+      description?: Record<string, string>;
+    };
+  }>;
+  variantName: Record<string, string>;
+  variantDescription: Record<string, string>;
+  price?: {
+    currencyCode: string;
+    amount: string;
+  };
+}
+
 export interface Variant {
   images?: Array<{ url: string }>;
   prices?: Array<{

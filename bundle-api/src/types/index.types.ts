@@ -49,11 +49,11 @@ export interface Schema {
   name: string;
   addToCartConfiguration: {
     type: string;
-    customType: {
+    customType?: {
       typeId: string;
       id: string;
     };
-    customTypeField: string;
+    customTypeField?: string;
   };
   targetProductTypes: {
     productType: {
@@ -63,6 +63,13 @@ export interface Schema {
     attribute: string;
   }[];
   attributes?: AttributeValue[];
+  bundleUISettings?: {
+    configurationType?: string;
+    displayMode?: string;
+    displayModeProperties?: {
+      allowSkipSteps?: boolean;
+    };
+  };
 }
 
 export type Bundle = {
@@ -72,7 +79,11 @@ export type Bundle = {
     label: string;
     value: string;
   };
-  bundleConfiguration?: any;
+  bundleConfiguration?: {
+    components_and_parts?: any[];
+    bundleVariants?: any[];
+    [key: string]: any;
+  };
   mainProductReference?: {
     id?: string;
   };

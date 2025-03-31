@@ -10,6 +10,14 @@ export const getVariantPrice = (variant: any): number => {
   return variant.prices?.[0]?.value?.centAmount || 0;
 };
 
+export const getBundleVariantPrice = (price: { currencyCode: string, amount: string }): number => {
+  if (!price || !price.amount) return 0;
+  
+  // Convert string amount (like "123.00") to cents (12300)
+  const amountFloat = parseFloat(price.amount);
+  return Math.round(amountFloat * 100);
+};
+
 export const formatPrice = (cents: number, locale: string = 'en-US', currency: string = 'USD'): string => {
   return new Intl.NumberFormat(locale, {
     style: 'currency',

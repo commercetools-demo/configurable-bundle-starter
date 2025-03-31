@@ -4,6 +4,7 @@ import {
   ProductProjection,
 } from '@commercetools/platform-sdk';
 import { createApiRoot } from '../client/create.client';
+import { logger } from '../utils/logger.utils';
 
 export const getCartById = async (id?: string) => {
   if (!id) {
@@ -48,6 +49,9 @@ export const addBundleToCart = async (
   product: ProductProjection,
   selections: { product: ProductProjection | null; quantity: number }[]
 ) => {
+  logger.info('addToCartConfiguration',addToCartConfiguration);
+  logger.info('selections',selections);
+  logger.info('product',product);
   const cart = await getCartById(cartId);
   if (!cart) {
     throw new Error('Cart not found');
