@@ -131,6 +131,7 @@ class ProductCard extends HTMLElement {
     const displayComponent = document.createElement(`${displayMode}-display`);
     (displayComponent as any).data = {
       components: this.product.resolvedBundle.bundleConfiguration.components_and_parts,
+      bundleVariants: this.product.resolvedBundle.bundleConfiguration.bundleVariants,
       currentStep: this.state.currentStep,
       selections: this.state.selections,
       locale: this.getLocale(),

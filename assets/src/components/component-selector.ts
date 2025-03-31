@@ -1,9 +1,11 @@
-import { BundleComponent, ConfigurationState } from '../interfaces/bundle.interfaces';
+import { BundleComponent, BundleVariant, ConfigurationState } from '../interfaces/bundle.interfaces';
 import { formatPrice, getVariantPrice, truncateDescription } from '../utils/format.utils';
 
 class ComponentSelector extends HTMLElement {
   private shadow: ShadowRoot;
   private component: BundleComponent | null = null;
+  private variant: BundleVariant | null = null;
+  private products: any[] = [];
   private selections: ConfigurationState['selections'] = {};
   private locale: string = 'en-US';
 
@@ -12,22 +14,56 @@ class ComponentSelector extends HTMLElement {
     this.shadow = this.attachShadow({ mode: 'open' });
   }
 
-  set data({ component, selections, locale }: { 
-    component: BundleComponent; 
+  set data({ component, variant, products, selections, locale }: { 
+    component?: BundleComponent; 
+    variant?: BundleVariant;
+    products?: any[];
     selections: ConfigurationState['selections'];
-    locale: string;
+    locale?: string;
   }) {
-    this.component = component;
+    this.component = component || null;
+    this.variant = variant || null;
+    this.products = products || [];
     this.selections = selections;
-    this.locale = locale;
+    if (locale) this.locale = locale;
     this.render();
   }
 
   private render(): void {
-    if (!this.component) return;
+    // Determine which data structure we're working with
+    let displayProducts: any[] = [];
+    let title = '';
+    let displayMode = 'cards';
+    let selectionMode = 'radio';
+    let maxQuantity = 1;
+    let mandatoryQuantity = 1;
 
-    const displayMode = this.component.productRefDisplayMode || 'cards';
-    const selectionMode = this.component.arrayDisplayMode || 'radio';
+    if (this.component) {
+      // Using old component structure
+      displayProducts = this.component.productselectableProducts;
+      title = this.component.title;
+      displayMode = this.component.productRefDisplayMode || 'cards';
+      selectionMode = this.component.arrayDisplayMode || 'radio';
+      maxQuantity = this.component.maxQuantity || 1;
+      mandatoryQuantity = this.component.mandatoryQuantity || 1;
+    } else if (this.variant && this.products.length > 0) {
+      // Using new variant structure
+      displayProducts = this.products.map(product => ({
+        typeId: 'product',
+        id: product.id,
+        obj: product
+      }));
+      title = this.variant.variantName[this.locale] || this.variant.variantName['en-US'] || '';
+      // Default display settings for variants
+      displayMode = 'cards';
+      selectionMode = 'radio';
+      maxQuantity = 1;
+      mandatoryQuantity = 1;
+    } else {
+      // No data available
+      this.shadow.innerHTML = '<div>No product options available</div>';
+      return;
+    }
 
     const styles = `
       .component-selector {
@@ -92,12 +128,12 @@ class ComponentSelector extends HTMLElement {
     this.shadow.innerHTML = `
       <style>${styles}</style>
       <div class="component-selector ${displayMode}">
-        ${this.component.productselectableProducts.map(product => `
+        ${displayProducts.map(product => `
           <div class="product-option">
             <input type="${selectionMode === 'radio' ? 'radio' : 'checkbox'}"
-                   name="${this.component!.title}"
+                   name="${title}"
                    value="${product.id}"
-                   ${this.selections[this.component!.title]?.productId === product.id ? 'checked' : ''}>
+                   ${this.selections[title]?.productId === product.id ? 'checked' : ''}>
             <div class="product-info">
               <div class="product-image">
                 ${product.obj.masterVariant.images?.[0]?.url ? `
@@ -113,13 +149,13 @@ class ComponentSelector extends HTMLElement {
               <div class="product-price">
                 ${formatPrice(getVariantPrice(product.obj.masterVariant))}
               </div>
-              ${this.component?.maxQuantity && this.component?.maxQuantity > 1 ? `
+              ${maxQuantity > 1 ? `
                 <div class="quantity-selector">
                   <label>Quantity:</label>
                   <input type="number" 
-                         min="${this.component?.mandatoryQuantity || 1}"
-                         max="${this.component?.maxQuantity || 100}"
-                         value="${this.selections[this.component!.title]?.quantity || this.component?.mandatoryQuantity || 1}">
+                         min="${mandatoryQuantity}"
+                         max="${maxQuantity}"
+                         value="${this.selections[title]?.quantity || mandatoryQuantity}">
                 </div>
               ` : ''}
             </div>
@@ -136,9 +172,10 @@ class ComponentSelector extends HTMLElement {
     inputs.forEach(input => {
       input.addEventListener('change', (e) => {
         const target = e.target as HTMLInputElement;
+        const componentTitle = target.name;
         this.dispatchEvent(new CustomEvent('selection-change', {
           detail: {
-            componentTitle: this.component!.title,
+            componentTitle,
             productId: target.value,
             checked: target.checked
           }
@@ -150,12 +187,17 @@ class ComponentSelector extends HTMLElement {
     quantityInputs.forEach(input => {
       input.addEventListener('change', (e) => {
         const target = e.target as HTMLInputElement;
-        this.dispatchEvent(new CustomEvent('quantity-change', {
-          detail: {
-            componentTitle: this.component!.title,
-            quantity: parseInt(target.value, 10)
-          }
-        }));
+        // Get the name from the closest input[type=radio/checkbox]
+        const radioInput = target.closest('.product-option')?.querySelector('input[type="radio"], input[type="checkbox"]');
+        if (radioInput) {
+          const componentTitle = (radioInput as HTMLInputElement).name;
+          this.dispatchEvent(new CustomEvent('quantity-change', {
+            detail: {
+              componentTitle,
+              quantity: parseInt(target.value, 10)
+            }
+          }));
+        }
       });
     });
   }
