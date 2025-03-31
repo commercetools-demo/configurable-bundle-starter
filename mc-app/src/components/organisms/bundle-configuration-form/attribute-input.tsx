@@ -163,7 +163,10 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
             data-testid="field-type-money"
             currencies={currencies}
             name={name}
-            value={value}
+            value={{
+              amount: value?.amount ?? '',
+              currencyCode: value?.currencyCode ?? currencies?.[0] ?? '',
+            }}
             hasError={!!(touched && errors)}
             onChange={onChange}
             onBlur={onBlur}
@@ -183,7 +186,7 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
             selectedCurrency={currencies?.[0]}
             data-testid="field-type-money"
             name={name}
-            value={value}
+            value={value ?? {}}
             hasError={!!(touched && errors)}
             onChange={onChange}
             onBlur={onBlur}
