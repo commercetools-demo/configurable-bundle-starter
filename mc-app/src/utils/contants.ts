@@ -151,6 +151,7 @@ export const ARRAY_DISPLAY_MODE: Record<string, string> = {
   Dropdown: 'dropdown',
   Checkbox: 'checkbox',
   Radio: 'radio',
+  All: 'all',
 };
 
 export const REFERENCE_BY = {
