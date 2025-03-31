@@ -16,7 +16,7 @@ deployAs:
           default: "custom-object-bundle"
       securedConfiguration: []
   - name: bundle-viewer
-    applicationType: merchant-center-custom-application
+    applicationType: merchant-center-custom-view
     configuration:
       standardConfiguration:
         - key: CUSTOM_APPLICATION_ID
