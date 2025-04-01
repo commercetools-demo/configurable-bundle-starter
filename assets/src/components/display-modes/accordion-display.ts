@@ -7,7 +7,6 @@ class AccordionDisplay extends HTMLElement {
   private components: BundleComponent[] = [];
   private selections: ConfigurationState['selections'] = {};
   private locale: string = 'en-US';
-  private mainProduct: BundleProduct | null = null;
   private bundleVariants: BundleVariant[] = [];
   private configurationType: string = '';
 
@@ -25,7 +24,6 @@ class AccordionDisplay extends HTMLElement {
     this.components = components;
     this.selections = selections;
     this.locale = locale || 'en-US';
-    this.mainProduct = mainProduct;
     this.bundleVariants = mainProduct?.resolvedBundle?.bundleConfiguration?.bundleVariants || [];
     this.configurationType = mainProduct?.bundleSchema?.bundleUISettings?.configurationType || '';
     this.render();
