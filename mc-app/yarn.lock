@@ -1848,6 +1848,20 @@
     "@types/react-router-dom" "^5.3.3"
     prop-types "15.8.1"
 
+"@commercetools-uikit/card@^20.2.3":
+  version "20.2.3"
+  resolved "https://registry.yarnpkg.com/@commercetools-uikit/card/-/card-20.2.3.tgz#4b41b7e3fd4f8108b26082d07a8ce1dfe2dd7aa2"
+  integrity sha512-dGDB22g18m1JL7Dqtz7TZoJ4ABXUGwSY5eXiw3S6CAb4FRieopuFldr41g0BggIJc7w8x3X5bOxUzDwxG0ThdA==
+  dependencies:
+    "@babel/runtime" "^7.20.13"
+    "@babel/runtime-corejs3" "^7.20.13"
+    "@commercetools-uikit/design-system" "20.2.3"
+    "@commercetools-uikit/spacings-inset" "20.2.3"
+    "@commercetools-uikit/utils" "20.2.3"
+    "@emotion/react" "^11.10.5"
+    "@emotion/styled" "^11.10.5"
+    "@types/react-router-dom" "^5.3.3"
+
 "@commercetools-uikit/checkbox-input@19.22.1":
   version "19.22.1"
   resolved "https://registry.yarnpkg.com/@commercetools-uikit/checkbox-input/-/checkbox-input-19.22.1.tgz#bebdd990dba23c39d05eb171b79a00df9e28f556"
@@ -2082,6 +2096,18 @@
     prop-types "15.8.1"
     react "17.0.2"
 
+"@commercetools-uikit/design-system@20.2.3":
+  version "20.2.3"
+  resolved "https://registry.yarnpkg.com/@commercetools-uikit/design-system/-/design-system-20.2.3.tgz#bb8619cc51c1ccc3deec01e95787063750ce833e"
+  integrity sha512-Lhkfli2N46SWrj+wmMRiDv5WizInKeEXYYb5N5tW3DaIPM/BdoDZNLTLXa24njENsLjEd6ZSuFCSkSTyPmq3LQ==
+  dependencies:
+    "@babel/runtime" "^7.20.13"
+    "@babel/runtime-corejs3" "^7.20.13"
+    "@commercetools-uikit/hooks" "20.2.3"
+    "@emotion/react" "^11.10.5"
+    lodash "4.17.21"
+    react "19.1.0"
+
 "@commercetools-uikit/dropdown-menu@19.22.1":
   version "19.22.1"
   resolved "https://registry.yarnpkg.com/@commercetools-uikit/dropdown-menu/-/dropdown-menu-19.22.1.tgz#c3171365ba498d9bc9b0d205b32ad9bcd8f44d64"
@@ -2261,6 +2287,18 @@
     "@babel/runtime" "^7.20.13"
     "@babel/runtime-corejs3" "^7.20.13"
     "@commercetools-uikit/utils" "19.22.6"
+    "@types/raf-schd" "^4.0.1"
+    lodash "4.17.21"
+    raf-schd "^4.0.3"
+
+"@commercetools-uikit/hooks@20.2.3":
+  version "20.2.3"
+  resolved "https://registry.yarnpkg.com/@commercetools-uikit/hooks/-/hooks-20.2.3.tgz#78cf168c087d31542821aef9309d3183881062c4"
+  integrity sha512-qmKlc+pVcbgZNLsyl6+vhBpEENrrPeGxQocQ5G0gEqzBS38br9bUMkDl/4p+PM87S8RmyO3nt/v8SqxNGOyoCQ==
+  dependencies:
+    "@babel/runtime" "^7.20.13"
+    "@babel/runtime-corejs3" "^7.20.13"
+    "@commercetools-uikit/utils" "20.2.3"
     "@types/raf-schd" "^4.0.1"
     lodash "4.17.21"
     raf-schd "^4.0.3"
@@ -2899,6 +2937,17 @@
     "@emotion/react" "^11.10.5"
     prop-types "15.8.1"
 
+"@commercetools-uikit/spacings-inset@20.2.3":
+  version "20.2.3"
+  resolved "https://registry.yarnpkg.com/@commercetools-uikit/spacings-inset/-/spacings-inset-20.2.3.tgz#f712f22d12f711ae70768a0b3be098e1dc9025b8"
+  integrity sha512-yKUScJtoOzm/qJEKNun2Uv0MtT6a5IAAdXYvq/2njbwan6T8d5z8dMGiKHMeTitvVNAphhvrcxCi4+73bJ7a8Q==
+  dependencies:
+    "@babel/runtime" "^7.20.13"
+    "@babel/runtime-corejs3" "^7.20.13"
+    "@commercetools-uikit/design-system" "20.2.3"
+    "@commercetools-uikit/utils" "20.2.3"
+    "@emotion/react" "^11.10.5"
+
 "@commercetools-uikit/spacings-stack@19.22.1":
   version "19.22.1"
   resolved "https://registry.yarnpkg.com/@commercetools-uikit/spacings-stack/-/spacings-stack-19.22.1.tgz#f30c6a956e8f6d84183a9e5a68b1b4f515d14a38"
@@ -3113,6 +3162,15 @@
   version "19.22.6"
   resolved "https://registry.yarnpkg.com/@commercetools-uikit/utils/-/utils-19.22.6.tgz#06eceab0c8c13b9a2b7e4e4fe966f398ef497f30"
   integrity sha512-ZbAL8EZLVLbAQB4COqGUzr2NSRjRkBNLb88w1mZ+eBLxetjvkhiPstoNuX5GZK87Tvkvr/GNtf2fbG6QUmKq8Q==
+  dependencies:
+    "@babel/runtime" "^7.20.13"
+    "@babel/runtime-corejs3" "^7.20.13"
+    "@emotion/is-prop-valid" "1.3.1"
+
+"@commercetools-uikit/utils@20.2.3":
+  version "20.2.3"
+  resolved "https://registry.yarnpkg.com/@commercetools-uikit/utils/-/utils-20.2.3.tgz#f083c559c11dfcf64fa366f98959144eac953163"
+  integrity sha512-CxpNsUT9wzWRdBTHKYIe1cijKQfn6h7pFNe3dRbqIPva/FwZwZ3d6n5zcm6Js14SGpYj4QCz+4RIH0TJdTOFZQ==
   dependencies:
     "@babel/runtime" "^7.20.13"
     "@babel/runtime-corejs3" "^7.20.13"
@@ -12259,6 +12317,11 @@ react@17.0.2:
   dependencies:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
+
+react@19.1.0:
+  version "19.1.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-19.1.0.tgz#926864b6c48da7627f004795d6cce50e90793b75"
+  integrity sha512-FS+XFBNvn3GTAWq26joslQgWNoFu08F4kl0J4CgdNKADkdSGXQyTCnKteIAJy96Br6YbpEU1LSzV5dYtjMkMDg==
 
 read-cache@^1.0.0:
   version "1.0.0"

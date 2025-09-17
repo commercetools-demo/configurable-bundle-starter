@@ -35,6 +35,7 @@ export type ProductFormikValues = {
 interface Props {
   name: string;
   hideSuccessMessage?: boolean;
+  showMinimalSuccessMessage?: boolean;
   schema?: SchemaResponse;
   handleChange?: Formik['handleChange'];
   setFieldValue: Formik['setFieldValue'];
@@ -47,6 +48,7 @@ const AddNewProductButton = ({
   setFieldValue,
   name,
   hideSuccessMessage,
+  showMinimalSuccessMessage = false,
 }: Props) => {
   const { isModalOpen, openModal, closeModal } = useModalState();
   const { ConfirmationModal, showConfirmationModal } =
@@ -159,6 +161,22 @@ const AddNewProductButton = ({
               </Link>
               <Text.Body>Please continue to the next step.</Text.Body>
             </Spacings.Stack>
+          )}
+          {showMinimalSuccessMessage && createdProduct?.id && (
+           <Spacings.Stack scale="m">
+           
+           <Link to={getExternalUrl(createdProduct?.id)} target="_blank">
+             <Spacings.Inline alignItems="center">
+               {`View product in a new tab:
+             ${
+               createdProduct?.masterData?.current.name[
+                 dataLocale || DEFAULT_DATALOCALE
+               ]
+             }`}
+               <ExternalLinkIcon color="info" />
+             </Spacings.Inline>
+           </Link>
+         </Spacings.Stack>
           )}
           {!createdProduct?.id && (
             <>
