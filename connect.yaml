@@ -4,13 +4,16 @@ deployAs:
     configuration:
       standardConfiguration:
         - key: CUSTOM_APPLICATION_ID
-          description: The ID of the custom application.
+          description: The Custom Application ID
+          required: true
         - key: ENTRY_POINT_URI_PATH
-          description: The entry point URI path.
+          description: The Application entry point URI path
+          required: true
+          default: 'configurable-bundles'
         - key: CLOUD_IDENTIFIER
-          description: The cloud identifier.
-        - key: APPLICATION_URL
-          description: Application url.
+          description: one of the following gcp-us, gcp-eu, aws-us, aws-eu
+          required: true
+          default: 'gcp-us'
         - key: BUNDLE_FEATURE_FLAGS
           description: Comma separated list of feature flags incl. custom-object-bundle, product-attribute-bundle
           default: "custom-object-bundle"
@@ -20,13 +23,12 @@ deployAs:
     configuration:
       standardConfiguration:
         - key: CUSTOM_VIEW_ID
-          description: The ID of the custom application.
-        - key: ENTRY_POINT_URI_PATH
-          description: The entry point URI path.
+          description: The Custom Application ID
+          required: true
         - key: CLOUD_IDENTIFIER
-          description: The cloud identifier.
-        - key: APPLICATION_URL
-          description: Application url.
+          description: one of the following gcp-us, gcp-eu, aws-us, aws-eu
+          required: true
+          default: 'gcp-us'
         - key: API_ENDPOINT
           description: The entry point URI path.
       securedConfiguration: []
