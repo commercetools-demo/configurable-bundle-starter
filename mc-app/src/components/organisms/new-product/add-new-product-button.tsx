@@ -1,5 +1,6 @@
 import PrimaryButton from '@commercetools-uikit/primary-button';
 import {
+  Drawer,
   FormModalPage,
   useModalState,
 } from '@commercetools-frontend/application-components';
@@ -167,8 +168,9 @@ const AddNewProductButton = ({
                 iconLeft={<FolderPlus stroke="white" height={16} width={16} />}
               />
               <Form>
-                <FormModalPage
+                <Drawer
                   isOpen={isModalOpen}
+                  size={20}
                   title="Create a product"
                   isPrimaryButtonDisabled={isSubmitting || !dirty || !isValid}
                   isSecondaryButtonDisabled={isSubmitting}
@@ -186,7 +188,7 @@ const AddNewProductButton = ({
                     errors={errors}
                     schema={schema}
                   />
-                </FormModalPage>
+                </Drawer>
               </Form>
               <ConfirmationModal
                 onCloseConfirmation={() => {

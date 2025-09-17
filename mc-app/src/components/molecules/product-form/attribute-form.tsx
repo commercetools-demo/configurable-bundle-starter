@@ -38,7 +38,13 @@ const ProductAttributeForm = ({
       });
     });
   }, [values.productDraft?.productType?.id]);
+
+
   if (!values.productDraft?.productType?.id) {
+    return null;
+  }
+  
+  if (!attributes?.length ) {
     return null;
   }
   return (

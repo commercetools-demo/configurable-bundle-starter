@@ -2,6 +2,7 @@ import Spacings from '@commercetools-uikit/spacings';
 import Text from '@commercetools-uikit/text';
 import LocalizedtextField from '@commercetools-uikit/localized-text-field';
 import TextField from '@commercetools-uikit/text-field';
+import LocalizedTextInput from '@commercetools-uikit/localized-text-input';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import Card from '@commercetools-uikit/card';
@@ -30,7 +31,7 @@ const CreateProductForm = ({
   errors,
   schema,
 }: Props) => {
-  const { dataLocale } = useApplicationContext();
+  const { dataLocale, project } = useApplicationContext();
   const { getProductTypes } = useProductTypeConnector();
   const [productTypes, setProductTypes] = useState<
     { label: string; value: string }[]
@@ -59,44 +60,53 @@ const CreateProductForm = ({
     <Spacings.Stack>
       <Card type="raised">
         <Text.Headline as="h2">General info</Text.Headline>
-        <SelectField
-          options={productTypes}
-          title="Product Type"
-          name="productDraft.productType.id"
-          value={values.productDraft?.productType?.id}
-          onChange={handleChange}
-        />
-        <LocalizedtextField
-          selectedLanguage={dataLocale || DEFAULT_DATALOCALE}
-          defaultExpandLanguages
-          title="Name"
-          name="productDraft.name"
-          value={values.productDraft?.name || {}}
-          isRequired={true}
-          onChange={handleChange}
-        />
-        <LocalizedtextField
-          selectedLanguage={dataLocale || DEFAULT_DATALOCALE}
-          defaultExpandLanguages
-          title="Slug"
-          name="productDraft.slug"
-          value={values.productDraft?.slug || {}}
-          isRequired={true}
-          onChange={handleChange}
-        />
-        <LocalizedtextField
-          selectedLanguage={dataLocale || DEFAULT_DATALOCALE}
-          title="Description"
-          name="productDraft.description"
-          value={values.productDraft?.description || {}}
-          onChange={handleChange}
-        />
-        <TextField
-          title="Key"
-          name="productDraft.key"
-          value={values.productDraft?.key || ''}
-          onChange={handleChange}
-        />
+        <Spacings.Stack scale="m">
+          <SelectField
+            options={productTypes}
+            title="Product Type"
+            name="productDraft.productType.id"
+            value={values.productDraft?.productType?.id}
+            onChange={handleChange}
+          />
+          <LocalizedtextField
+            selectedLanguage={dataLocale || DEFAULT_DATALOCALE}
+            title="Name"
+            name="productDraft.name"
+            value={LocalizedTextInput.createLocalizedString(
+              project?.languages || [],
+              values.productDraft?.name
+            )}
+            isRequired={true}
+            onChange={handleChange}
+          />
+          <LocalizedtextField
+            selectedLanguage={dataLocale || DEFAULT_DATALOCALE}
+            title="Slug"
+            name="productDraft.slug"
+            value={LocalizedTextInput.createLocalizedString(
+              project?.languages || [],
+              values.productDraft?.slug
+            )}
+            isRequired={true}
+            onChange={handleChange}
+          />
+          <LocalizedtextField
+            selectedLanguage={dataLocale || DEFAULT_DATALOCALE}
+            title="Description"
+            name="productDraft.description"
+            value={LocalizedTextInput.createLocalizedString(
+              project?.languages || [],
+              values.productDraft?.description
+            )}
+            onChange={handleChange}
+          />
+          <TextField
+            title="Key"
+            name="productDraft.key"
+            value={values.productDraft?.key || ''}
+            onChange={handleChange}
+          />
+        </Spacings.Stack>
       </Card>
       <Card type="raised">
         <Text.Headline as="h2">Master variant</Text.Headline>
