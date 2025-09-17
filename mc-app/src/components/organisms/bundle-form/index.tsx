@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Form, Formik } from 'formik';
 import { FormModalPage } from '@commercetools-frontend/application-components';
 import DrawerContent from '../new-bundle/drawer-content';
@@ -33,6 +33,10 @@ const BundleForm: React.FC<React.PropsWithChildren<BundleFormProps>> = ({
 }) => {
   const [currentStep, setCurrentStep] = useState(1);
 
+  const title = useMemo(() => {
+    return initialValues.mainProductReference?.id ? 'Edit bundle' : 'Add new bundle';
+  }, [initialValues.mainProductReference?.id]);
+
   const nextStep = () => {
     setCurrentStep((prev) => Math.min(prev + 1, 4));
   };
@@ -43,6 +47,12 @@ const BundleForm: React.FC<React.PropsWithChildren<BundleFormProps>> = ({
 
   const { ConfirmationModal, showConfirmationModal } =
     useCloseModalConfirmation();
+
+    useEffect(() => {
+      if (initialValues.mainProductReference?.id) {
+        setCurrentStep(3);
+      }
+    }, [initialValues.mainProductReference?.id]);
   return (
     <Formik<BundleFormikValues>
       initialValues={initialValues}
@@ -67,7 +77,7 @@ const BundleForm: React.FC<React.PropsWithChildren<BundleFormProps>> = ({
           <Form>
             <FormModalPage
               isOpen={isModalOpen}
-              title="Add new bundle"
+              title={title}
               isPrimaryButtonDisabled={
                 isSubmitting || !dirty || !isValid || currentStep !== 4
               }

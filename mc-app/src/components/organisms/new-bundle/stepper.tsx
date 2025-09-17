@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Check, ChevronRight } from 'lucide-react';
 import { BundleFormikValues } from '../../molecules/add-new-bundle-button';
 import Text from '@commercetools-uikit/text';
+import { useFeatureFlags } from '../../../hooks/use-feature-flags';
 
 const StepperContainer = styled.div`
   display: flex;
@@ -47,6 +48,8 @@ export const Stepper = ({
   currentStep: number;
   values: BundleFormikValues;
 }) => {
+  const { customObjectBundle, productAttributeBundle } = useFeatureFlags();
+
   const steps = [
     { title: 'Bundle type', number: 1 },
     { title: 'Main product', number: 2 },
@@ -57,7 +60,7 @@ export const Stepper = ({
   const getStepSubtitle = (step: number) => {
     switch (step) {
       case 1:
-        return values?.configurationType ? values.configurationType : '';
+        return customObjectBundle && productAttributeBundle && values?.configurationType ? values.configurationType : '';
       case 2:
         return values.bundleType?.value ? values.bundleType?.label : '';
       case 3:

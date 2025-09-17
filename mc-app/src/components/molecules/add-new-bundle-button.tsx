@@ -4,11 +4,12 @@ import {
   DOMAINS,
   NOTIFICATION_KINDS_SIDE,
 } from '@commercetools-frontend/constants';
-import PrimaryButton from '@commercetools-uikit/primary-button';
+import SecondaryButton from '@commercetools-uikit/secondary-button';
 import { FilePlus2 } from 'lucide-react';
 import { useConfigurableBundles } from '../../hooks/use-configurable-bundles';
 import { CONFIGURATION_TYPES_ENUM } from '../../utils/contants';
 import BundleForm from '../organisms/bundle-form';
+import { PlusBoldIcon } from '@commercetools-uikit/icons';
 
 export type BundleFormikValues = {
   createProduct: boolean;
@@ -64,11 +65,12 @@ const AddNewBundleButton = () => {
       closeModal={closeModal}
       onSubmit={handleSubmit}
     >
-      <PrimaryButton
+      <SecondaryButton
         onClick={openModal}
         label="Add new bundle"
+        
         data-testid="add-bundle-button"
-        iconLeft={<FilePlus2 stroke="white" height={16} width={16} />}
+        iconLeft={<PlusBoldIcon />}
       />
     </BundleForm>
   );

@@ -1,18 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import DataTable from '@commercetools-uikit/data-table';
-import { useIntl } from 'react-intl';
+import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import { NO_VALUE_FALLBACK } from '@commercetools-frontend/constants';
-import { useConfigurableBundles } from '../../../hooks/use-configurable-bundles';
-import { BundleResponse } from '../../../hooks/use-configurable-bundles/types';
+import DataTable from '@commercetools-uikit/data-table';
+import { ExternalLinkIcon } from '@commercetools-uikit/icons';
 import { ContentNotification } from '@commercetools-uikit/notifications';
 import Text from '@commercetools-uikit/text';
-import { ExternalLinkIcon } from '@commercetools-uikit/icons';
 import { Link, useHistory } from 'react-router-dom';
-import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
+import { BundleResponse } from '../../../hooks/use-configurable-bundles/types';
 
-const BundlesTable = ({ parentUrl }: { parentUrl: string }) => {
+const BundlesTable = ({ parentUrl, bundles }: { parentUrl: string, bundles: BundleResponse[]}) => {
   const { push } = useHistory();
-  const { getBundles } = useConfigurableBundles();
   const context = useApplicationContext();
   const getExternalUrl = (id: string) =>
     `/${context.project?.key}/products/${id}`;
@@ -42,24 +38,6 @@ const BundlesTable = ({ parentUrl }: { parentUrl: string }) => {
       ),
     },
   ];
-
-  const [bundles, setBundles] = useState<BundleResponse[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    getBundles().then((bundles) => {
-      setBundles(bundles);
-      setLoading(false);
-    });
-  }, []);
-
-  if (loading) {
-    return (
-      <ContentNotification type="info">
-        <Text.Body>Loading...</Text.Body>
-      </ContentNotification>
-    );
-  }
 
   if (!bundles?.length) {
     return (
