@@ -20,23 +20,23 @@ const config = {
     featureFlags: '${env:BUNDLE_FEATURE_FLAGS}',
   },
   oAuthScopes: {
-    view: ['view_products', 'view_types'],
+    view: ['view_products', 'view_types', 'view_key_value_documents'],
     manage: ['manage_products', 'manage_key_value_documents'],
   },
-  icon: '${path:@commercetools-frontend/assets/application-icons/rocket.svg}',
+  icon: '${path:@tabler/icons/outline/chart-bubble.svg}',
   mainMenuLink: {
-    defaultLabel: 'Bundles',
+    defaultLabel: 'Configurable products',
     labelAllLocales: [],
     permissions: [PERMISSIONS.View],
   },
   submenuLinks: [
     {
-      defaultLabel: 'Bundles',
-      uriPath: '/',
+      defaultLabel: 'Manage products',
+      uriPath: 'bundles',
     },
     {
-      defaultLabel: 'Schema Editor',
-      uriPath: '/schemas',
+      defaultLabel: 'Manage schemas',
+      uriPath: 'schemas',
     },
   ],
 };

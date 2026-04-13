@@ -29,7 +29,7 @@ const BundleListPage = ({ parentUrl }: { parentUrl: string }) => {
       <Spacings.Stack scale="m">
         <Spacings.Inline alignItems="center" justifyContent="space-between">
           <Spacings.Inline scale="m" alignItems="center">
-            <Text.Headline as="h2">Bundles</Text.Headline>
+            <Text.Headline as="h2">Configurable products</Text.Headline>
             <Text.Caption>
               {bundles.length} results
             </Text.Caption>
