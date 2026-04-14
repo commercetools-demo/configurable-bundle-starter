@@ -4,6 +4,8 @@ import PrimaryButton from '@commercetools-uikit/primary-button';
 import { SchemaResponse } from '../../../hooks/use-schema/types';
 import { useHistory } from 'react-router';
 import Spacings from '@commercetools-uikit/spacings';
+import { ContentNotification } from '@commercetools-uikit/notifications';
+import Text from '@commercetools-uikit/text';
 
 type Props = {
   schemas: SchemaResponse[];
@@ -34,11 +36,18 @@ const SchemaList: React.FC<Props> = ({ schemas }) => {
           style={{ marginBottom: '16px' }}
         />
       </Spacings.Inline>
-      <DataTable
-        rows={schemas}
-        columns={columns}
-        onRowClick={(row) => push(`schema/${row.key}`)}
-      />
+      {!schemas?.length && (
+        <ContentNotification type="info">
+          <Text.Body>No schemas found</Text.Body>
+        </ContentNotification>
+      )}
+      {schemas?.length > 0 && (
+        <DataTable
+          rows={schemas}
+          columns={columns}
+          onRowClick={(row) => push(`schema/${row.key}`)}
+        />
+      )}
     </Spacings.Stack>
   );
 };
