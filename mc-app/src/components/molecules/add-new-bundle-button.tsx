@@ -67,7 +67,7 @@ const AddNewBundleButton = () => {
     >
       <SecondaryButton
         onClick={openModal}
-        label="Add new bundle"
+        label="Add new product"
         
         data-testid="add-bundle-button"
         iconLeft={<PlusBoldIcon />}

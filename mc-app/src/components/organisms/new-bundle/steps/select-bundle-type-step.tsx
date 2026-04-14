@@ -121,7 +121,7 @@ const SelectBundleTypeStep = ({
                 <Constraints.Horizontal max={16}>
                   <Spacings.Stack scale="m">
                     <AsyncSelectField
-                      title="Bundle Type"
+                      title="Configuration Type"
                       name="bundleType"
                       isDisabled={
                         values.configurationType !==
@@ -145,7 +145,7 @@ const SelectBundleTypeStep = ({
           <Constraints.Horizontal max={16}>
             <Spacings.Stack scale="m">
               <AsyncSelectField
-                title="Bundle Type"
+                title="Configuration Type"
                 name="bundleType"
                 isDisabled={
                   values.configurationType !==

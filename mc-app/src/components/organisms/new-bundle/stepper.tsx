@@ -51,7 +51,7 @@ export const Stepper = ({
   const { customObjectBundle, productAttributeBundle } = useFeatureFlags();
 
   const steps = [
-    { title: 'Bundle type', number: 1 },
+    { title: 'Configuration type', number: 1 },
     { title: 'Main product', number: 2 },
     { title: 'Related products', number: 3 },
     { title: 'Review', number: 4 },

@@ -34,7 +34,7 @@ const BundleForm: React.FC<React.PropsWithChildren<BundleFormProps>> = ({
   const [currentStep, setCurrentStep] = useState(1);
 
   const title = useMemo(() => {
-    return initialValues.mainProductReference?.id ? 'Edit bundle' : 'Add new bundle';
+    return initialValues.mainProductReference?.id ? 'Edit product' : 'Add new product';
   }, [initialValues.mainProductReference?.id]);
 
   const nextStep = () => {
