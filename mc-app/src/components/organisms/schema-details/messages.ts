@@ -219,6 +219,11 @@ export default defineMessages({
     defaultMessage: 'UI Settings',
   },
 
+  displayTabTitle: {
+    id: 'Container.form.displayTab.title',
+    description: 'Title for display as tab checkbox',
+    defaultMessage: 'Display as Tab',
+  },
   arrayDisplayModeTitle: {
     id: 'Container.form.arrayDisplayModeTitle.title',
     description: 'Title for arrayDisplayModeTitle UI settings fields',

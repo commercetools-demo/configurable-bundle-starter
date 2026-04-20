@@ -17,6 +17,7 @@ export type AttributeValue = {
   display?: boolean;
   arrayDisplayMode?: string;
   productRefDisplayMode?: string;
+  displayTab?: boolean;
   lenum?: Array<LocalizedEnum>;
   enum?: Array<Enum>;
 };

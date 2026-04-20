@@ -39,6 +39,7 @@ type Props = {
   remove: () => void;
   removeDisabled?: boolean;
   isDisplayed?: boolean;
+  isFirstLevel?: boolean;
 };
 
 const AttributeGroup: FC<Props> = ({
@@ -51,6 +52,7 @@ const AttributeGroup: FC<Props> = ({
   remove,
   removeDisabled,
   isDisplayed,
+  isFirstLevel,
 }) => {
   const { projectLanguages } = useApplicationContext((context) => ({
     projectLanguages: context.project?.languages ?? [],
@@ -121,6 +123,7 @@ const AttributeGroup: FC<Props> = ({
         remove={remove}
         removeDisabled={removeDisabled}
         isDisplayed={isDisplayed}
+        isFirstLevel={isFirstLevel}
       />
       {value.type === TYPES.Object && (
         <ObjectAttributes

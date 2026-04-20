@@ -46,4 +46,9 @@ export default defineMessages({
     description: 'The error message for required fields',
     defaultMessage: 'This field is required. Provide a value.',
   },
+  genericAttributesTab: {
+    id: 'CustomObject.form.tab.genericAttributes',
+    description: 'Label for the generic attributes tab',
+    defaultMessage: 'Generic Attributes',
+  },
 });

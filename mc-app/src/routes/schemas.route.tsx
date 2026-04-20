@@ -36,14 +36,6 @@ const SchemasRoute = (props: Props) => {
     );
   }
 
-  if (!schemas?.length) {
-    return (
-      <ContentNotification type="info">
-        <Text.Body>No schemas found</Text.Body>
-      </ContentNotification>
-    );
-  }
-
   return <SchemaList schemas={schemas} />;
 };
 

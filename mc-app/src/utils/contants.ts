@@ -140,6 +140,7 @@ export const ATTRIBUTES = {
   LocalizedEnum: 'lenum',
   ArrayDisplayMode: 'arrayDisplayMode',
   ProductRefDisplayMode: 'productRefDisplayMode',
+  DisplayTab: 'displayTab',
 };
 
 export const PRODUCT_REF_DISPLAY_MODES: Record<string, string> = {
