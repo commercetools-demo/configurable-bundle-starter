@@ -81,6 +81,7 @@ type Props = {
   remove: () => void;
   removeDisabled?: boolean;
   isDisplayed?: boolean;
+  isFirstLevel?: boolean;
 };
 
 const Attribute: FC<Props> = ({
@@ -93,11 +94,13 @@ const Attribute: FC<Props> = ({
   remove,
   removeDisabled,
   isDisplayed,
+  isFirstLevel,
 }) => {
   const intl = useIntl();
   const isRequiredDisabled =
     value.type === TYPES.Object || value.type === TYPES.Boolean;
   const isArray = value.set;
+  const isObject = value.type === TYPES.Object;
 
   return (
     <Spacings.Inline alignItems="center" justifyContent="space-between">
@@ -148,6 +151,16 @@ const Attribute: FC<Props> = ({
             >
               <FormattedMessage {...messages.setTitle} />
             </CheckboxInput>
+            {isFirstLevel && (isArray || isObject) && (
+              <CheckboxInput
+                name={`${name}.${ATTRIBUTES.DisplayTab}`}
+                value={JSON.stringify(value.displayTab)}
+                isChecked={value.displayTab}
+                onChange={handleChange}
+              >
+                <FormattedMessage {...messages.displayTabTitle} />
+              </CheckboxInput>
+            )}
           </Spacings.Inline>
         </Spacings.Stack>
         {isArray && (

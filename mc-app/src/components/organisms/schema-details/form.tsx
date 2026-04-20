@@ -114,6 +114,7 @@ const Form: FC<Props> = ({
                           removeDisabled={
                             index === 0 && values.attributes?.length === 1
                           }
+                          isFirstLevel={true}
                         />
                       </Card>
                     );
