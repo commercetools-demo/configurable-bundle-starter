@@ -68,22 +68,9 @@ export const useProductUpdater = () => {
     }
   };
 
-  const getProductById = async (id: string): Promise<CommercetoolsProduct> => {
-    return dispatchProductRead(
-      actions.get({
-        mcApiProxyTarget: MC_API_PROXY_TARGETS.COMMERCETOOLS_PLATFORM,
-        uri: buildUrlWithParams(
-          `/${context?.project?.key}/products/${id}`,
-          {}
-        ),
-      })
-    );
-  };
-
   return {
     getProduct,
     createProduct,
     updateProduct,
-    getProductById,
   };
 };

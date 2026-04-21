@@ -5,7 +5,23 @@ import { ExternalLinkIcon } from '@commercetools-uikit/icons';
 import { ContentNotification } from '@commercetools-uikit/notifications';
 import Text from '@commercetools-uikit/text';
 import { Link, useHistory } from 'react-router-dom';
+import styled, { keyframes } from 'styled-components';
 import { BundleResponse } from '../../../hooks/use-configurable-bundles/types';
+import ReferenceText from '../reference-input/reference-text';
+
+const shimmer = keyframes`
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+`;
+
+const Skeleton = styled.div`
+  height: 14px;
+  width: 120px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: ${shimmer} 1.5s infinite;
+`;
 
 const BundlesTable = ({ parentUrl, bundles }: { parentUrl: string, bundles: BundleResponse[]}) => {
   const { push } = useHistory();
@@ -14,6 +30,20 @@ const BundlesTable = ({ parentUrl, bundles }: { parentUrl: string, bundles: Bund
     `/${context.project?.key}/products/${id}`;
 
   const columns = [
+    {
+      key: 'product',
+      label: 'Product',
+      renderItem: (row: BundleResponse) => {
+        const id = row.value?.mainProductReference?.id;
+        if (!id) return NO_VALUE_FALLBACK;
+        return (
+          <ReferenceText
+            value={{ id, typeId: 'product' }}
+            loadingFallback={<Skeleton />}
+          />
+        );
+      },
+    },
     {
       key: 'type',
       label: 'Type',
@@ -25,6 +55,7 @@ const BundlesTable = ({ parentUrl, bundles }: { parentUrl: string, bundles: Bund
       label: 'key',
       renderItem: (row: BundleResponse) => row.key || NO_VALUE_FALLBACK,
     },
+    
     {
       key: 'mainProduct',
       label: 'Main Product',
@@ -33,7 +64,7 @@ const BundlesTable = ({ parentUrl, bundles }: { parentUrl: string, bundles: Bund
           to={getExternalUrl(row.value?.mainProductReference?.id || '')}
           target="_blank"
         >
-          <ExternalLinkIcon />
+          <ExternalLinkIcon color='primary'/>
         </Link>
       ),
     },

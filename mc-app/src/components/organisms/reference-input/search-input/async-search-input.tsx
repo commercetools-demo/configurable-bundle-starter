@@ -7,6 +7,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { SingleValueProps } from 'react-select';
 import { TEntity } from '../types';
 import { AsyncSelectOption } from './search-option';
+import { ReferenceTextValue } from './reference-text-value';
 import { SearchSingleValue } from './search-single-value';
 import { AsyncSearchInputProps, Result } from './types';
 
@@ -27,6 +28,8 @@ const AsyncSearchInput = <T extends TEntity, R extends Result<T>>({
   optionMapper,
   variableBuilder,
   localizePath,
+  renderText,
+  loadingFallback,
   ...props
 }: React.HTMLAttributes<HTMLDivElement> & AsyncSearchInputProps<T, R>) => {
   const [defaultOptions, setDefaultOptions] = useState<TEntity[]>([]);
@@ -83,6 +86,21 @@ const AsyncSearchInput = <T extends TEntity, R extends Result<T>>({
       loadDefaultOptions();
     }
   }, [allQuery, loadDefaultOptions]);
+
+  if (renderText) {
+    return (
+      <ReferenceTextValue<T>
+        value={value}
+        referenceBy={referenceBy}
+        byIdQuery={byIdQuery}
+        byKeyQuery={byKeyQuery}
+        singleValueQueryDataObject={singleValueQueryDataObject}
+        localizePath={localizePath}
+        loadingFallback={loadingFallback}
+      />
+    );
+  }
+
   return (
     <AsyncSelectInput
       {...props}
