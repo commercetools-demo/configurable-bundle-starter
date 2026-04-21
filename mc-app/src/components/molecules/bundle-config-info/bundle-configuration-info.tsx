@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { BundleFormikValues } from '../add-new-bundle-button';
 import {
   AttributeValue,
@@ -12,6 +12,8 @@ import {
 import { FormattedDate } from 'react-intl';
 import Text from '@commercetools-uikit/text';
 import styled from 'styled-components';
+import { useProductUpdater } from '../../../hooks/use-product-connector';
+import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 
 const StyledDiv = styled.div`
   .iconInput {
@@ -62,15 +64,59 @@ interface Props {
   schema?: SchemaResponse;
 }
 
+function isProductReference(
+  value: unknown
+): value is { id: string; typeId: 'product' } {
+  return (
+    isPlainObject(value as object) &&
+    typeof (value as any).id === 'string' &&
+    (value as any).typeId === 'product'
+  );
+}
+
+function ProductReferenceDisplay({ id }: { id: string }) {
+  const { getProductById } = useProductUpdater();
+  const { dataLocale } = useApplicationContext((ctx) => ({
+    dataLocale: ctx.dataLocale ?? 'en',
+  }));
+  const [name, setName] = useState<string>(id);
+
+  useEffect(() => {
+    getProductById(id)
+      .then((product) => {
+        const localized = product?.masterData?.current?.name;
+        setName((localized && (localized[dataLocale] ?? localized['en'])) || id);
+      })
+      .catch(() => setName(id));
+  }, [id, dataLocale]);
+
+  return <span>{name}</span>;
+}
+
+function hasValue(value: unknown): boolean {
+  if (value === null || value === undefined) return false;
+  if (typeof value === 'string') return value !== '';
+  if (Array.isArray(value)) return value.some(hasValue);
+  if (isPlainObject(value as object)) {
+    return Object.values(value as object).some(hasValue);
+  }
+  return true;
+}
+
 function renderValue(value: any) {
+  if (isProductReference(value)) {
+    return <ProductReferenceDisplay id={value.id} />;
+  }
+
   if (isPlainObject(value)) {
     return <div className="nested">{renderObject(value)}</div>;
   }
 
   if (Array.isArray(value)) {
+    const nonEmpty = value.filter(hasValue);
     return (
       <div className="nested">
-        {value.map((val, index) => (
+        {nonEmpty.map((val, index) => (
           <div className="listItem" key={index}>
             {renderValue(val)}
           </div>
@@ -106,17 +152,17 @@ function renderValue(value: any) {
 }
 
 function renderObject(value: { [key: string]: unknown }) {
-  const result = Object.entries(value).map(([key, value]) => {
-    return (
+  const result = Object.entries(value)
+    .filter(([, val]) => hasValue(val))
+    .map(([key, val]) => (
       <div key={key} className="item">
         <Text.Body as="span" fontWeight="bold">
           {key}
         </Text.Body>
         &nbsp;
-        {renderValue(value)}
+        {renderValue(val)}
       </div>
-    );
-  });
+    ));
 
   return result;
 }
