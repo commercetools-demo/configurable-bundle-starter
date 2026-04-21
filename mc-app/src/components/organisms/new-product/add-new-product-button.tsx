@@ -141,6 +141,7 @@ const AddNewProductButton = ({
         submitForm,
         handleBlur,
         touched,
+        setFieldValue,
       }) => (
         <>
           {!hideSuccessMessage && createdProduct?.id && (
@@ -201,6 +202,7 @@ const AddNewProductButton = ({
                   <CreateProductForm
                     handleChange={handleChange}
                     handleBlur={handleBlur}
+                    setFieldValue={setFieldValue as any}
                     touched={touched}
                     values={values}
                     errors={errors}

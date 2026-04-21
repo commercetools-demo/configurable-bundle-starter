@@ -3,7 +3,7 @@ import Text from '@commercetools-uikit/text';
 import LocalizedtextField from '@commercetools-uikit/localized-text-field';
 import TextField from '@commercetools-uikit/text-field';
 import LocalizedTextInput from '@commercetools-uikit/localized-text-input';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useApplicationContext } from '@commercetools-frontend/application-shell-connectors';
 import Card from '@commercetools-uikit/card';
 import { ProductFormikValues } from '../../organisms/new-product/add-new-product-button';
@@ -13,19 +13,33 @@ import SelectField from '@commercetools-uikit/select-field';
 import { useFormik } from 'formik';
 import ProductAttributeForm from './attribute-form';
 import { SchemaResponse } from '../../../hooks/use-schema/types';
+import { debounce } from 'lodash';
+
 type Formik = ReturnType<typeof useFormik>;
+
+function toSlug(value: string): string {
+  return value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9_-]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 256);
+}
 
 interface Props {
   handleChange: Formik['handleChange'];
   handleBlur: Formik['handleBlur'];
+  setFieldValue: Formik['setFieldValue'];
   touched: Formik['touched'];
   values: ProductFormikValues;
   errors: Formik['errors'];
   schema?: SchemaResponse;
 }
+
 const CreateProductForm = ({
   handleChange,
   handleBlur,
+  setFieldValue,
   touched,
   values,
   errors,
@@ -56,6 +70,29 @@ const CreateProductForm = ({
       );
     });
   }, []);
+
+  const updateDerived = useRef(
+    debounce((nameMap: Record<string, string>, locale: string) => {
+      const primaryName =
+        nameMap[locale] ?? Object.values(nameMap).find(Boolean) ?? '';
+      setFieldValue('productDraft.slug', { [locale]: toSlug(primaryName) });
+      const derivedKey = toSlug(primaryName);
+      setFieldValue('productDraft.key', derivedKey);
+      setFieldValue('productDraft.masterVariant.sku', derivedKey);
+    }, 300)
+  ).current;
+
+  useEffect(() => {
+    return () => updateDerived.cancel();
+  }, []);
+
+  useEffect(() => {
+    const nameMap = values.productDraft?.name as Record<string, string>;
+    if (nameMap) {
+      updateDerived(nameMap, dataLocale || DEFAULT_DATALOCALE);
+    }
+  }, [values.productDraft?.name]);
+
   return (
     <Spacings.Stack>
       <Card type="raised">
