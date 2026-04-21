@@ -208,5 +208,6 @@ export const useConfigurableBundles = () => {
     updateBundle,
     getBundles,
     getBundle,
+    deleteBundleObject,
   };
 };
