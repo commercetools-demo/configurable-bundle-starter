@@ -1,4 +1,5 @@
 import { DocumentNode, OperationVariables } from '@apollo/client';
+import { ReactNode } from 'react';
 import { TEntity } from '../types';
 
 export interface SearchSingleValueProps<T> {
@@ -15,6 +16,8 @@ export interface GenericSearchInputProps<T> extends ReferenceInputProps {
   referenceBy: 'key' | 'id';
   referenceType: string;
   singleValueQueryDataObject: string;
+  renderText?: boolean;
+  loadingFallback?: ReactNode;
 }
 
 export interface AsyncSearchInputProps<T, R>

@@ -7,21 +7,23 @@ import { useFeatureFlags } from '../../hooks/use-feature-flags';
 import Text from '@commercetools-uikit/text';
 import { useConfigurableBundles } from '../../hooks/use-configurable-bundles';
 import { BundleResponse } from '../../hooks/use-configurable-bundles/types';
-import { ContentNotification } from '@commercetools-uikit/notifications';
 import LoadingSpinner from '@commercetools-uikit/loading-spinner';
 const BundleListPage = ({ parentUrl }: { parentUrl: string }) => {
-  const { customObjectBundle, productAttributeBundle } = useFeatureFlags();
+  const { customObjectBundle } = useFeatureFlags();
   const { getBundles } = useConfigurableBundles();
-
 
   const [bundles, setBundles] = useState<BundleResponse[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const reloadBundles = () => {
     getBundles().then((bundles) => {
       setBundles(bundles);
       setLoading(false);
     });
+  };
+
+  useEffect(() => {
+    reloadBundles();
   }, []);
 
   return (
@@ -30,9 +32,7 @@ const BundleListPage = ({ parentUrl }: { parentUrl: string }) => {
         <Spacings.Inline alignItems="center" justifyContent="space-between">
           <Spacings.Inline scale="m" alignItems="center">
             <Text.Headline as="h2">Configurable products</Text.Headline>
-            <Text.Caption>
-              {bundles.length} results
-            </Text.Caption>
+            <Text.Caption>{bundles.length} results</Text.Caption>
           </Spacings.Inline>
           <Spacings.Inline scale="m">
             <AddNewBundleButton />
@@ -42,11 +42,19 @@ const BundleListPage = ({ parentUrl }: { parentUrl: string }) => {
           {customObjectBundle ? (
             <>
               {loading ? (
-                <Spacings.Inline scale="m" alignItems="center" justifyContent="center">
+                <Spacings.Inline
+                  scale="m"
+                  alignItems="center"
+                  justifyContent="center"
+                >
                   <LoadingSpinner />
                 </Spacings.Inline>
               ) : (
-                <BundlesTable parentUrl={parentUrl} bundles={bundles} />
+                <BundlesTable
+                  parentUrl={parentUrl}
+                  bundles={bundles}
+                  onDeleted={reloadBundles}
+                />
               )}
             </>
           ) : (

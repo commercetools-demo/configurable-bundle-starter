@@ -37,19 +37,27 @@ const ProductSearchInput: FC<
     filters: props.where,
     locale: dataLocale,
   });
+  const asyncInput = (
+    <AsyncSearchInput<Product, Result<Product>>
+      optionMapper={optionMapper}
+      localizePath={localizePath}
+      variableBuilder={variableBuilder}
+      searchQuery={ProductSearch}
+      byKeyQuery={ProductByKey}
+      byIdQuery={ProductById}
+      allQuery={ProductAll}
+      {...props}
+    />
+  );
+
+  if (props.renderText) {
+    return asyncInput;
+  }
+
   return (
     <Constraints.Horizontal>
       <Spacings.Inline alignItems="flex-end">
-        <AsyncSearchInput<Product, Result<Product>>
-          optionMapper={optionMapper}
-          localizePath={localizePath}
-          variableBuilder={variableBuilder}
-          searchQuery={ProductSearch}
-          byKeyQuery={ProductByKey}
-          byIdQuery={ProductById}
-          allQuery={ProductAll}
-          {...props}
-        />
+        {asyncInput}
         <ProductVariantSearchInput {...props} />
       </Spacings.Inline>
     </Constraints.Horizontal>

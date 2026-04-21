@@ -1,4 +1,3 @@
-import React from 'react';
 import { BundleFormikValues } from '../add-new-bundle-button';
 import {
   AttributeValue,
@@ -12,6 +11,7 @@ import {
 import { FormattedDate } from 'react-intl';
 import Text from '@commercetools-uikit/text';
 import styled from 'styled-components';
+import ReferenceText from '../../organisms/reference-input/reference-text';
 
 const StyledDiv = styled.div`
   .iconInput {
@@ -62,15 +62,40 @@ interface Props {
   schema?: SchemaResponse;
 }
 
+function hasValue(value: unknown): boolean {
+  if (value === null || value === undefined) return false;
+  if (typeof value === 'string') return value !== '';
+  if (Array.isArray(value)) return value.some(hasValue);
+  if (isPlainObject(value as object)) {
+    return Object.values(value as object).some(hasValue);
+  }
+  return true;
+}
+
+function isReferenceObject(
+  v: unknown
+): v is { id?: string; key?: string; typeId: string } {
+  return (
+    isPlainObject(v as object) &&
+    typeof (v as any).typeId === 'string' &&
+    (typeof (v as any).id === 'string' || typeof (v as any).key === 'string')
+  );
+}
+
 function renderValue(value: any) {
+  if (isReferenceObject(value)) {
+    return <ReferenceText value={value} />;
+  }
+
   if (isPlainObject(value)) {
     return <div className="nested">{renderObject(value)}</div>;
   }
 
   if (Array.isArray(value)) {
+    const nonEmpty = value.filter(hasValue);
     return (
       <div className="nested">
-        {value.map((val, index) => (
+        {nonEmpty.map((val, index) => (
           <div className="listItem" key={index}>
             {renderValue(val)}
           </div>
@@ -106,20 +131,21 @@ function renderValue(value: any) {
 }
 
 function renderObject(value: { [key: string]: unknown }) {
-  const result = Object.entries(value).map(([key, value]) => {
-    return (
+  const result = Object.entries(value)
+    .filter(([, val]) => hasValue(val))
+    .map(([key, val]) => (
       <div key={key} className="item">
         <Text.Body as="span" fontWeight="bold">
           {key}
         </Text.Body>
         &nbsp;
-        {renderValue(value)}
+        {renderValue(val)}
       </div>
-    );
-  });
+    ));
 
   return result;
 }
+
 const BundleConfigurationInfo = ({ values, schema }: Props) => {
   if (!schema) {
     return null;
