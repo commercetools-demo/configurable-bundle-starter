@@ -35,7 +35,7 @@ const BundleListPage = ({ parentUrl }: { parentUrl: string }) => {
             <Text.Caption>{bundles.length} results</Text.Caption>
           </Spacings.Inline>
           <Spacings.Inline scale="m">
-            <AddNewBundleButton />
+            <AddNewBundleButton onSuccess={reloadBundles} />
           </Spacings.Inline>
         </Spacings.Inline>
         <Constraints.Horizontal max="scale">

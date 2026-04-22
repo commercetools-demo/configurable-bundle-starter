@@ -12,7 +12,7 @@ import {
 } from '@commercetools-frontend/constants';
 import { useShowNotification } from '@commercetools-frontend/actions-global';
 
-const BundleDetailsPage = () => {
+const BundleDetailsPage = ({ linkToWelcome }: { linkToWelcome?: string }) => {
   const { key } = useParams<{ key: string }>();
   const { getBundle, updateBundle } = useConfigurableBundles();
   const history = useHistory();
@@ -28,7 +28,7 @@ const BundleDetailsPage = () => {
           domain: DOMAINS.SIDE,
           text: 'Bundle created successfully',
         });
-        history.replace(`/`);
+        history.replace(linkToWelcome ?? '/');
       })
       .catch((err) => {
         showNotification({
@@ -70,7 +70,7 @@ const BundleDetailsPage = () => {
         selectProduct: true,
       }}
       isModalOpen={true}
-      closeModal={() => history.goBack()}
+      closeModal={() => history.replace(linkToWelcome ?? '/')}
       onSubmit={handleSubmit}
     ></BundleForm>
   );

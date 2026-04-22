@@ -29,7 +29,7 @@ export type BundleFormikValues = {
   };
 };
 
-const AddNewBundleButton = () => {
+const AddNewBundleButton = ({ onSuccess }: { onSuccess?: () => void }) => {
   const { isModalOpen, openModal, closeModal } = useModalState();
 
   const showNotification = useShowNotification();
@@ -44,6 +44,7 @@ const AddNewBundleButton = () => {
           text: 'Bundle created successfully',
         });
         closeModal();
+        onSuccess?.();
       })
       .catch((err) => {
         showNotification({

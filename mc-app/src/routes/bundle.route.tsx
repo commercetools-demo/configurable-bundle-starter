@@ -7,7 +7,7 @@ type Props = {
 };
 
 const BundleRoute = (props: Props) => {
-  return <BundleDetailsPage />;
+  return <BundleDetailsPage linkToWelcome={props.linkToWelcome} />;
 };
 
 export default BundleRoute;
