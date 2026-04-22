@@ -22,6 +22,8 @@ import AddNewProductButton from '../new-product/add-new-product-button';
 import Constraints from '@commercetools-uikit/constraints';
 import LocalizedMoneyInput from '@commercetools-uikit/localized-money-input';
 import styled from 'styled-components';
+import messages from './messages';
+import { useIntl } from 'react-intl';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -74,6 +76,7 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
   options,
   style,
 }) => {
+  const intl = useIntl();
   const { currencies, dataLocale, timeZone } = useApplicationContext(
     (context) => ({
       currencies: context.project?.currencies ?? [],
@@ -148,7 +151,7 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
             hasError={!!(touched && errors)}
             onChange={onChange}
           >
-            {title}
+            {intl.formatMessage(messages.checkboxLabel)}
           </CheckboxInput>
           {touched && errors && (
             <ErrorMessage data-testid="field-error">{errors}</ErrorMessage>
