@@ -143,8 +143,8 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
           <CheckboxInput
             data-testid="field-type-boolean"
             name={name}
-            isChecked={JSON.parse(value)}
-            value={JSON.stringify(value)}
+            isChecked={value != null ? JSON.parse(value) : false}
+            value={JSON.stringify(value ?? false)}
             hasError={!!(touched && errors)}
             onChange={onChange}
           >
