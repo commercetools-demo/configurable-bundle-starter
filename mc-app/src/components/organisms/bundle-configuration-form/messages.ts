@@ -51,4 +51,9 @@ export default defineMessages({
     description: 'Label for the generic attributes tab',
     defaultMessage: 'Generic Attributes',
   },
+  checkboxLabel: {
+    id: 'CustomObject.form.checkbox.label',
+    description: 'Label for checkbox input',
+    defaultMessage: 'Enable?',
+  },
 });

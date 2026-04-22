@@ -12,6 +12,7 @@ import { FormattedDate } from 'react-intl';
 import Text from '@commercetools-uikit/text';
 import styled from 'styled-components';
 import ReferenceText from '../../organisms/reference-input/reference-text';
+import startCase from 'lodash/startCase';
 
 const StyledDiv = styled.div`
   .iconInput {
@@ -136,7 +137,7 @@ function renderObject(value: { [key: string]: unknown }) {
     .map(([key, val]) => (
       <div key={key} className="item">
         <Text.Body as="span" fontWeight="bold">
-          {key}
+          {startCase(key)}:
         </Text.Body>
         &nbsp;
         {renderValue(val)}
