@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import get from 'lodash/get';
 import { useIntl } from 'react-intl';
 import { FieldArray } from 'formik';
@@ -73,6 +73,24 @@ const AttributeField: FC<Props> = ({
         })
       : options;
 
+  // Scroll the newly added row into view when a set item is added. The scroll
+  // is deferred so the new row (including its async product search) has laid
+  // out before we compute the target position.
+  const endRef = useRef<HTMLDivElement>(null);
+  const prevLengthRef = useRef<number>(value?.length ?? 0);
+  useEffect(() => {
+    const length = value?.length ?? 0;
+    const grew = length > prevLengthRef.current;
+    prevLengthRef.current = length;
+    if (!grew) return;
+    // Smooth scrolling is a no-op inside the MC modal's scroll container, so
+    // scroll instantly once the new row has laid out.
+    const id = setTimeout(() => {
+      endRef.current?.scrollIntoView({ block: 'center' });
+    }, 100);
+    return () => clearTimeout(id);
+  }, [value?.length]);
+
   return (
     <>
       {isSet ? (
@@ -130,6 +148,7 @@ const AttributeField: FC<Props> = ({
                   </Spacings.Inline>
                 </Card>
               ))}
+              <div ref={endRef} aria-hidden />
             </Spacings.Stack>
           )}
         />

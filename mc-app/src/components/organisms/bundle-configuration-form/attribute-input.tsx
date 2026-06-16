@@ -51,7 +51,7 @@ const ObjectRow = styled.div`
 const ObjectRowInline = styled.div`
   display: inline-flex;
   align-items: flex-start;
-  gap: 16px;
+  gap: 48px;
 `;
 
 // Forces a field onto its own full-width row inside ObjectRow.
