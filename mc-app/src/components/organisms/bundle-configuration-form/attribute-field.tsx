@@ -134,7 +134,7 @@ const AttributeField: FC<Props> = ({
           )}
         />
       ) : (
-        <Spacings.Stack>
+        <Spacings.Stack scale="xs">
           <AttributeLabel
             data-testid="single-attribute-label"
             type={type}

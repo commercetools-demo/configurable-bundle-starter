@@ -130,9 +130,11 @@ const ReferenceInput: React.FC<
                 referenceBy={referenceBy}
                 referenceType={referenceType}
                 singleValueQueryDataObject={singleValueQueryDataObject}
+                externalUrl={externalUrl}
                 {...props}
               />
-              {!!externalUrl && !!refValue && (
+              {/* The product search renders its own link next to the name. */}
+              {referenceType !== 'product' && !!externalUrl && !!refValue && (
                 <StyledLink to={externalUrl} target="_blank">
                   <ExternalLinkIcon color="info" />
                 </StyledLink>

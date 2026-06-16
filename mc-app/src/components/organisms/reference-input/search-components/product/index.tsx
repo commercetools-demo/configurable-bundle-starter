@@ -11,17 +11,21 @@ import { Product, ProductProjectionItem } from './types';
 import ProductVariantSearchInput from '../product-variant';
 import Constraints from '@commercetools-uikit/constraints';
 import Spacings from '@commercetools-uikit/spacings';
+import { ExternalLinkIcon } from '@commercetools-uikit/icons';
+import { Link } from 'react-router-dom';
 
 const localizePathProductprojection = (product: ProductProjectionItem) => {
-  return `${product.name} (${product.masterVariant?.sku})`;
+  return `${product.name}`;
 };
 const localizePath = (product: Product) => {
-  return `${product.masterData?.current?.name} (${product.masterData?.current?.masterVariant?.sku})`;
+  return `${product.masterData?.current?.name}`;
 };
 
 const ProductSearchInput: FC<
-  React.HTMLAttributes<HTMLDivElement> & GenericSearchInputProps<Product>
+  React.HTMLAttributes<HTMLDivElement> &
+    GenericSearchInputProps<Product> & { externalUrl?: string }
 > = (props) => {
+  const { externalUrl } = props;
   const { dataLocale } = useApplicationContext((context) => context);
   const optionMapper = (data: Result<Product>) =>
     data.productProjectionSearch.results.map((product: Product): TEntity => {
@@ -56,10 +60,21 @@ const ProductSearchInput: FC<
 
   return (
     <Constraints.Horizontal>
-      <Spacings.Inline alignItems="flex-end">
-        {asyncInput}
-        <ProductVariantSearchInput {...props} />
-      </Spacings.Inline>
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 40 }}>
+        <Spacings.Inline alignItems="center" scale="xs">
+          <div style={{ width: 450, flexShrink: 0 }}>{asyncInput}</div>
+          {!!externalUrl && !!props.value?.id && (
+            <Link to={externalUrl} target="_blank">
+              <ExternalLinkIcon color="info" />
+            </Link>
+          )}
+        </Spacings.Inline>
+        {/* Lift the variant control so its label lines up with the field's
+            "Product" label, which sits one row above the input. */}
+        <div style={{ marginTop: -26 }}>
+          <ProductVariantSearchInput {...props} />
+        </div>
+      </div>
     </Constraints.Horizontal>
   );
 };

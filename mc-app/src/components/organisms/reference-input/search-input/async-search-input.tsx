@@ -104,6 +104,7 @@ const AsyncSearchInput = <T extends TEntity, R extends Result<T>>({
   return (
     <AsyncSelectInput
       {...props}
+      horizontalConstraint="scale"
       isOptionDisabled={(option: any) => !!option.disabled}
       name={`${name}.${referenceBy}`}
       value={value}

@@ -26,14 +26,38 @@ import messages from './messages';
 import { useIntl } from 'react-intl';
 
 const Wrapper = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: row;
+  align-items: center;
   gap: 10px;
 `;
 
 const WrappedReferenceInput = styled.div`
+  flex-basis: auto;
+`;
+
+// Wrapping flex row for an object that has a full-width child (e.g. the
+// set-level Title / Price / Included Products group): scalar fields sit side by
+// side and the composite child flows onto its own row below.
+const ObjectRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 16px;
+`;
+
+// Content-width row for leaf objects (e.g. product + quantity) so a trailing
+// control such as the set's delete button sits right after the last field.
+const ObjectRowInline = styled.div`
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 16px;
+`;
+
+// Forces a field onto its own full-width row inside ObjectRow.
+const FullWidthField = styled.div`
   flex-basis: 100%;
+  width: 100%;
 `;
 
 type Props = {
@@ -89,14 +113,16 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
     case TYPES.String:
       return (
         <Spacings.Stack scale="xs">
-          <TextInput
-            data-testid="field-type-string"
-            name={name}
-            value={value}
-            hasError={!!(touched && errors)}
-            onChange={onChange}
-            onBlur={onBlur}
-          />
+          <Constraints.Horizontal max={7}>
+            <TextInput
+              data-testid="field-type-string"
+              name={name}
+              value={value}
+              hasError={!!(touched && errors)}
+              onChange={onChange}
+              onBlur={onBlur}
+            />
+          </Constraints.Horizontal>
           {touched && errors && (
             <ErrorMessage data-testid="field-error">{errors}</ErrorMessage>
           )}
@@ -106,15 +132,17 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
     case TYPES.LocalizedString:
       return (
         <Spacings.Stack scale="xs">
-          <LocalizedTextInput
-            data-testid="field-type-i18n-string"
-            selectedLanguage={dataLocale}
-            name={name}
-            value={value}
-            hasError={!!(LocalizedTextInput.isTouched(touched) && errors)}
-            onChange={onChange}
-            onBlur={onBlur}
-          />
+          <Constraints.Horizontal max={10}>
+            <LocalizedTextInput
+              data-testid="field-type-i18n-string"
+              selectedLanguage={dataLocale}
+              name={name}
+              value={value}
+              hasError={!!(LocalizedTextInput.isTouched(touched) && errors)}
+              onChange={onChange}
+              onBlur={onBlur}
+            />
+          </Constraints.Horizontal>
           {LocalizedTextInput.isTouched(touched) && errors?.defaultMessage && (
             <ErrorMessage data-testid="field-error">
               {errors.defaultMessage}
@@ -126,14 +154,16 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
     case TYPES.Number:
       return (
         <Spacings.Stack scale="xs">
-          <NumberInput
-            data-testid="field-type-number"
-            name={name}
-            value={value}
-            hasError={!!(touched && errors)}
-            onChange={onChange}
-            onBlur={onBlur}
-          />
+          <Constraints.Horizontal max={2}>
+            <NumberInput
+              data-testid="field-type-number"
+              name={name}
+              value={value}
+              hasError={!!(touched && errors)}
+              onChange={onChange}
+              onBlur={onBlur}
+            />
+          </Constraints.Horizontal>
           {touched && errors && (
             <ErrorMessage data-testid="field-error">{errors}</ErrorMessage>
           )}
@@ -162,18 +192,20 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
     case TYPES.Money:
       return (
         <Spacings.Stack scale="xs">
-          <MoneyInput
-            data-testid="field-type-money"
-            currencies={currencies}
-            name={name}
-            value={{
-              amount: value?.amount ?? '',
-              currencyCode: value?.currencyCode ?? currencies?.[0] ?? '',
-            }}
-            hasError={!!(touched && errors)}
-            onChange={onChange}
-            onBlur={onBlur}
-          />
+          <Constraints.Horizontal max={4}>
+            <MoneyInput
+              data-testid="field-type-money"
+              currencies={currencies}
+              name={name}
+              value={{
+                amount: value?.amount ?? '',
+                currencyCode: value?.currencyCode ?? currencies?.[0] ?? '',
+              }}
+              hasError={!!(touched && errors)}
+              onChange={onChange}
+              onBlur={onBlur}
+            />
+          </Constraints.Horizontal>
           {touched && errors && (
             <ErrorMessage data-testid="field-error">
               {get(errors, 'amount')}
@@ -185,15 +217,17 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
     case TYPES.LocalizedMoney:
       return (
         <Spacings.Stack scale="xs">
-          <LocalizedMoneyInput
-            selectedCurrency={currencies?.[0]}
-            data-testid="field-type-money"
-            name={name}
-            value={value ?? {}}
-            hasError={!!(touched && errors)}
-            onChange={onChange}
-            onBlur={onBlur}
-          />
+          <Constraints.Horizontal max={4}>
+            <LocalizedMoneyInput
+              selectedCurrency={currencies?.[0]}
+              data-testid="field-type-money"
+              name={name}
+              value={value ?? {}}
+              hasError={!!(touched && errors)}
+              onChange={onChange}
+              onBlur={onBlur}
+            />
+          </Constraints.Horizontal>
           {touched && errors && (
             <ErrorMessage data-testid="field-error">
               {get(errors, 'amount')}
@@ -205,14 +239,16 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
     case TYPES.Date:
       return (
         <Spacings.Stack scale="xs">
-          <DateInput
-            data-testid="field-type-date"
-            name={name}
-            value={value}
-            hasError={!!(touched && errors)}
-            onChange={onChange}
-            onBlur={onBlur}
-          />
+          <Constraints.Horizontal max={4}>
+            <DateInput
+              data-testid="field-type-date"
+              name={name}
+              value={value}
+              hasError={!!(touched && errors)}
+              onChange={onChange}
+              onBlur={onBlur}
+            />
+          </Constraints.Horizontal>
           {touched && errors && (
             <ErrorMessage data-testid="field-error">{errors}</ErrorMessage>
           )}
@@ -222,14 +258,16 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
     case TYPES.Time:
       return (
         <Spacings.Stack scale="xs">
-          <TimeInput
-            data-testid="field-type-time"
-            name={name}
-            value={value}
-            hasError={!!(touched && errors)}
-            onChange={onChange}
-            onBlur={onBlur}
-          />
+          <Constraints.Horizontal max={4}>
+            <TimeInput
+              data-testid="field-type-time"
+              name={name}
+              value={value}
+              hasError={!!(touched && errors)}
+              onChange={onChange}
+              onBlur={onBlur}
+            />
+          </Constraints.Horizontal>
           {touched && errors && (
             <ErrorMessage data-testid="field-error">{errors}</ErrorMessage>
           )}
@@ -239,15 +277,17 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
     case TYPES.DateTime:
       return (
         <Spacings.Stack scale="xs">
-          <DateTimeInput
-            data-testid="field-type-datetime"
-            timeZone={timeZone}
-            name={name}
-            value={value}
-            hasError={!!(touched && errors)}
-            onChange={onChange}
-            onBlur={onBlur}
-          />
+          <Constraints.Horizontal max={5}>
+            <DateTimeInput
+              data-testid="field-type-datetime"
+              timeZone={timeZone}
+              name={name}
+              value={value}
+              hasError={!!(touched && errors)}
+              onChange={onChange}
+              onBlur={onBlur}
+            />
+          </Constraints.Horizontal>
           {touched && errors && (
             <ErrorMessage data-testid="field-error">{errors}</ErrorMessage>
           )}
@@ -258,16 +298,18 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
     case TYPES.LocalizedEnum: {
       return (
         <Spacings.Stack scale="xs">
-          <SelectInput
-            data-testid="field-type-enum"
-            name={name}
-            options={options}
-            value={value}
-            isClearable={!isRequired && !isSet}
-            hasError={!!(touched && errors)}
-            onChange={onChange}
-            onBlur={onBlur}
-          />
+          <Constraints.Horizontal max={7}>
+            <SelectInput
+              data-testid="field-type-enum"
+              name={name}
+              options={options}
+              value={value}
+              isClearable={!isRequired && !isSet}
+              hasError={!!(touched && errors)}
+              onChange={onChange}
+              onBlur={onBlur}
+            />
+          </Constraints.Horizontal>
           {touched && errors && (
             <ErrorMessage data-testid="field-error">{errors}</ErrorMessage>
           )}
@@ -297,7 +339,7 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
               <ErrorMessage data-testid="field-error">{refErrors}</ErrorMessage>
             )}
           </WrappedReferenceInput>
-          {reference?.type === 'product' && !value.id && (
+          {reference?.type === 'product' && !value?.id && (
             <AddNewProductButton
               hideSuccessMessage
               name={name}
@@ -353,36 +395,58 @@ const AttributeInput: FC<Props & HTMLAttributes<HTMLDivElement>> = ({
       );
     }
 
-    case TYPES.Object:
-      return (
-        <Constraints.Horizontal max={16}>
-          <Spacings.Stack scale="s">
-            {map(attributes, (attribute: any, index) => {
-              const attributeName = attribute.name;
-              return (
-                <AttributeField
-                  data-testid={`field-type-object-${index}`}
-                  key={index}
-                  type={attribute.type}
-                  name={`${name}.${attributeName}`}
-                  title={attribute.name}
-                  attributes={attribute.attributes}
-                  reference={attribute.reference}
-                  isRequired={attribute.required}
-                  isSet={attribute.set}
-                  isNestedSet={isNestedSet ? false : isSet}
-                  options={attribute.enum || attribute.lenum}
-                  value={get(value, attributeName)}
-                  touched={get(touched, attributeName)}
-                  errors={get(errors, attributeName)}
-                  onBlur={onBlur}
-                  onChange={onChange}
-                />
-              );
-            })}
-          </Spacings.Stack>
-        </Constraints.Horizontal>
+    case TYPES.Object: {
+      // Lay scalar fields out on a single row — e.g. a product + its quantity
+      // share a line. Objects with a composite child (a nested set/object, such
+      // as the set-level Title / Price / Included Products group) stretch to
+      // full width and push that child onto its own row; leaf objects stay
+      // content-width so a trailing control (the set's delete button) sits
+      // right after the last field.
+      const hasBlockChild = (attributes as any[])?.some(
+        (attribute) =>
+          attribute?.set ||
+          attribute?.type === TYPES.Object ||
+          attribute?.type === TYPES.Nested
       );
+      const fields = map(attributes, (attribute: any, index) => {
+        const attributeName = attribute.name;
+        const isBlock =
+          attribute.set ||
+          attribute.type === TYPES.Object ||
+          attribute.type === TYPES.Nested;
+        const field = (
+          <AttributeField
+            data-testid={`field-type-object-${index}`}
+            type={attribute.type}
+            name={`${name}.${attributeName}`}
+            title={attribute.name}
+            attributes={attribute.attributes}
+            reference={attribute.reference}
+            isRequired={attribute.required}
+            isSet={attribute.set}
+            isNestedSet={isNestedSet ? false : isSet}
+            options={attribute.enum || attribute.lenum}
+            value={get(value, attributeName)}
+            touched={get(touched, attributeName)}
+            errors={get(errors, attributeName)}
+            onBlur={onBlur}
+            onChange={onChange}
+          />
+        );
+        return isBlock ? (
+          <FullWidthField key={index}>{field}</FullWidthField>
+        ) : (
+          <React.Fragment key={index}>{field}</React.Fragment>
+        );
+      });
+      return hasBlockChild ? (
+        <Constraints.Horizontal max="scale">
+          <ObjectRow>{fields}</ObjectRow>
+        </Constraints.Horizontal>
+      ) : (
+        <ObjectRowInline>{fields}</ObjectRowInline>
+      );
+    }
 
     default:
       return null;

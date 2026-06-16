@@ -1,9 +1,6 @@
 import { FC } from 'react';
-import capitalize from 'lodash/capitalize';
 import startCase from 'lodash/startCase';
-import { useIntl } from 'react-intl';
 import FieldLabel from '@commercetools-uikit/field-label';
-import messages from './messages';
 
 type Props = {
   type: string;
@@ -15,20 +12,9 @@ type Props = {
   };
 };
 
-const AttributeLabel: FC<Props> = ({ type, title, isRequired, reference }) => {
-  const intl = useIntl();
+const AttributeLabel: FC<Props> = ({ title, isRequired }) => {
   return (
-    <FieldLabel
-      title={startCase(title)}
-      hasRequiredIndicator={isRequired}
-      hint={
-        reference
-          ? `${startCase(reference.type)} ${capitalize(
-              reference.by
-            )} ${intl.formatMessage(messages.referenceLabel)}`
-          : ''
-      }
-    />
+    <FieldLabel title={startCase(title)} hasRequiredIndicator={isRequired} />
   );
 };
 AttributeLabel.displayName = 'AttributeLabel';
